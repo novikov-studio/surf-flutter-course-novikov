@@ -11,8 +11,8 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto',
         primarySwatch: Colors.blue,
       ),
-      //home: MyFirstWidget(),
+      // home: MyFirstWidget(),
       home: const MySecondWidget(),
     );
   }
@@ -36,12 +36,16 @@ class MyFirstWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(counter++);
+    print(context.runtimeType);
     return Container(
       child: const Center(
         child: Text('Hello!'),
       ),
     );
   }
+
+// Error: Undefined name 'context'
+// Type getContextType() => context.runtimeType;
 }
 
 class MySecondWidget extends StatefulWidget {
@@ -57,10 +61,13 @@ class _MySecondWidgetState extends State<MySecondWidget> {
   @override
   Widget build(BuildContext context) {
     print(counter++);
+    print(getContextType());
     return Container(
       child: const Center(
         child: Text('Hello 2'),
       ),
     );
   }
+
+  Type getContextType() => context.runtimeType;
 }
