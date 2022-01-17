@@ -54,7 +54,6 @@ dart_code_metrics:
 linter:
   rules:
     always_put_required_named_parameters_first: false
-    always_use_package_imports: false
     depend_on_referenced_packages: true
     eol_at_end_of_file: true
     noop_primitive_operations: true
