@@ -19,7 +19,7 @@ class _SightListScreenState extends State<SightListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final lst = sAppTitle.split('\n');
+    final lst = _smartSplit(sAppTitle);
 
     return Scaffold(
       appBar: AppBar(
@@ -46,5 +46,31 @@ class _SightListScreenState extends State<SightListScreen> {
       ),
       backgroundColor: AppColors.background,
     );
+  }
+
+  /// Метод делит строку на 2 части:
+  /// либо по символу '\n',
+  /// либо по ближайшему к середине строки пробелу
+  List<String> _smartSplit(String source) {
+    var lst = source.split('\n');
+    if (lst.length == 1) {
+      var div = sAppTitle.length ~/ 2;
+      final idx1 = sAppTitle.substring(0, div).lastIndexOf(' ');
+      final idx2 = sAppTitle.indexOf(' ', div);
+      if (idx1 < 0 && idx2 >= 0) {
+        div = idx2;
+      } else if (idx1 >= 0 && idx2 < 0) {
+        div = idx1;
+      } else if (idx1 >= 0 && idx2 >= 0) {
+        div = div - idx1 < idx2 - div ? idx1 : idx2;
+      }
+
+      lst = [
+        source.substring(0, div).trim(),
+        source.substring(div).trim(),
+      ];
+    }
+
+    return lst;
   }
 }
