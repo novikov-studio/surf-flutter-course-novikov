@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/app_colors.dart';
+import 'package:places/ui/app_strings.dart';
 
+/// Экран "Список мест"
 class SightListScreen extends StatefulWidget {
   const SightListScreen({Key? key}) : super(key: key);
 
@@ -8,44 +11,40 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
-  static const _backgroundColor = Colors.white;
-//  static const _mainColor = Color(0xFF252849);
-  static const _secondaryColor = Color(0xFF3B3E5B);
-  static const _yellowColor = Color(0xFFFCDD3D);
-  static const _greenColor = Color(0xFF4CAF50);
-
   static const _largeTitle = TextStyle(
-    color: _secondaryColor,
+    color: AppColors.secondary,
     fontSize: 32.0,
     fontWeight: FontWeight.bold,
   );
 
   @override
   Widget build(BuildContext context) {
+    final lst = sAppTitle.split('\n');
+
     return Scaffold(
       appBar: AppBar(
         title: RichText(
-          text: const TextSpan(
+          text: TextSpan(
             style: _largeTitle,
             children: [
               TextSpan(
-                text: 'С',
-                style: TextStyle(color: _greenColor),
+                text: lst.first[0],
+                style: const TextStyle(color: AppColors.green),
               ),
-              TextSpan(text: 'писок\n'),
+              TextSpan(text: '${lst.first.substring(1, lst.first.length)}\n'),
               TextSpan(
-                text: 'и',
-                style: TextStyle(color: _yellowColor),
+                text: lst.last[0],
+                style: const TextStyle(color: AppColors.yellow),
               ),
-              TextSpan(text: 'нтересных мест'),
+              TextSpan(text: lst.last.substring(1, lst.last.length)),
             ],
           ),
         ),
-        backgroundColor: _backgroundColor,
+        backgroundColor: AppColors.background,
         elevation: 0.0,
         toolbarHeight: 136.0,
       ),
-      backgroundColor: _backgroundColor,
+      backgroundColor: AppColors.background,
     );
   }
 }
