@@ -7,6 +7,7 @@ class SightCardText extends StatelessWidget {
     fontSize: 16.0,
     fontWeight: FontWeight.w500,
   );
+
   static const _subtitleStyle = TextStyle(
     color: AppColors.secondary2,
     fontSize: 14.0,
