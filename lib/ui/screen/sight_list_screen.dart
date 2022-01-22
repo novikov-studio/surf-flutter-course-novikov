@@ -26,7 +26,7 @@ class _SightListScreenState extends State<SightListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          sAppTitle,
+          AppStrings.appTitle,
           style: _largeTitle,
         ),
         backgroundColor: AppColors.background,

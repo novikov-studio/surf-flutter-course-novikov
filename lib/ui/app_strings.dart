@@ -1,8 +1,9 @@
-// Строковые константы приложения
+/// Строковые константы приложения
+abstract class AppStrings {
+  static const appTitle = 'Список\nинтересных мест';
 
-const sAppTitle = 'Список\nинтересных мест';
-
-// Надписи на кнопках
-const sBuildRoute = 'ПОСТРОИТЬ МАРШРУТ';
-const sSchedule = 'Запланировать';
-const sAddFavorites = 'В Избранное';
+  // Надписи на кнопках
+  static const buildRoute = 'ПОСТРОИТЬ МАРШРУТ';
+  static const schedule = 'Запланировать';
+  static const addFavorites = 'В Избранное';
+}

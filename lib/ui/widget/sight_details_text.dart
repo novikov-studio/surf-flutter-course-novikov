@@ -86,7 +86,7 @@ class SightDetailsText extends StatelessWidget {
               // TODO(novikov): Обработчик нажатия кнопки "Построить маршрут"
             },
             icon: const Icon(Icons.navigation),
-            label: const Text(sBuildRoute, style: _buttonStyle),
+            label: const Text(AppStrings.buildRoute, style: _buttonStyle),
             style: coloredStyle,
           ),
           _spacer,
@@ -101,7 +101,7 @@ class SightDetailsText extends StatelessWidget {
                 child: TextButton.icon(
                   onPressed: null,
                   icon: const Icon(Icons.calendar_view_month),
-                  label: const Text(sSchedule),
+                  label: const Text(AppStrings.schedule),
                   style: flatStyle,
                 ),
               ),
@@ -111,7 +111,7 @@ class SightDetailsText extends StatelessWidget {
                     // TODO(novikov): Добавление в Избранное
                   },
                   icon: const Icon(Icons.favorite_border),
-                  label: const Text(sAddFavorites),
+                  label: const Text(AppStrings.addFavorites),
                   style: flatStyle,
                 ),
               ),
