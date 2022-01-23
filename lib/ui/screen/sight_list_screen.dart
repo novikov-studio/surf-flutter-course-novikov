@@ -31,20 +31,21 @@ class _SightListScreenState extends State<SightListScreen> {
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         child: Column(
-          children: [
-            for (var sight in mocks)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 8.0,
+          children: mocks
+              .map(
+                (sight) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: SightCard(
+                    sight: sight,
+                    onLikeToggle: () => _onLikeToggle(sight),
+                    onTap: () => _onCardTap(sight),
+                  ),
                 ),
-                child: SightCard(
-                  sight: sight,
-                  onLikeToggle: () => _onLikeToggle(sight),
-                  onTap: () => _onCardTap(sight),
-                ),
-              ),
-          ],
+              )
+              .toList(growable: false),
         ),
       ),
     );
