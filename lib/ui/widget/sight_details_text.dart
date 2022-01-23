@@ -6,10 +6,9 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/app_colors.dart';
 import 'package:places/ui/app_strings.dart';
 import 'package:places/ui/app_styles.dart';
+import 'package:places/ui/widget/common.dart';
 
 class SightDetailsText extends StatelessWidget {
-  static const _spacer = SizedBox(height: 24.0);
-
   final Sight sight;
 
   const SightDetailsText({Key? key, required this.sight}) : super(key: key);
@@ -51,13 +50,13 @@ class SightDetailsText extends StatelessWidget {
             spacing: 16.0,
           ),
           if (sight.details != null) ...[
-            _spacer,
+            spacerH24,
             Text(
               sight.details!.trimRight(),
               style: smallSecondary,
             ),
           ],
-          _spacer,
+          spacerH24,
           TextButton.icon(
             onPressed: () {
               // TODO(novikov): Обработчик нажатия кнопки "Построить маршрут"
@@ -66,7 +65,7 @@ class SightDetailsText extends StatelessWidget {
             label: const Text(AppStrings.buildRoute, style: button),
             style: coloredStyle,
           ),
-          _spacer,
+          spacerH24,
           const Divider(
             height: 0.8,
             color: AppColors.divider,

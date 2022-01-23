@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/app_colors.dart';
+import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/sight_details_text.dart';
 
 class SightDetails extends StatelessWidget {
@@ -46,7 +47,7 @@ class SightDetails extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 24.0),
+          spacerH24,
           Expanded(
             child: SingleChildScrollView(
               child: SightDetailsText(sight: sight),
