@@ -45,8 +45,7 @@ class _SightListScreenState extends State<SightListScreen> {
                 ),
                 child: SightCard(
                   sight: sight,
-                  liked: true,
-                  onLikeToggle: () => _onLikeToggle(sight, false),
+                  onLikeToggle: () => _onLikeToggle(sight),
                   onTap: () => _onCardTap(sight),
                 ),
               ),
@@ -56,7 +55,7 @@ class _SightListScreenState extends State<SightListScreen> {
     );
   }
 
-  void _onLikeToggle(Sight _, bool __) {
+  void _onLikeToggle(Sight _) {
     // TODO(novikov): реализовать обработку [onLikeToggle]
   }
 
