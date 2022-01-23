@@ -5,32 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/app_colors.dart';
 import 'package:places/ui/app_strings.dart';
+import 'package:places/ui/app_styles.dart';
 
 class SightDetailsText extends StatelessWidget {
-  static const _titleStyle = TextStyle(
-    color: AppColors.secondary,
-    fontSize: 24.0,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const _smallBoldStyle = TextStyle(
-    color: AppColors.secondary,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const _small2Style = TextStyle(
-    color: AppColors.secondary2,
-  );
-
-  static const _smallStyle = TextStyle(
-    color: AppColors.secondary,
-  );
-
-  static const _buttonStyle = TextStyle(
-    fontSize: 14.0,
-    fontWeight: FontWeight.bold,
-  );
-
   static const _spacer = SizedBox(height: 24.0);
 
   final Sight sight;
@@ -64,12 +41,12 @@ class SightDetailsText extends StatelessWidget {
             sight.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: _titleStyle,
+            style: title,
           ),
           Wrap(
             children: [
-              Text(sight.type, style: _smallBoldStyle),
-              if (sight.info != null) Text(sight.info!, style: _small2Style),
+              Text(sight.type, style: smallBoldSecondary),
+              if (sight.info != null) Text(sight.info!, style: smallSecondary2),
             ],
             spacing: 16.0,
           ),
@@ -77,7 +54,7 @@ class SightDetailsText extends StatelessWidget {
             _spacer,
             Text(
               sight.details!.trimRight(),
-              style: _smallStyle,
+              style: smallSecondary,
             ),
           ],
           _spacer,
@@ -86,7 +63,7 @@ class SightDetailsText extends StatelessWidget {
               // TODO(novikov): Обработчик нажатия кнопки "Построить маршрут"
             },
             icon: const Icon(Icons.navigation),
-            label: const Text(AppStrings.buildRoute, style: _buttonStyle),
+            label: const Text(AppStrings.buildRoute, style: button),
             style: coloredStyle,
           ),
           _spacer,

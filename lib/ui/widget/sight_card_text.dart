@@ -1,23 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/app_colors.dart';
+import 'package:places/ui/app_styles.dart';
 
 class SightCardText extends StatelessWidget {
-  static const _titleStyle = TextStyle(
-    color: AppColors.secondary,
-    fontSize: 16.0,
-    fontWeight: FontWeight.w500,
-  );
-
-  static const _subtitleStyle = TextStyle(
-    color: AppColors.secondary2,
-    fontSize: 14.0,
-  );
-
-  static const _bannerStyle = TextStyle(
-    color: AppColors.green,
-    fontSize: 14.0,
-  );
-
   final String title;
   final String? banner;
   final String? subtitle;
@@ -48,7 +33,7 @@ class SightCardText extends StatelessWidget {
                   title,
                   maxLines: titleMaxLines,
                   overflow: TextOverflow.ellipsis,
-                  style: _titleStyle,
+                  style: text,
                 ),
                 if (banner != null)
                   Padding(
@@ -57,7 +42,7 @@ class SightCardText extends StatelessWidget {
                       banner!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: _bannerStyle,
+                      style: smallGreen,
                     ),
                   ),
                 if (subtitle != null) ...[
@@ -66,7 +51,7 @@ class SightCardText extends StatelessWidget {
                     subtitle!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: _subtitleStyle,
+                    style: smallSecondary2,
                   ),
                 ],
               ],
