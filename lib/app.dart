@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// import 'package:places/mocks.dart';
+// import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 
 class App extends StatelessWidget {
@@ -12,8 +14,8 @@ class App extends StatelessWidget {
         fontFamily: 'Roboto',
         primarySwatch: Colors.blue,
       ),
-      // home: MyFirstWidget(),
       home: const SightListScreen(),
+      //home: SightDetails(sight: mocks.last),
     );
   }
 }
