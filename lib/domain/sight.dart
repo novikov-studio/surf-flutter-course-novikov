@@ -7,6 +7,8 @@ class Sight {
   final String? info; // краткое описание
   final String? details; // полное описание
   final String type; // тип
+  final DateTime? planned; // дата запланированного посещения
+  final bool liked; // добавлено ли в Избранное
 
   String? get brief => info ?? details;
 
@@ -18,5 +20,7 @@ class Sight {
     this.info,
     this.details,
     required this.type,
+    this.planned,
+    this.liked = false,
   });
 }

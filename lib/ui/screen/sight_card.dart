@@ -12,12 +12,6 @@ class SightCard extends StatelessWidget {
   /// Максимальное кол-во строк заголовка.
   final int titleMaxLines;
 
-  /// Дата запланированного посещения.
-  final DateTime? planned;
-
-  /// Добавлено ли место в Избранное.
-  final bool liked;
-
   /// Если задан обработчик [onButtonPressed], в правом нижнем углу отрисовывается кнопка.
   final VoidCallback? onButtonPressed;
 
@@ -30,8 +24,6 @@ class SightCard extends StatelessWidget {
   const SightCard({
     Key? key,
     required this.sight,
-    this.planned,
-    required this.liked,
     this.onButtonPressed,
     this.onLikeToggle,
     this.onTap,
@@ -57,7 +49,7 @@ class SightCard extends StatelessWidget {
                     url: sight.url,
                     category: sight.type,
                     icon: FavoritesIcon(
-                      liked: liked,
+                      liked: sight.liked,
                       onTap: onLikeToggle,
                     ),
                   ),
@@ -67,7 +59,9 @@ class SightCard extends StatelessWidget {
                   subtitle: sight.brief,
                   titleMaxLines: titleMaxLines,
                   // TODO(novikov): использовать [intl]
-                  banner: planned != null ? 'Запланировано на $planned' : null,
+                  banner: sight.planned != null
+                      ? 'Запланировано на ${sight.planned}'
+                      : null,
                   onButtonPressed: onButtonPressed,
                 ),
               ],

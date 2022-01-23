@@ -4,6 +4,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/app_colors.dart';
 import 'package:places/ui/app_strings.dart';
+import 'package:places/ui/app_styles.dart';
 import 'package:places/ui/screen/sight_card.dart';
 
 /// Экран "Список мест"
@@ -15,19 +16,13 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
-  static const _largeTitle = TextStyle(
-    color: AppColors.secondary,
-    fontSize: 32.0,
-    fontWeight: FontWeight.bold,
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          sAppTitle,
-          style: _largeTitle,
+          AppStrings.appTitle,
+          style: largeTitle,
         ),
         backgroundColor: AppColors.background,
         elevation: 0.0,
@@ -36,27 +31,27 @@ class _SightListScreenState extends State<SightListScreen> {
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         child: Column(
-          children: [
-            for (var sight in mocks)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 8.0,
+          children: mocks
+              .map(
+                (sight) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: SightCard(
+                    sight: sight,
+                    onLikeToggle: () => _onLikeToggle(sight),
+                    onTap: () => _onCardTap(sight),
+                  ),
                 ),
-                child: SightCard(
-                  sight: sight,
-                  liked: true,
-                  onLikeToggle: () => _onLikeToggle(sight, false),
-                  onTap: () => _onCardTap(sight),
-                ),
-              ),
-          ],
+              )
+              .toList(growable: false),
         ),
       ),
     );
   }
 
-  void _onLikeToggle(Sight _, bool __) {
+  void _onLikeToggle(Sight _) {
     // TODO(novikov): реализовать обработку [onLikeToggle]
   }
 

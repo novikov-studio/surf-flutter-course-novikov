@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/app_colors.dart';
+import 'package:places/ui/app_styles.dart';
 
 class SightCardImage extends StatelessWidget {
-  static const _smallBold = TextStyle(
-    fontWeight: FontWeight.bold,
-    color: AppColors.white,
-  );
-
   final String url;
   final String? category;
   final Widget? icon;
@@ -32,7 +27,7 @@ class SightCardImage extends StatelessWidget {
             left: 16.0,
             child: Text(
               category!,
-              style: _smallBold,
+              style: smallBoldWhite,
             ),
           ),
         if (icon != null)
