@@ -1,6 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:places/domain/sight.dart';
+import 'package:places/mocks.dart';
 import 'package:places/ui/app_colors.dart';
 import 'package:places/ui/app_strings.dart';
+import 'package:places/ui/app_styles.dart';
+import 'package:places/ui/screen/sight_card.dart';
 
 /// Экран "Список мест"
 class SightListScreen extends StatefulWidget {
@@ -11,66 +16,46 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
-  static const _largeTitle = TextStyle(
-    color: AppColors.secondary,
-    fontSize: 32.0,
-    fontWeight: FontWeight.bold,
-  );
-
   @override
   Widget build(BuildContext context) {
-    final lst = _smartSplit(sAppTitle);
-
     return Scaffold(
       appBar: AppBar(
-        title: RichText(
-          text: TextSpan(
-            style: _largeTitle,
-            children: [
-              TextSpan(
-                text: lst.first[0],
-                style: const TextStyle(color: AppColors.green),
-              ),
-              TextSpan(text: '${lst.first.substring(1, lst.first.length)}\n'),
-              TextSpan(
-                text: lst.last[0],
-                style: const TextStyle(color: AppColors.yellow),
-              ),
-              TextSpan(text: lst.last.substring(1, lst.last.length)),
-            ],
-          ),
+        title: const Text(
+          AppStrings.appTitle,
+          style: largeTitle,
         ),
         backgroundColor: AppColors.background,
         elevation: 0.0,
-        toolbarHeight: 136.0,
+        toolbarHeight: 120.0,
       ),
       backgroundColor: AppColors.background,
+      body: SingleChildScrollView(
+        child: Column(
+          children: mocks
+              .map(
+                (sight) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: SightCard(
+                    sight: sight,
+                    onLikeToggle: () => _onLikeToggle(sight),
+                    onTap: () => _onCardTap(sight),
+                  ),
+                ),
+              )
+              .toList(growable: false),
+        ),
+      ),
     );
   }
 
-  /// Метод делит строку на 2 части:
-  /// либо по символу '\n',
-  /// либо по ближайшему к середине строки пробелу
-  List<String> _smartSplit(String source) {
-    var lst = source.split('\n');
-    if (lst.length == 1) {
-      var div = sAppTitle.length ~/ 2;
-      final idx1 = sAppTitle.substring(0, div).lastIndexOf(' ');
-      final idx2 = sAppTitle.indexOf(' ', div);
-      if (idx1 < 0 && idx2 >= 0) {
-        div = idx2;
-      } else if (idx1 >= 0 && idx2 < 0) {
-        div = idx1;
-      } else if (idx1 >= 0 && idx2 >= 0) {
-        div = div - idx1 < idx2 - div ? idx1 : idx2;
-      }
+  void _onLikeToggle(Sight _) {
+    // TODO(novikov): реализовать обработку [onLikeToggle]
+  }
 
-      lst = [
-        source.substring(0, div).trim(),
-        source.substring(div).trim(),
-      ];
-    }
-
-    return lst;
+  void _onCardTap(Sight _) {
+    // TODO(novikov): реализовать обработку [onCardTap]
   }
 }
