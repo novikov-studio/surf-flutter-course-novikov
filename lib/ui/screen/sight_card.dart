@@ -42,6 +42,7 @@ class SightCard extends StatelessWidget {
           child: Container(
             color: AppColors.cardBackground,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 96.0,

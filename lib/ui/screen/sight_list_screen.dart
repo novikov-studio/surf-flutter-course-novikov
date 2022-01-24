@@ -4,8 +4,8 @@ import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/app_colors.dart';
 import 'package:places/ui/app_strings.dart';
-import 'package:places/ui/app_styles.dart';
 import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/widget/custom_app_bar.dart';
 
 /// Экран "Список мест"
 class SightListScreen extends StatefulWidget {
@@ -19,15 +19,7 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          AppStrings.appTitle,
-          style: largeTitle,
-        ),
-        backgroundColor: AppColors.background,
-        elevation: 0.0,
-        toolbarHeight: 120.0,
-      ),
+      appBar: const CustomAppBar(title: AppStrings.appTitle),
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         child: Column(
