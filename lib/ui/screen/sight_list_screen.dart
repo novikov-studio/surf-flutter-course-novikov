@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/app_colors.dart';
+import 'package:places/ui/app_strings.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/custom_app_bar.dart';
 
@@ -18,7 +19,7 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(title: AppStrings.appTitle),
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         child: Column(

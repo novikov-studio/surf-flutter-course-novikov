@@ -32,51 +32,44 @@ class SightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.5,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(16.0),
-              bottom: Radius.circular(12.0),
-            ),
-            child: Container(
-              color: AppColors.cardBackground,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 96.0,
-                    child: SightCardImage(
-                      url: sight.url,
-                      category: sight.type,
-                      icon: FavoritesIcon(
-                        liked: sight.liked,
-                        onTap: onLikeToggle,
-                      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return ClipRRect(
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(16.0),
+            bottom: Radius.circular(12.0),
+          ),
+          child: Container(
+            color: AppColors.cardBackground,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 96.0,
+                  child: SightCardImage(
+                    url: sight.url,
+                    category: sight.type,
+                    icon: FavoritesIcon(
+                      liked: sight.liked,
+                      onTap: onLikeToggle,
                     ),
                   ),
-                  const SizedBox(height: 1.0),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: constraints.maxWidth/2),
-                    child: SightCardText(
-                      title: sight.name,
-                      subtitle: sight.brief,
-                      titleMaxLines: titleMaxLines,
-                      // TODO(novikov): использовать [intl]
-                      banner: sight.planned != null
-                          ? 'Запланировано на ${sight.planned}'
-                          : null,
-                      onButtonPressed: onButtonPressed,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                SightCardText(
+                  title: sight.name,
+                  subtitle: sight.brief,
+                  titleMaxLines: titleMaxLines,
+                  // TODO(novikov): использовать [intl]
+                  banner: sight.planned != null
+                      ? 'Запланировано на ${sight.planned}'
+                      : null,
+                  onButtonPressed: onButtonPressed,
+                ),
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
