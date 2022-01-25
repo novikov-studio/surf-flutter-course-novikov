@@ -43,7 +43,7 @@ const mocks = [
     lat: 47.5177595,
     lon: 42.1948818,
     url:
-        'https://www.atomic-energy.ru/files/styles/center/public/images/2019/10/09263f5cc302e4d103b7065857fb5901.jpg',
+        'https://lh5.googleusercontent.com/p/AF1QipMErV_AR_tL8idGKTzWibDg91ULxcKhfk0QL047=s677-k-no',
     info: 'открыто до 18:00',
     details: '''
 Приятная атмосфера, французские булочки, ароматный чай и наивкуснейшие десерты.       
@@ -114,7 +114,7 @@ const mocks = [
     lat: 47.5102933,
     lon: 42.1489521,
     url:
-        'https://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%BB%D0%B3%D0%BE%D0%B4%D0%BE%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D0%B5%D0%BD%D0%B4%D1%80%D0%B0%D1%80%D0%B8%D0%B9#/media/%D0%A4%D0%B0%D0%B9%D0%BB:%D0%94%D0%B5%D0%BD%D0%B4%D1%80%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D0%BF%D0%B0%D1%80%D0%BA3_%D0%92%D0%BE%D0%BB%D0%B3%D0%BE%D0%B4%D0%BE%D0%BD%D1%81%D0%BA.JPG',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/%D0%94%D0%B5%D0%BD%D0%B4%D1%80%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D0%BF%D0%B0%D1%80%D0%BA3_%D0%92%D0%BE%D0%BB%D0%B3%D0%BE%D0%B4%D0%BE%D0%BD%D1%81%D0%BA.JPG/1280px-%D0%94%D0%B5%D0%BD%D0%B4%D1%80%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D0%BF%D0%B0%D1%80%D0%BA3_%D0%92%D0%BE%D0%BB%D0%B3%D0%BE%D0%B4%D0%BE%D0%BD%D1%81%D0%BA.JPG',
     info: 'круглосуточно',
     details: '''
 Дендропарк на западе Волгодонска, единственный степной дендрарий на Дону. На площади 11 га произрастают 240 видов и форм представителей средиземноморской, европейско-сибирской, китайско-японской и северо-американской флоры.      
