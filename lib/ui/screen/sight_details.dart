@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/app_colors.dart';
 import 'package:places/ui/widget/common.dart';
+import 'package:places/ui/widget/darken_image.dart';
 import 'package:places/ui/widget/sight_details_text.dart';
 
 class SightDetails extends StatelessWidget {
@@ -21,9 +22,7 @@ class SightDetails extends StatelessWidget {
             children: [
               AspectRatio(
                 aspectRatio: 1.0,
-                child: Container(
-                  color: Colors.blue.shade200,
-                ),
+                child: DarkenImage(url: sight.url),
               ),
               Positioned(
                 left: 16.0,
