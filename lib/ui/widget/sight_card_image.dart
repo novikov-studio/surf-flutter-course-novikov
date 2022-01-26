@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/app_styles.dart';
+import 'package:places/ui/widget/darken_image.dart';
 
 class SightCardImage extends StatelessWidget {
   final String url;
@@ -18,9 +19,7 @@ class SightCardImage extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // TODO(novikov): заменить на [CachedNetworkImage]
-        // TODO(novikov): наложить линейный градиент затемнения
-        Container(color: Colors.blue.shade200),
+        DarkenImage(url: url),
         if (category != null)
           Positioned(
             top: 16.0,
