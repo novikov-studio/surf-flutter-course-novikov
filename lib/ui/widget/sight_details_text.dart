@@ -75,7 +75,9 @@ class SightDetailsText extends StatelessWidget {
             children: [
               Expanded(
                 child: TextButton.icon(
-                  onPressed: null,
+                  onPressed: () {
+                    // TODO(novikov):  Обработчик нажатия кнопки "Запланировать"
+                  },
                   icon: const Icon(Icons.calendar_view_month),
                   label: const Text(AppStrings.schedule),
                   style: flatStyle,
@@ -84,7 +86,7 @@ class SightDetailsText extends StatelessWidget {
               Expanded(
                 child: TextButton.icon(
                   onPressed: () {
-                    // TODO(novikov): Добавление в Избранное
+                    // TODO(novikov):  Обработчик нажатия кнопки "В Избранное"
                   },
                   icon: const Icon(Icons.favorite_border),
                   label: const Text(AppStrings.addFavorites),

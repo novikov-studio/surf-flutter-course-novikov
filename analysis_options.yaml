@@ -46,7 +46,8 @@ dart_code_metrics:
           - test/**
     - prefer-first
     - prefer-last
-    - prefer-single-widget-per-file
+    - prefer-single-widget-per-file:
+        ignore-private-widgets: true
     - prefer-conditional-expressions
     - prefer-intl-name
     - provide-correct-intl-args
