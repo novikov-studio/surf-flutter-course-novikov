@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/app_colors.dart';
-import 'package:places/ui/app_strings.dart';
-import 'package:places/ui/app_styles.dart';
+import 'package:places/ui/const/app_colors.dart';
+import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/app_styles.dart';
 import 'package:places/ui/widget/common.dart';
 
 class SightDetailsText extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/app_colors.dart';
+import 'package:places/ui/const/app_colors.dart';
 import 'package:places/ui/widget/sight_card_image.dart';
 import 'package:places/ui/widget/sight_card_text.dart';
 

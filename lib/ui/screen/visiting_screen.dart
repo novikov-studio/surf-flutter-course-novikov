@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/app_colors.dart';
-import 'package:places/ui/app_icons.dart';
-import 'package:places/ui/app_strings.dart';
-import 'package:places/ui/app_styles.dart';
+import 'package:places/ui/const/app_colors.dart';
+import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/app_styles.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/sight_list.dart';

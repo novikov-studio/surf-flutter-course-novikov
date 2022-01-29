@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/app_colors.dart';
+import 'package:places/ui/const/app_colors.dart';
 
 const TextStyle largeTitle = TextStyle(
   color: AppColors.secondary,

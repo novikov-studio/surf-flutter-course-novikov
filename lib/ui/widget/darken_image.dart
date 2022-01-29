@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/app_colors.dart';
+import 'package:places/ui/const/app_colors.dart';
 
 class DarkenImage extends StatelessWidget {
   final String url;

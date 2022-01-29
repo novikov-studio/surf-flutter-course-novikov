@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/app_icons.dart';
+import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';

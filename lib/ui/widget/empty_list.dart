@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/ui/app_colors.dart';
-import 'package:places/ui/app_styles.dart';
+import 'package:places/ui/const/app_colors.dart';
+import 'package:places/ui/const/app_styles.dart';
 import 'package:places/ui/widget/common.dart';
 
 class EmptyList extends StatelessWidget {
