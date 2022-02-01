@@ -12,6 +12,7 @@ abstract class AppColors {
   static const white = Color(0xFFFFFFFF);
   static const yellow = Color(0xFFFCDD3D);
   static const green = Color(0xFF4CAF50);
+  static const inactiveBlack = Color(0x7C7E928F);
 
   static const divider = Color(0x7C7E928F);
 }

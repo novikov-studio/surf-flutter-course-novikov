@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/app_colors.dart';
-import 'package:places/ui/widget/favorites_icon.dart';
+import 'package:places/ui/const/app_colors.dart';
 import 'package:places/ui/widget/sight_card_image.dart';
 import 'package:places/ui/widget/sight_card_text.dart';
 
@@ -9,25 +8,12 @@ import 'package:places/ui/widget/sight_card_text.dart';
 class SightCard extends StatelessWidget {
   final Sight sight;
 
-  /// Максимальное кол-во строк заголовка.
-  final int titleMaxLines;
-
-  /// Если задан обработчик [onButtonPressed], в правом нижнем углу отрисовывается кнопка.
-  final VoidCallback? onButtonPressed;
-
-  /// Обработчик нажатия на иконку Избранное.
-  final VoidCallback? onLikeToggle;
-
-  /// Обработчик нажатия на саму карточку.
-  final VoidCallback? onTap;
+  final CardMode mode;
 
   const SightCard({
     Key? key,
     required this.sight,
-    this.onButtonPressed,
-    this.onLikeToggle,
-    this.onTap,
-    this.titleMaxLines = 2,
+    required this.mode,
   }) : super(key: key);
 
   @override
@@ -47,23 +33,13 @@ class SightCard extends StatelessWidget {
                 SizedBox(
                   height: 96.0,
                   child: SightCardImage(
-                    url: sight.url,
-                    category: sight.type,
-                    icon: FavoritesIcon(
-                      liked: sight.liked,
-                      onTap: onLikeToggle,
-                    ),
+                    sight: sight,
+                    mode: mode,
                   ),
                 ),
                 SightCardText(
-                  title: sight.name,
-                  subtitle: sight.brief,
-                  titleMaxLines: titleMaxLines,
-                  // TODO(novikov): использовать [intl]
-                  banner: sight.planned != null
-                      ? 'Запланировано на ${sight.planned}'
-                      : null,
-                  onButtonPressed: onButtonPressed,
+                  sight: sight,
+                  mode: mode,
                 ),
               ],
             ),
@@ -73,3 +49,5 @@ class SightCard extends StatelessWidget {
     );
   }
 }
+
+enum CardMode { list, map, favorites }

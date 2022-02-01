@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/app_colors.dart';
-import 'package:places/ui/app_strings.dart';
-import 'package:places/ui/app_styles.dart';
+import 'package:places/ui/const/app_colors.dart';
+import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/app_styles.dart';
 import 'package:places/ui/widget/common.dart';
 
 class SightDetailsText extends StatelessWidget {
@@ -75,7 +75,9 @@ class SightDetailsText extends StatelessWidget {
             children: [
               Expanded(
                 child: TextButton.icon(
-                  onPressed: null,
+                  onPressed: () {
+                    // TODO(novikov):  Обработчик нажатия кнопки "Запланировать"
+                  },
                   icon: const Icon(Icons.calendar_view_month),
                   label: const Text(AppStrings.schedule),
                   style: flatStyle,
@@ -84,7 +86,7 @@ class SightDetailsText extends StatelessWidget {
               Expanded(
                 child: TextButton.icon(
                   onPressed: () {
-                    // TODO(novikov): Добавление в Избранное
+                    // TODO(novikov):  Обработчик нажатия кнопки "В Избранное"
                   },
                   icon: const Icon(Icons.favorite_border),
                   label: const Text(AppStrings.addFavorites),

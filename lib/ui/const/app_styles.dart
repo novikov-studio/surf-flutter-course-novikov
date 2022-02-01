@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/app_colors.dart';
+import 'package:places/ui/const/app_colors.dart';
 
 const TextStyle largeTitle = TextStyle(
   color: AppColors.secondary,
@@ -21,6 +21,9 @@ const subtitle = TextStyle(
   height: 1.33,
 );
 
+final TextStyle subtitleInactiveBlack =
+    subtitle.copyWith(color: AppColors.inactiveBlack);
+
 const text = TextStyle(
   color: AppColors.secondary,
   fontSize: 16.0,
@@ -36,6 +39,8 @@ const small = TextStyle(
 final TextStyle smallGreen = small.copyWith(color: AppColors.green);
 final TextStyle smallSecondary = small.copyWith(color: AppColors.secondary);
 final TextStyle smallSecondary2 = small.copyWith(color: AppColors.secondary2);
+final TextStyle smallInactiveBlack =
+    small.copyWith(color: AppColors.inactiveBlack);
 
 const smallBold = TextStyle(
   fontSize: 14.0,

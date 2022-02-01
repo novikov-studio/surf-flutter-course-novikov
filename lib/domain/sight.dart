@@ -1,4 +1,4 @@
-/// Модель достопримечательности
+/// Модель достопримечательности.
 class Sight {
   final String name; // название
   final double lat; // широта
@@ -6,11 +6,19 @@ class Sight {
   final String url; // ссылка на фотографию
   final String? info; // краткое описание
   final String? details; // полное описание
-  final String type; // тип
-  final DateTime? planned; // дата запланированного посещения
-  final bool liked; // добавлено ли в Избранное
+  final String type; // категория объекта
+  final DateTime? plannedDate; // дата запланированного посещения
+  final DateTime? visitedDate; // дата достижения цели
+  final bool isLiked; // добавлено ли в Избранное
 
+  /// Краткое описание.
   String? get brief => info ?? details;
+
+  /// Запланировано ли посещение.
+  bool get isPlanned => plannedDate != null && visitedDate == null;
+
+  /// Достигнута ли цель.
+  bool get isVisited => visitedDate != null;
 
   const Sight({
     required this.name,
@@ -20,7 +28,8 @@ class Sight {
     this.info,
     this.details,
     required this.type,
-    this.planned,
-    this.liked = false,
+    this.plannedDate,
+    this.visitedDate,
+    this.isLiked = false,
   });
 }

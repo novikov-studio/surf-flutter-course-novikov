@@ -1,25 +1,28 @@
 import 'package:places/domain/sight.dart';
 
-const mocks = [
+final mocks = [
   Sight(
     name: 'Гостиница "Ковчег"',
     lat: 47.5136577,
     lon: 42.1835938,
     url: 'https://kovchegdon.ru/uploads/photo/promo/promo-01.jpg',
     info: 'заезд в 14:00',
+    isLiked: true,
+    plannedDate: DateTime.now().add(const Duration(days: 3)),
     details: '''
 Уютная гостиница в самом центре Волгодонска.
 8 комфортабельных номеров, дизайн каждого из них выполнен в определенном этническом стиле разных уголков мира с национальными особенностями оформления интерьера и элементов декора.      
 ''',
     type: 'Гостиница',
   ),
-  Sight(
+  const Sight(
     name: 'Пиццерия "Камин"',
     lat: 47.5113611,
     lon: 42.2034055,
     url:
         'https://pizza-kamin.ru/assets/template/img/photogallery/holidays/ND4_1840.jpg',
     info: 'открыто до 20:00',
+    isLiked: true,
     details: '''
 Райский уголок европейской, японской и русской кухни, где традиционные блюда готовят по домашним рецептам.       
 ''',
@@ -32,13 +35,15 @@ const mocks = [
     url:
         'https://static.tildacdn.com/tild6539-3565-4432-b461-633166666535/_-min.jpg',
     info: 'открыто до 22:00',
+    isLiked: true,
+    plannedDate: DateTime.now().add(const Duration(days: 2)),
     details: '''
 Порадуйте ваших детей их любимым занятием - отведите их на батуты и присоединяйтесь сами!
 Разные переходы, горки, песочницы с воздушными шарами – все это так интересно, увлекательно! А главное – это всё можно потрогать, везде можно полазить. Просто беззаботное времяпрепровождение, которое радует как детей, так и взрослых!
 ''',
     type: 'Развлечения',
   ),
-  Sight(
+  const Sight(
     name: 'Чайный бутик',
     lat: 47.5177595,
     lon: 42.1948818,
@@ -57,12 +62,15 @@ const mocks = [
     url:
         'https://im0-tub-ru.yandex.net/i?id=482a1528addddaec5db33fe1b948e50b-l&ref=rim&n=13&w=1080&h=642',
     info: 'открыто до 18:00',
+    isLiked: true,
+    plannedDate: DateTime.now().subtract(const Duration(days: 1)),
+    visitedDate: DateTime.now().subtract(const Duration(days: 1)),
     details: '''
 Лучшие премьеры фильмов. Самый большой экран. Цифровое качество 3D. 2 зала /660 мест.        
 ''',
     type: 'Кинотеатр',
   ),
-  Sight(
+  const Sight(
     name: 'Сквер "Дружба"',
     lat: 47.5132317,
     lon: 42.2007234,
@@ -74,7 +82,7 @@ const mocks = [
 ''',
     type: 'Парк',
   ),
-  Sight(
+  const Sight(
     name: 'Волгодонский эколого-исторический музей',
     lat: 42.149869,
     lon: 47.519356,
@@ -85,7 +93,7 @@ const mocks = [
 ''',
     type: 'Музей',
   ),
-  Sight(
+  const Sight(
     name: 'Мирный атом',
     lat: 47.5197851,
     lon: 42.202343,
@@ -97,7 +105,7 @@ const mocks = [
 ''',
     type: 'Памятник',
   ),
-  Sight(
+  const Sight(
     name: 'Аквапарк "Аква-сити"',
     lat: 42.057971,
     lon: 47.5719,
@@ -109,7 +117,7 @@ const mocks = [
 ''',
     type: 'Развлечения',
   ),
-  Sight(
+  const Sight(
     name: 'Дендрарий',
     lat: 47.5102933,
     lon: 42.1489521,
