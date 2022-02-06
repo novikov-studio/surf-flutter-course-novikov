@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/ui/const/app_colors.dart';
-import 'package:places/ui/const/app_styles.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/common.dart';
 
 class EmptyList extends StatelessWidget {
@@ -32,20 +31,20 @@ class EmptyList extends StatelessWidget {
             icon,
             width: 64.0,
             height: 64.0,
-            color: AppColors.inactiveBlack,
+            color: Theme.of(context).colorScheme.inactiveBlack,
           ),
           spacerH24,
           Text(
             title,
             textAlign: TextAlign.center,
-            style: subtitleInactiveBlack,
+            style: Theme.of(context).subtitleInactiveBlack,
           ),
           if (details != null) ...[
             spacerH8,
             Text(
               details!,
               textAlign: TextAlign.center,
-              style: smallInactiveBlack,
+              style: Theme.of(context).smallInactiveBlack,
             ),
           ],
         ],

@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/const/app_colors.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/sight_card.dart';
@@ -22,7 +20,6 @@ class _SightListScreenState extends State<SightListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: AppStrings.listTitle),
-      backgroundColor: AppColors.background,
       body: SightList(
         sights: mocks,
         empty: const EmptyList(

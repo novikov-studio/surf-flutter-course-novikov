@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/const/app_colors.dart';
 import 'package:places/ui/const/app_icons.dart';
-import 'package:places/ui/const/app_styles.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/darken_image.dart';
@@ -29,7 +28,7 @@ class SightCardImage extends StatelessWidget {
           left: 16.0,
           child: Text(
             sight.type,
-            style: smallBoldWhite,
+            style: Theme.of(context).smallBoldWhite,
           ),
         ),
         Positioned(
@@ -82,7 +81,7 @@ class _SvgButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SvgPicture.asset(
       path,
-      color: AppColors.white,
+      color: Theme.of(context).colorScheme.white,
     );
   }
 }

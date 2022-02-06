@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/const/app_colors.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/darken_image.dart';
 import 'package:places/ui/widget/sight_details_text.dart';
@@ -31,14 +31,14 @@ class SightDetails extends StatelessWidget {
                 child: Container(
                   width: 32.0,
                   height: 32.0,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    color: AppColors.white,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                    color: Theme.of(context).colorScheme.white,
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Icon(
                       Icons.chevron_left,
-                      color: AppColors.main,
+                      color: Theme.of(context).colorScheme.main,
                       size: 24.0,
                     ),
                   ),

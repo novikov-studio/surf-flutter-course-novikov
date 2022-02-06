@@ -1,11 +1,7 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/const/app_colors.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/const/app_styles.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/common.dart';
 
 class SightDetailsText extends StatelessWidget {
@@ -16,13 +12,14 @@ class SightDetailsText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final flatStyle = TextButton.styleFrom(
-      primary: AppColors.secondary,
+      primary: Theme.of(context).colorScheme.onSurface,
+      textStyle: Theme.of(context).smallOnSurface,
       padding: const EdgeInsets.symmetric(vertical: 11.0),
     );
 
     final coloredStyle = TextButton.styleFrom(
-      primary: AppColors.white,
-      backgroundColor: AppColors.green,
+      primary: Theme.of(context).colorScheme.white,
+      backgroundColor: Theme.of(context).colorScheme.green,
       padding: const EdgeInsets.all(15.0),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -40,12 +37,16 @@ class SightDetailsText extends StatelessWidget {
             sight.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: title,
+            style: Theme.of(context).titleOnSurface,
           ),
           Wrap(
             children: [
-              Text(sight.type, style: smallBoldSecondary),
-              if (sight.info != null) Text(sight.info!, style: smallSecondary2),
+              Text(
+                sight.type,
+                style: Theme.of(context).smallBoldForDetailsType,
+              ),
+              if (sight.info != null)
+                Text(sight.info!, style: Theme.of(context).smallForDetailsInfo),
             ],
             spacing: 16.0,
           ),
@@ -53,7 +54,7 @@ class SightDetailsText extends StatelessWidget {
             spacerH24,
             Text(
               sight.details!.trimRight(),
-              style: smallSecondary,
+              style: Theme.of(context).smallOnSurface,
             ),
           ],
           spacerH24,
@@ -62,14 +63,14 @@ class SightDetailsText extends StatelessWidget {
               // TODO(novikov): Обработчик нажатия кнопки "Построить маршрут"
             },
             icon: const Icon(Icons.navigation),
-            label: const Text(AppStrings.buildRoute, style: button),
+            label: Text(
+              AppStrings.buildRoute,
+              style: Theme.of(context).buttonWhite,
+            ),
             style: coloredStyle,
           ),
           spacerH24,
-          const Divider(
-            height: 0.8,
-            color: AppColors.divider,
-          ),
+          const Divider(),
           const SizedBox(width: 8.0),
           Row(
             children: [

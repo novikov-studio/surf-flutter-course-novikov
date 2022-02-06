@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/const/app_colors.dart';
 
 class DarkenImage extends StatelessWidget {
   final String url;
@@ -18,7 +17,7 @@ class DarkenImage extends StatelessWidget {
                 ? child
                 : Center(
                     child: CircularProgressIndicator(
-                      backgroundColor: AppColors.cardBackground,
+                      backgroundColor: Theme.of(context).cardColor,
                       color: const Color(0xFF7C7E92),
                       value: loadingProgress.expectedTotalBytes != null
                           ? loadingProgress.cumulativeBytesLoaded /
