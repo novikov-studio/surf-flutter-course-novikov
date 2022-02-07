@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/darken_image.dart';
 import 'package:places/ui/widget/sight_details_text.dart';
@@ -33,12 +32,12 @@ class SightDetails extends StatelessWidget {
                   height: 32.0,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                    color: Theme.of(context).colorScheme.white,
+                    color: Theme.of(context).colorScheme.background,
                   ),
                   child: Center(
                     child: Icon(
                       Icons.chevron_left,
-                      color: Theme.of(context).colorScheme.main,
+                      color: Theme.of(context).colorScheme.onBackground,
                       size: 24.0,
                     ),
                   ),

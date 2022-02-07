@@ -92,14 +92,3 @@ class SightCardText extends StatelessWidget {
             .replaceFirst('%s', sight.plannedDate!.toDateOnlyString());
   }
 }
-
-// Показалось излишним подключать intl ради одной функции
-extension DateTimeExt on DateTime {
-  /// Перевод в строку вида: "dd MMM yyyy"
-  String toDateOnlyString() {
-    final _day = day.toString().padLeft(2, '0');
-    final _month = AppStrings.months[month - 1];
-
-    return '$_day $_month $year';
-  }
-}

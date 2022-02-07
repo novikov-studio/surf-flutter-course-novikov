@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
 
@@ -47,6 +48,10 @@ extension ThemeExtension on ThemeData {
         color: colorScheme.white,
       );
 
+  TextStyle get buttonGreen => textTheme.button!.copyWith(
+    color: colorScheme.green,
+  );
+
   // ----- Экран "Детализация" -----
 
   TextStyle get smallBoldForDetailsType => textTheme.smallBold.copyWith(
@@ -93,4 +98,14 @@ extension TextThemeExt on TextTheme {
   TextStyle get small => bodyText2!;
 
   TextStyle get superSmall => overline!;
+}
+
+extension DateTimeExt on DateTime {
+  /// Перевод в строку вида: "dd MMM yyyy"
+  String toDateOnlyString() {
+    final _day = day.toString().padLeft(2, '0');
+    final _month = AppStrings.months[month - 1];
+
+    return '$_day $_month $year';
+  }
 }

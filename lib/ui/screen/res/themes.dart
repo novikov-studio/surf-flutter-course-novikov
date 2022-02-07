@@ -128,7 +128,7 @@ abstract class Themes {
         error: isLight ? LightColors.error : DarkColors.error,
         onPrimary: const Color(0xFFFF00FF),
         onSecondary: const Color(0xFFFF00FF),
-        onBackground: const Color(0xFFFF00FF),
+        onBackground: isLight ? LightColors.main: DarkColors.white,
         onSurface: isLight ? LightColors.secondary : DarkColors.white,
         onError: const Color(0xFFFF00FF),
       );
