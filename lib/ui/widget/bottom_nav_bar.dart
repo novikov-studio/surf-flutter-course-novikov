@@ -15,18 +15,15 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color =
-        Theme.of(context).bottomNavigationBarTheme.unselectedItemColor;
+    final theme = Theme.of(context);
+    final color = theme.bottomNavigationBarTheme.unselectedItemColor;
 
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
             width: 0.8,
-            color: Theme.of(context)
-                .colorScheme
-                .inactiveBlack
-                .withOpacity(0.56 * 0.48),
+            color: theme.colorScheme.inactiveBlack.withOpacity(0.56 * 0.48),
           ),
         ),
       ),

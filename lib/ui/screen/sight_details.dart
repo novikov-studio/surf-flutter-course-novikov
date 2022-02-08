@@ -11,6 +11,7 @@ class SightDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final statusHeight = MediaQuery.of(context).viewPadding.top;
 
     return Scaffold(
@@ -32,12 +33,12 @@ class SightDetails extends StatelessWidget {
                   height: 32.0,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                    color: Theme.of(context).colorScheme.background,
+                    color: theme.colorScheme.background,
                   ),
                   child: Center(
                     child: Icon(
                       Icons.chevron_left,
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: theme.colorScheme.onBackground,
                       size: 24.0,
                     ),
                   ),

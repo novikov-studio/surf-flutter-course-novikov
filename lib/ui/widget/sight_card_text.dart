@@ -16,6 +16,8 @@ class SightCardText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -29,7 +31,7 @@ class SightCardText extends StatelessWidget {
                   sight.name,
                   maxLines: mode == CardMode.map ? 1 : 2,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textOnSurface,
+                  style: theme.textOnSurface,
                 ),
                 if (sight.isPlanned || sight.isVisited)
                   Padding(
@@ -39,8 +41,8 @@ class SightCardText extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: sight.isPlanned
-                          ? Theme.of(context).smallGreen
-                          : Theme.of(context).smallSecondary2,
+                          ? theme.smallGreen
+                          : theme.smallSecondary2,
                     ),
                   ),
                 if (sight.brief != null) ...[
@@ -49,7 +51,7 @@ class SightCardText extends StatelessWidget {
                     sight.brief!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).smallSecondary2,
+                    style: theme.smallSecondary2,
                   ),
                 ],
               ],
@@ -66,8 +68,8 @@ class SightCardText extends StatelessWidget {
                   onPressed: null,
                   child: const Icon(Icons.navigation),
                   style: TextButton.styleFrom(
-                    primary: Theme.of(context).colorScheme.white,
-                    backgroundColor: Theme.of(context).colorScheme.green,
+                    primary: theme.colorScheme.white,
+                    backgroundColor: theme.colorScheme.green,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(12.0),

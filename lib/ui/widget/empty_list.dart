@@ -22,6 +22,8 @@ class EmptyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return FractionallySizedBox(
       widthFactor: 0.7,
       child: Column(
@@ -31,20 +33,20 @@ class EmptyList extends StatelessWidget {
             icon,
             width: 64.0,
             height: 64.0,
-            color: Theme.of(context).colorScheme.inactiveBlack,
+            color: theme.colorScheme.inactiveBlack,
           ),
           spacerH24,
           Text(
             title,
             textAlign: TextAlign.center,
-            style: Theme.of(context).subtitleInactiveBlack,
+            style: theme.subtitleInactiveBlack,
           ),
           if (details != null) ...[
             spacerH8,
             Text(
               details!,
               textAlign: TextAlign.center,
-              style: Theme.of(context).smallInactiveBlack,
+              style: theme.smallInactiveBlack,
             ),
           ],
         ],

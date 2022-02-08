@@ -13,6 +13,8 @@ class SightDetailsText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -22,16 +24,16 @@ class SightDetailsText extends StatelessWidget {
             sight.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).titleOnSurface,
+            style: theme.titleOnSurface,
           ),
           Wrap(
             children: [
               Text(
                 sight.type,
-                style: Theme.of(context).smallBoldForDetailsType,
+                style: theme.smallBoldForDetailsType,
               ),
               if (sight.info != null)
-                Text(sight.info!, style: Theme.of(context).smallForDetailsInfo),
+                Text(sight.info!, style: theme.smallForDetailsInfo),
             ],
             spacing: 16.0,
           ),
@@ -39,7 +41,7 @@ class SightDetailsText extends StatelessWidget {
             spacerH24,
             Text(
               sight.details!.trimRight(),
-              style: Theme.of(context).smallOnSurface,
+              style: theme.smallOnSurface,
             ),
           ],
           spacerH24,
@@ -61,6 +63,8 @@ class _GoRouteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return sight.isVisited
         ? Row(
             children: [
@@ -69,12 +73,11 @@ class _GoRouteButton extends StatelessWidget {
                   onPressed: null,
                   icon: SvgPicture.asset(
                     AppIcons.tick,
-                    color: Theme.of(context).colorScheme.green,
+                    color: theme.colorScheme.green,
                   ),
                   label: Text(
                     AppStrings.doneRoute,
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.green),
+                    style: TextStyle(color: theme.colorScheme.green),
                   ),
                   style: _buildGreenButtonStyle(context, enabled: false),
                 ),
@@ -86,7 +89,7 @@ class _GoRouteButton extends StatelessWidget {
                 },
                 child: SvgPicture.asset(
                   AppIcons.goRoute,
-                  color: Theme.of(context).colorScheme.white,
+                  color: theme.colorScheme.white,
                 ),
                 style: _buildGreenButtonStyle(context, enabled: true),
               ),
@@ -98,11 +101,11 @@ class _GoRouteButton extends StatelessWidget {
             },
             icon: SvgPicture.asset(
               AppIcons.goRoute,
-              color: Theme.of(context).colorScheme.white,
+              color: theme.colorScheme.white,
             ),
             label: Text(
               AppStrings.buildRoute,
-              style: Theme.of(context).buttonWhite,
+              style: theme.buttonWhite,
             ),
             style: _buildGreenButtonStyle(context, enabled: true),
           );
@@ -111,25 +114,22 @@ class _GoRouteButton extends StatelessWidget {
   ButtonStyle _buildGreenButtonStyle(
     BuildContext context, {
     required bool enabled,
-  }) =>
-      TextButton.styleFrom(
-        primary: enabled
-            ? Theme.of(context).colorScheme.white
-            : Theme.of(context).colorScheme.green,
-        backgroundColor: enabled
-            ? Theme.of(context).colorScheme.green
-            : Theme.of(context).cardColor,
-        padding: const EdgeInsets.all(15.0),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(12.0),
-          ),
+  }) {
+    final theme = Theme.of(context);
+
+    return TextButton.styleFrom(
+      primary: enabled ? theme.colorScheme.white : theme.colorScheme.green,
+      backgroundColor: enabled ? theme.colorScheme.green : theme.cardColor,
+      padding: const EdgeInsets.all(15.0),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12.0),
         ),
-        textStyle: enabled
-            ? Theme.of(context).buttonWhite
-            : Theme.of(context).buttonGreen,
-        minimumSize: Size.zero,
-      );
+      ),
+      textStyle: enabled ? theme.buttonWhite : theme.buttonGreen,
+      minimumSize: Size.zero,
+    );
+  }
 }
 
 class _BottomButtons extends StatelessWidget {
@@ -139,6 +139,8 @@ class _BottomButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Row(
       children: [
         /// Кнопка слева (один из трех вариантов)
@@ -147,7 +149,7 @@ class _BottomButtons extends StatelessWidget {
             child: _SvgFlatButton(
               icon: AppIcons.calendarFill,
               label: sight.plannedDate!.toDateOnlyString(),
-              color: Theme.of(context).colorScheme.green,
+              color: theme.colorScheme.green,
               onPressed: () {
                 // TODO(novikov):  Обработчик нажатия кнопки пере-"Запланировать"
               },
@@ -158,7 +160,7 @@ class _BottomButtons extends StatelessWidget {
             child: _SvgFlatButton(
               icon: AppIcons.share,
               label: AppStrings.share,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: theme.colorScheme.onSurface,
               onPressed: () {
                 // TODO(novikov):  Обработчик нажатия кнопки "Поделиться"
               },
@@ -170,8 +172,8 @@ class _BottomButtons extends StatelessWidget {
               icon: AppIcons.calendar,
               label: AppStrings.schedule,
               color: sight.isLiked
-                  ? Theme.of(context).colorScheme.onSurface
-                  : Theme.of(context).colorScheme.inactiveBlack,
+                  ? theme.colorScheme.onSurface
+                  : theme.colorScheme.inactiveBlack,
               onPressed: sight.isLiked
                   ? () {
                       // TODO(novikov):  Обработчик нажатия кнопки "Запланировать"
@@ -185,7 +187,7 @@ class _BottomButtons extends StatelessWidget {
           child: _SvgFlatButton(
             icon: sight.isLiked ? AppIcons.heartFilled : AppIcons.heart,
             label: AppStrings.addFavorites,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: theme.colorScheme.onSurface,
             onPressed: () {
               // TODO(novikov):  Обработчик нажатия кнопки "В Избранное"
             },

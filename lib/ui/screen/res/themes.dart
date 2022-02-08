@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:places/ui/const/app_styles.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
@@ -62,15 +61,6 @@ abstract class Themes {
         titleTextStyle: subtitle.copyWith(color: foreground),
         elevation: 0.0,
         centerTitle: true,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: background,
-          systemNavigationBarDividerColor: background,
-          systemNavigationBarIconBrightness:
-              isLight ? Brightness.dark : Brightness.light,
-          statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
-          statusBarBrightness: isLight ? Brightness.light : Brightness.dark,
-        ),
-        //systemOverlayStyle: SystemUiOverlayStyle.light,
       );
 
   static TabBarTheme _buildTabBarTheme({
