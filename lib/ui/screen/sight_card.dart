@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/widget/sight_card_image.dart';
@@ -21,19 +20,13 @@ class SightCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () async {
-          final style = Theme.of(context).appBarTheme.systemOverlayStyle;
-
-          await Navigator.push(
+        onTap: () {
+          Navigator.push(
             context,
             MaterialPageRoute<SightDetails>(
               builder: (context) => SightDetails(sight: sight),
             ),
           );
-
-          if (style != null) {
-            SystemChrome.setSystemUIOverlayStyle(style);
-          }
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

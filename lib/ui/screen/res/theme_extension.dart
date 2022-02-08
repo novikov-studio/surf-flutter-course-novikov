@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
@@ -50,8 +49,8 @@ extension ThemeExtension on ThemeData {
       );
 
   TextStyle get buttonGreen => textTheme.button!.copyWith(
-        color: colorScheme.green,
-      );
+    color: colorScheme.green,
+  );
 
   // ----- Экран "Детализация" -----
 
@@ -66,14 +65,6 @@ extension ThemeExtension on ThemeData {
             ? colorScheme.secondary
             : colorScheme.secondary2,
       );
-
-  // ----- Системный статусбар -----
-
-  void updateSystemStatusBar([SystemUiOverlayStyle? style]) {
-    SystemChrome.setSystemUIOverlayStyle(
-      style ?? appBarTheme.systemOverlayStyle!,
-    );
-  }
 }
 
 extension ColorSchemeExt on ColorScheme {

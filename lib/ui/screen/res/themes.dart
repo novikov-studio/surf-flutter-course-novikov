@@ -63,19 +63,14 @@ abstract class Themes {
         elevation: 0.0,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
-          // Status Bar
           statusBarColor: background,
-          statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
-          systemStatusBarContrastEnforced: false,
-          // iOS
-          statusBarBrightness: isLight ? Brightness.dark : Brightness.light,
-          // Navigation Bar
-          systemNavigationBarColor: background,
           systemNavigationBarDividerColor: background,
           systemNavigationBarIconBrightness:
               isLight ? Brightness.dark : Brightness.light,
-          systemNavigationBarContrastEnforced: false,
+          statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
+          statusBarBrightness: isLight ? Brightness.light : Brightness.dark,
         ),
+        //systemOverlayStyle: SystemUiOverlayStyle.light,
       );
 
   static TabBarTheme _buildTabBarTheme({
@@ -133,7 +128,7 @@ abstract class Themes {
         error: isLight ? LightColors.error : DarkColors.error,
         onPrimary: const Color(0xFFFF00FF),
         onSecondary: const Color(0xFFFF00FF),
-        onBackground: isLight ? LightColors.main : DarkColors.white,
+        onBackground: isLight ? LightColors.main: DarkColors.white,
         onSurface: isLight ? LightColors.secondary : DarkColors.white,
         onError: const Color(0xFFFF00FF),
       );
