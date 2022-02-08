@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/ui/const/app_colors.dart';
 import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -15,31 +15,45 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      backgroundColor: AppColors.background,
-      currentIndex: currentIndex,
-      items: [
-        _SvgNavBarItem(
-          icon: AppIcons.list,
-          activeIcon: AppIcons.listFilled,
+    final theme = Theme.of(context);
+    final color = theme.bottomNavigationBarTheme.unselectedItemColor;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            width: 0.8,
+            color: theme.colorScheme.inactiveBlack.withOpacity(0.56 * 0.48),
+          ),
         ),
-        _SvgNavBarItem(
-          icon: AppIcons.map,
-          activeIcon: AppIcons.mapFilled,
-        ),
-        _SvgNavBarItem(
-          icon: AppIcons.heart,
-          activeIcon: AppIcons.heartFilled,
-        ),
-        _SvgNavBarItem(
-          icon: AppIcons.settings,
-          activeIcon: AppIcons.settingsFilled,
-        ),
-      ],
-      onTap: onTap,
+      ),
+      position: DecorationPosition.foreground,
+      child: BottomNavigationBar(
+        currentIndex: currentIndex,
+        items: [
+          _SvgNavBarItem(
+            icon: AppIcons.list,
+            activeIcon: AppIcons.listFilled,
+            color: color,
+          ),
+          _SvgNavBarItem(
+            icon: AppIcons.map,
+            activeIcon: AppIcons.mapFilled,
+            color: color,
+          ),
+          _SvgNavBarItem(
+            icon: AppIcons.heart,
+            activeIcon: AppIcons.heartFilled,
+            color: color,
+          ),
+          _SvgNavBarItem(
+            icon: AppIcons.settings,
+            activeIcon: AppIcons.settingsFilled,
+            color: color,
+          ),
+        ],
+        onTap: onTap,
+      ),
     );
   }
 }
@@ -48,15 +62,17 @@ class _SvgNavBarItem extends BottomNavigationBarItem {
   _SvgNavBarItem({
     required String icon,
     required String activeIcon,
+    Color? color,
+    Color? activeColor,
   }) : super(
-    icon: SvgPicture.asset(
-      icon,
-      color: AppColors.secondary,
-    ),
-    activeIcon: SvgPicture.asset(
-      activeIcon,
-      color: AppColors.secondary,
-    ),
-    label: '',
-  );
+          icon: SvgPicture.asset(
+            icon,
+            color: color,
+          ),
+          activeIcon: SvgPicture.asset(
+            activeIcon,
+            color: activeColor ?? color,
+          ),
+          label: '',
+        );
 }

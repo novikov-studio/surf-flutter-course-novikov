@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/app.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
@@ -44,6 +45,14 @@ class _HomeScreenState extends State<HomeScreen>
             details: 'Не реализовано',
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Text(Theme.of(context).brightness == Brightness.light
+            ? 'Dark'
+            : 'Light'),
+        onPressed: () {
+          App.of(context)?.toggleTheme();
+        },
       ),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _tabController.index,

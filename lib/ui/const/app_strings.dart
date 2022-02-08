@@ -5,7 +5,9 @@ abstract class AppStrings {
 
   // Надписи на кнопках
   static const buildRoute = 'ПОСТРОИТЬ МАРШРУТ';
+  static const doneRoute = 'ПРОЙДЕНО';
   static const schedule = 'Запланировать';
+  static const share = 'Поделиться';
   static const addFavorites = 'В Избранное';
 
   // Экран Избранное

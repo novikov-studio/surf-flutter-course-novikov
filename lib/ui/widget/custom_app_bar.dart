@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/const/app_colors.dart';
-import 'package:places/ui/const/app_styles.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -13,12 +12,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.background,
       alignment: Alignment.bottomLeft,
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Text(
         title,
-        style: largeTitle,
+        style: Theme.of(context).largeTitleForAppBar,
       ),
     );
   }

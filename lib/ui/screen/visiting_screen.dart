@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/const/app_colors.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/const/app_styles.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/sight_list.dart';
@@ -16,13 +14,8 @@ class VisitingScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: AppColors.background,
         appBar: AppBar(
           title: const Text(AppStrings.favoritesTitle),
-          centerTitle: true,
-          elevation: 0.0,
-          backgroundColor: AppColors.background,
-          titleTextStyle: subtitle.copyWith(color: AppColors.main),
           bottom: const _Tabs(
             items: [
               AppStrings.myWishList,
@@ -70,24 +63,14 @@ class _Tabs extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
       child: DecoratedBox(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          color: AppColors.cardBackground,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(40.0)),
+          color: Theme.of(context).cardColor,
         ),
         // TODO(novikov): Убрать splash при нажатии
         child: TabBar(
           tabs: items.map((title) => Text(title)).toList(growable: false),
-          indicator: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            color: AppColors.secondary,
-          ),
-          labelPadding:
-              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 11.0),
           padding: EdgeInsets.zero,
-          labelColor: AppColors.white,
-          unselectedLabelColor: AppColors.inactiveBlack,
-          labelStyle: smallBold,
-          unselectedLabelStyle: smallBold,
         ),
       ),
     );
