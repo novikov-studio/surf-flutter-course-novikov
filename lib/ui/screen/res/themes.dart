@@ -19,6 +19,12 @@ abstract class Themes {
           unselectedLabelColor: LightColors.inactiveBlack,
         ),
         cardTheme: _buildCardTheme(),
+        iconTheme: _buildIconTheme(color: LightColors.white),
+        elevatedButtonTheme: _buildElevatedButtonThemeData(isLight: true),
+        textButtonTheme: _buildTextButtonThemeData(
+          active: LightColors.secondary,
+          inactive: LightColors.inactiveBlack,
+        ),
         dividerColor: LightColors.divider,
         dividerTheme: _buildDividerThemeData(color: LightColors.divider),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
@@ -42,6 +48,12 @@ abstract class Themes {
           unselectedLabelColor: DarkColors.secondary2,
         ),
         cardTheme: _buildCardTheme(),
+        iconTheme: _buildIconTheme(color: DarkColors.white),
+        elevatedButtonTheme: _buildElevatedButtonThemeData(isLight: false),
+        textButtonTheme: _buildTextButtonThemeData(
+          active: DarkColors.white,
+          inactive: DarkColors.inactiveBlack,
+        ),
         dividerColor: DarkColors.divider,
         dividerTheme: _buildDividerThemeData(color: DarkColors.divider),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
@@ -92,6 +104,61 @@ abstract class Themes {
         ),
       );
 
+  static IconThemeData _buildIconTheme({required Color color}) => IconThemeData(
+        color: color,
+        size: 24.0,
+      );
+
+  static ElevatedButtonThemeData _buildElevatedButtonThemeData({
+    required bool isLight,
+  }) {
+    final background = isLight ? LightColors.green : DarkColors.green;
+    final foreground = isLight ? LightColors.white : DarkColors.white;
+    final disabledBackground =
+        isLight ? LightColors.cardBackground : DarkColors.cardBackground;
+    final disabledForeground =
+        isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+
+    return ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        primary: background,
+        onPrimary: foreground,
+        textStyle: button,
+        padding: const EdgeInsets.all(15.0),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12.0),
+          ),
+        ),
+        minimumSize: Size.zero,
+        elevation: 0.0,
+      ).copyWith(
+        backgroundColor: MaterialStateProperty.resolveWith(
+          (states) => states.contains(MaterialState.disabled)
+              ? disabledBackground
+              : background,
+        ),
+        foregroundColor: MaterialStateProperty.resolveWith(
+          (states) => states.contains(MaterialState.disabled)
+              ? disabledForeground
+              : foreground,
+        ),
+      ),
+    );
+  }
+
+  static TextButtonThemeData _buildTextButtonThemeData({
+    required Color active,
+    required Color inactive,
+  }) =>
+      TextButtonThemeData(
+        style: TextButton.styleFrom(
+          primary: active,
+          padding: const EdgeInsets.symmetric(vertical: 11.0),
+          textStyle: small,
+        ),
+      );
+
   static TextTheme _buildTextTheme() => const TextTheme(
         headline5: largeTitle,
         headline6: title,
@@ -118,7 +185,7 @@ abstract class Themes {
         error: isLight ? LightColors.error : DarkColors.error,
         onPrimary: const Color(0xFFFF00FF),
         onSecondary: const Color(0xFFFF00FF),
-        onBackground: isLight ? LightColors.main: DarkColors.white,
+        onBackground: isLight ? LightColors.main : DarkColors.white,
         onSurface: isLight ? LightColors.secondary : DarkColors.white,
         onError: const Color(0xFFFF00FF),
       );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/service/utils.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/darken_image.dart';
 import 'package:places/ui/widget/sight_details_text.dart';
@@ -27,21 +29,16 @@ class SightDetails extends StatelessWidget {
               Positioned(
                 left: 16.0,
                 top: statusHeight + 16.0,
-                // TODO(novikov): Возрат на предыдущий экран
-                child: Container(
-                  width: 32.0,
-                  height: 32.0,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                    color: theme.colorScheme.background,
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.chevron_left,
-                      color: theme.colorScheme.onBackground,
-                      size: 24.0,
-                    ),
-                  ),
+                height: 32.0,
+                width: 32.0,
+                // TODO(novikov): Сжимать изображение по высоте, чтобы умещались нижние кнопки
+                child: ElevatedButton(
+                  onPressed: () {
+                    // TODO(novikov): Возрат на предыдущий экран
+                    Utils.logButtonPressed('details.back');
+                  },
+                  child: const Icon(Icons.chevron_left),
+                  style: theme.btnBack,
                 ),
               ),
             ],

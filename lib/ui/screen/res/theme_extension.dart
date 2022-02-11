@@ -49,8 +49,8 @@ extension ThemeExtension on ThemeData {
       );
 
   TextStyle get buttonGreen => textTheme.button!.copyWith(
-    color: colorScheme.green,
-  );
+        color: colorScheme.green,
+      );
 
   // ----- Экран "Детализация" -----
 
@@ -65,6 +65,31 @@ extension ThemeExtension on ThemeData {
             ? colorScheme.secondary
             : colorScheme.secondary2,
       );
+
+  // ----- Экран "Стили кнопок" -----
+  ButtonStyle get btnVisited => ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith(
+          (states) => states.contains(MaterialState.disabled)
+              ? colorScheme.green
+              : null,
+        ),
+      );
+
+  ButtonStyle get btnBack => ElevatedButton.styleFrom(
+    primary: colorScheme.background,
+    onPrimary: colorScheme.onBackground,
+    padding: EdgeInsets.zero,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(10.0),
+      ),
+    ),
+  );
+
+  ButtonStyle get btnMenuGreen => TextButton.styleFrom(
+    primary: colorScheme.green,
+  );
+
 }
 
 extension ColorSchemeExt on ColorScheme {

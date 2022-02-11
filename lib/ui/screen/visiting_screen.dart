@@ -62,12 +62,11 @@ class _Tabs extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(40.0)),
-          color: Theme.of(context).cardColor,
-        ),
-        // TODO(novikov): Убрать splash при нажатии
+      child: Material(
+        color: Theme.of(context).cardColor,
+        borderRadius: const BorderRadius.all(Radius.circular(40.0)),
+        clipBehavior: Clip.antiAlias,
+        // TODO(novikov): Добавить закругление или убрать splash при нажатии
         child: TabBar(
           tabs: items.map((title) => Text(title)).toList(growable: false),
           padding: EdgeInsets.zero,
