@@ -6,6 +6,7 @@ import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/darken_image.dart';
 import 'package:places/ui/widget/sight_details_text.dart';
 
+/// Экран "Детализация".
 class SightDetails extends StatelessWidget {
   final Sight sight;
 
@@ -32,10 +33,17 @@ class SightDetails extends StatelessWidget {
                 height: 32.0,
                 width: 32.0,
                 // TODO(novikov): Сжимать изображение по высоте, чтобы умещались нижние кнопки
+                // При длинном описании кнопки уходят за пределы экрана - это плохо
+                // В идеале:
+                //   Если описание достаточно короткое, изображение - 1:1
+                //   Если описание длинное:
+                //      изображение ужимается по высоте максимум до 3:2
+                //      если все равно не хватает высоты, у описания появляется прокрутка
+                // Но пока такой фокус не удался
                 child: ElevatedButton(
                   onPressed: () {
-                    // TODO(novikov): Возрат на предыдущий экран
                     Utils.logButtonPressed('details.back');
+                    context.popScreen();
                   },
                   child: const Icon(Icons.chevron_left),
                   style: theme.btnBack,

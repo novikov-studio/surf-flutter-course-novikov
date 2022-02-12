@@ -1,8 +1,9 @@
+import 'package:places/service/location.dart';
+
 /// Модель достопримечательности.
 class Sight {
   final String name; // название
-  final double lat; // широта
-  final double lon; // долгота
+  final Location location; // координаты
   final String url; // ссылка на фотографию
   final String? info; // краткое описание
   final String? details; // полное описание
@@ -22,8 +23,7 @@ class Sight {
 
   const Sight({
     required this.name,
-    required this.lat,
-    required this.lon,
+    required this.location,
     required this.url,
     this.info,
     this.details,

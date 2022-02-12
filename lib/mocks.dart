@@ -1,10 +1,12 @@
 import 'package:places/domain/sight.dart';
+import 'package:places/service/location.dart';
+
+const mockCurrentLocation = Location(latitude: 47.516898, longitude: 42.146062);
 
 final mocks = [
   Sight(
     name: 'Гостиница "Ковчег"',
-    lat: 47.5136577,
-    lon: 42.1835938,
+    location: const Location(latitude: 47.513733, longitude: 42.185774),
     url: 'https://kovchegdon.ru/uploads/photo/promo/promo-01.jpg',
     info: 'заезд в 14:00',
     isLiked: true,
@@ -17,8 +19,7 @@ final mocks = [
   ),
   const Sight(
     name: 'Пиццерия "Камин"',
-    lat: 47.5113611,
-    lon: 42.2034055,
+    location: Location(latitude: 47.511431, longitude: 42.205328),
     url:
         'https://pizza-kamin.ru/assets/template/img/photogallery/holidays/ND4_1840.jpg',
     info: 'открыто до 20:00',
@@ -30,8 +31,7 @@ final mocks = [
   ),
   Sight(
     name: 'Батутный парк №1',
-    lat: 47.5116059,
-    lon: 42.2049714,
+    location: const Location(latitude: 47.51111, longitude: 42.21621),
     url:
         'https://static.tildacdn.com/tild6539-3565-4432-b461-633166666535/_-min.jpg',
     info: 'открыто до 22:00',
@@ -45,8 +45,7 @@ final mocks = [
   ),
   const Sight(
     name: 'Чайный бутик',
-    lat: 47.5177595,
-    lon: 42.1948818,
+    location: Location(latitude: 47.519225, longitude: 42.19468),
     url:
         'https://lh5.googleusercontent.com/p/AF1QipMErV_AR_tL8idGKTzWibDg91ULxcKhfk0QL047=s677-k-no',
     info: 'открыто до 18:00',
@@ -57,8 +56,7 @@ final mocks = [
   ),
   Sight(
     name: 'КРК "Комсомолец"',
-    lat: 47.5147167,
-    lon: 42.1954797,
+    location: const Location(latitude: 47.51665, longitude: 42.197011),
     url:
         'https://im0-tub-ru.yandex.net/i?id=482a1528addddaec5db33fe1b948e50b-l&ref=rim&n=13&w=1080&h=642',
     info: 'открыто до 18:00',
@@ -72,8 +70,7 @@ final mocks = [
   ),
   const Sight(
     name: 'Сквер "Дружба"',
-    lat: 47.5132317,
-    lon: 42.2007234,
+    location: Location(latitude: 47.513275, longitude: 42.200729),
     url: 'https://v-pravda.ru/wp-content/uploads/2020/08/IMG_1551-1024x683.jpg',
     info: 'круглосуточно',
     details: '''
@@ -84,8 +81,7 @@ final mocks = [
   ),
   const Sight(
     name: 'Волгодонский эколого-исторический музей',
-    lat: 42.149869,
-    lon: 47.519356,
+    location: Location(latitude: 47.519083, longitude: 42.150124),
     url: 'https://b1.culture.ru/c/342632.884x442.webp',
     info: 'открыто до 18:00',
     details: '''
@@ -95,8 +91,7 @@ final mocks = [
   ),
   const Sight(
     name: 'Мирный атом',
-    lat: 47.5197851,
-    lon: 42.202343,
+    location: Location(latitude: 47.519884, longitude: 42.204517),
     url:
         'https://www.atomic-energy.ru/files/styles/center/public/images/2019/10/09263f5cc302e4d103b7065857fb5901.jpg',
     info: 'круглосуточно',
@@ -107,8 +102,7 @@ final mocks = [
   ),
   const Sight(
     name: 'Аквапарк "Аква-сити"',
-    lat: 42.057971,
-    lon: 47.5719,
+    location: Location(latitude: 47.571418, longitude: 42.057845),
     url: 'https://donskayavolna.com/wp-content/uploads/2020/05/openpool.jpg',
     info: 'открыто до 21:00',
     details: '''
@@ -118,8 +112,7 @@ final mocks = [
   ),
   const Sight(
     name: 'Дендрарий',
-    lat: 47.5102933,
-    lon: 42.1489521,
+    location: Location(latitude: 47.514525, longitude: 42.134428),
     url:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/%D0%94%D0%B5%D0%BD%D0%B4%D1%80%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D0%BF%D0%B0%D1%80%D0%BA3_%D0%92%D0%BE%D0%BB%D0%B3%D0%BE%D0%B4%D0%BE%D0%BD%D1%81%D0%BA.JPG/1280px-%D0%94%D0%B5%D0%BD%D0%B4%D1%80%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D0%BF%D0%B0%D1%80%D0%BA3_%D0%92%D0%BE%D0%BB%D0%B3%D0%BE%D0%B4%D0%BE%D0%BD%D1%81%D0%BA.JPG',
     info: 'круглосуточно',

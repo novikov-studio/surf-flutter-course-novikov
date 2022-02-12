@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
 
@@ -18,6 +17,15 @@ extension ThemeExtension on ThemeData {
 
   TextStyle get textOnSurface => textTheme.text.copyWith(
         color: colorScheme.onSurface,
+      );
+
+  TextStyle get textOnBackground => textTheme.text.copyWith(
+        color: colorScheme.onBackground,
+      );
+
+  TextStyle get text400Secondary2 => textTheme.text.copyWith(
+        color: colorScheme.secondary2,
+        fontWeight: FontWeight.w400,
       );
 
   TextStyle get smallGreen => textTheme.small.copyWith(
@@ -76,20 +84,15 @@ extension ThemeExtension on ThemeData {
       );
 
   ButtonStyle get btnBack => ElevatedButton.styleFrom(
-    primary: colorScheme.background,
-    onPrimary: colorScheme.onBackground,
-    padding: EdgeInsets.zero,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(
-        Radius.circular(10.0),
-      ),
-    ),
-  );
-
-  ButtonStyle get btnMenuGreen => TextButton.styleFrom(
-    primary: colorScheme.green,
-  );
-
+        primary: colorScheme.background,
+        onPrimary: colorScheme.onBackground,
+        padding: EdgeInsets.zero,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10.0),
+          ),
+        ),
+      );
 }
 
 extension ColorSchemeExt on ColorScheme {
@@ -125,12 +128,20 @@ extension TextThemeExt on TextTheme {
   TextStyle get superSmall => overline!;
 }
 
-extension DateTimeExt on DateTime {
-  /// Перевод в строку вида: "dd MMM yyyy"
-  String toDateOnlyString() {
-    final _day = day.toString().padLeft(2, '0');
-    final _month = AppStrings.months[month - 1];
+// TODO(novikov): Убрать, когда дойдем до навигации
+extension ContextExt on BuildContext {
+  void pushScreen<T>(WidgetBuilder builder) {
+    Navigator.push(
+      this,
+      MaterialPageRoute<T>(
+        builder: builder,
+      ),
+    );
+  }
 
-    return '$_day $_month $year';
+  void popScreen() {
+    if (Navigator.canPop(this)) {
+      Navigator.pop(this);
+    }
   }
 }

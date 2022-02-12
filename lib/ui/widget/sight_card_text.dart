@@ -39,7 +39,9 @@ class SightCardText extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 2.0, bottom: 10.0),
                     child: Text(
-                      _formatEvent(),
+                      sight.isVisited
+                          ? AppStrings.visitedOn(sight.visitedDate!)
+                          : AppStrings.scheduledFor(sight.plannedDate!),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: sight.isPlanned
@@ -76,15 +78,5 @@ class SightCardText extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatEvent() {
-    assert(sight.plannedDate != null || sight.visitedDate != null);
-
-    return sight.isVisited
-        ? AppStrings.visitedOn
-            .replaceFirst('%s', sight.visitedDate!.toDateOnlyString())
-        : AppStrings.scheduledFor
-            .replaceFirst('%s', sight.plannedDate!.toDateOnlyString());
   }
 }
