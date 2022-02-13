@@ -1,7 +1,11 @@
 /// Строковые константы приложения
 abstract class AppStrings {
+  // Заголовки
   static const listTitle = 'Список\nинтересных мест';
   static const favoritesTitle = 'Избранное';
+
+  // Названия полей
+  static const categories = 'КАТЕГОРИИ';
 
   // Надписи на кнопках
   static const buildRoute = 'ПОСТРОИТЬ МАРШРУТ';
@@ -10,6 +14,14 @@ abstract class AppStrings {
   static const share = 'Поделиться';
   static const addFavorites = 'В Избранное';
   static const clear = 'Очистить';
+
+  // Категории
+  static const hotel = 'Отель';
+  static const restaurant = 'Ресторан';
+  static const particularPlace = 'Особое место';
+  static const park = 'Парк';
+  static const museum = 'Музей';
+  static const cafe = 'Кафе';
 
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';

@@ -60,6 +60,10 @@ extension ThemeExtension on ThemeData {
         color: colorScheme.green,
       );
 
+  TextStyle get superSmallInactiveBlack => textTheme.superSmall.copyWith(
+    color: colorScheme.inactiveBlack,
+  );
+
   // ----- Экран "Детализация" -----
 
   TextStyle get smallBoldForDetailsType => textTheme.smallBold.copyWith(

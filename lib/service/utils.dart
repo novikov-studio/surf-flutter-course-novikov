@@ -16,18 +16,13 @@ abstract class Utils {
     log('Нажата кнопка "$buttonName"');
   }
 
-  /// Определяет, находится ли точка [point] в радиусе не более, чем [radius] км от исходной точки [center]
-  static bool isPointInCircleArea({
-    required Location point,
-    required Location center,
-    required double radius,
-  }) {
+  static double calcDistance(Location point1, Location point2) {
     const factorY = 40000 / 360;
-    final factorX = cos(pi * center.latitude / 180.0) * factorY;
-    final deltaX = (center.longitude - point.longitude).abs() * factorX;
-    final deltaY = (center.latitude - point.latitude).abs() * factorY;
+    final factorX = cos(pi * point1.latitude / 180.0) * factorY;
+    final deltaX = (point1.longitude - point2.longitude).abs() * factorX;
+    final deltaY = (point1.latitude - point2.latitude).abs() * factorY;
 
-    return sqrt(deltaX * deltaX + deltaY * deltaY) <= radius;
+    return sqrt(deltaX * deltaX + deltaY * deltaY);
   }
 
   /// Определяет, находится ли точка [point] в радиусе
@@ -39,16 +34,9 @@ abstract class Utils {
     required double minRadius,
     required double maxRadius,
   }) {
-    return isPointInCircleArea(
-          point: point,
-          center: center,
-          radius: maxRadius,
-        ) &&
-        !isPointInCircleArea(
-          point: point,
-          center: center,
-          radius: minRadius,
-        );
+    final distance = calcDistance(center, point);
+
+    return distance >= minRadius && distance <= maxRadius;
   }
 
   /// Формирует URL для отображения списка точек на Яндекс.Картах

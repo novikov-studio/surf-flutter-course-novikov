@@ -27,6 +27,7 @@ flutter:
     - res/icons/empty_pages/
     - res/icons/menu/
     - res/icons/others/
+    - res/icons/catalog/
 
   fonts:
     - family: Roboto

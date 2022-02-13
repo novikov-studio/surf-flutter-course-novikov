@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/service/location.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/widget/categories_grid.dart';
+import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/svg_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,17 +22,22 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  final currentLocation = mockCurrentLocation;
+  final Location currentLocation = mockCurrentLocation;
 
+  // Список выбранных категорий
+  final Set<String> categories = {};
+
+  // Выбранный диапазон расстояний
   RangeValues distance =
       const RangeValues(_SliderBar.minDistance, _SliderBar.maxDistance);
 
+  // Список мест, удовлетворяющих фильтру
   List<Sight> filter = [];
 
   @override
   void initState() {
     super.initState();
-    _updateFilter();
+    _doClear();
   }
 
   @override
@@ -45,6 +53,22 @@ class _FiltersScreenState extends State<FiltersScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+            child: Text(
+              AppStrings.categories,
+              style: theme.superSmallInactiveBlack,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: CategoriesGrid(
+              checked: categories,
+              onCategoryPressed: _onCategoriesChange,
+            ),
+          ),
+          spacerH8,
           _SliderBar(
             range: distance,
             onChanged: _onDistanceChange,
@@ -65,8 +89,51 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
+  /// Обработчик нажатия на кнопку "Показать".
+  void _onApplyFilter() {
+    // TODO(novikov): Возврат на предыдущий экран с применением фильтра
+
+    // Для отладки выводим список отобранных мест
+    Utils.log(filter
+        .map((e) =>
+            '${e.name} - ${Utils.calcDistance(currentLocation, e.location).toStringNormalized()} км')
+        .toList()
+        .join('\n'));
+
+    // Для самопроверки открываем список отобранных мест на Яндекс.Картах
+    final url = Utils.buildYandexMapsUrl(
+      current: currentLocation,
+      points: filter.map((e) => e.location),
+    );
+    launch(url);
+  }
+
+  /// Обработчик переключения категорий.
+  void _onCategoriesChange(String category, bool isChecked) {
+    setState(() {
+      isChecked ? categories.add(category) : categories.remove(category);
+      _updateFilter();
+    });
+  }
+
+  /// Обработчик изменения позиции слайдеров.
+  void _onDistanceChange(RangeValues range) {
+    setState(() {
+      distance = range;
+      _updateFilter();
+    });
+  }
+
+  /// Обработчик нажатия на кнопку "Очистить".
+  void _onClear() {
+    setState(_doClear);
+  }
+
+  /// Обновление фильтра.
   void _updateFilter() {
     filter = widget.sights
+        // Фильтр по категории
+        .where((sight) => categories.contains(sight.type))
         // Фильтр по расстоянию
         .where((sight) => Utils.isPointInRingArea(
               point: sight.location,
@@ -77,65 +144,24 @@ class _FiltersScreenState extends State<FiltersScreen> {
         .toList(growable: false);
   }
 
-  void _onApplyFilter() {
-    // TODO(novikov): Возврат на предыдущий экран с применением фильтра
-    final url = Utils.buildYandexMapsUrl(
-      current: currentLocation,
-      points: filter.map((e) => e.location),
-    );
-
-    launch(url);
+  /// Сброс фильтра.
+  void _doClear() {
+    // Включаем все категории
+    categories.addAll(CategoriesGrid.categories.map((e) => e.title));
+    // Устанавливаем максимальный диапазон расстояния
+    distance =
+        const RangeValues(_SliderBar.minDistance, _SliderBar.maxDistance);
+    // Обновляем список мест, удовлетворяющих фильтру
+    _updateFilter();
   }
-
-  void _onDistanceChange(RangeValues range) {
-    setState(() {
-      distance = range;
-      _updateFilter();
-    });
-  }
-
-  void _onClear() {
-    setState(() {
-      // TODO(novikov): Сбрасывать фильтры
-    });
-  }
-}
-
-/// AppBar с кнопками "Назад" и "Стереть".
-class _FiltersAppBar extends AppBar {
-  _FiltersAppBar(
-    ThemeData theme, {
-    VoidCallback? onBackPressed,
-    VoidCallback? onClearPressed,
-  }) : super(
-          leading: IconButton(
-            icon: const SvgIcon(AppIcons.arrow),
-            splashRadius: 20.0,
-            onPressed: onBackPressed,
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextButton(
-                onPressed: onClearPressed,
-                child: const Text(AppStrings.clear),
-                style: TextButton.styleFrom(
-                  primary: theme.colorScheme.green,
-                  textStyle: theme.textTheme.text,
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                ),
-              ),
-            ),
-          ],
-        );
 }
 
 /// Виджет выбора диапазона расстояния.
 class _SliderBar extends StatelessWidget {
   static const double minDistance = 0.1; // км
-  static const double maxDistance = 10; // км
+  static const double maxDistance = 10.0; // км
   static const double stepDistance = 0.1; // км
-  static const ticks = maxDistance / stepDistance - minDistance / stepDistance;
+  static const int _ticks = (maxDistance - minDistance) ~/ stepDistance;
 
   final RangeValues range;
   final ValueChanged<RangeValues>? onChanged;
@@ -168,11 +194,40 @@ class _SliderBar extends StatelessWidget {
             values: range,
             min: minDistance,
             max: maxDistance,
-            divisions: ticks.toInt(),
+            divisions: _ticks,
             onChanged: onChanged,
           ),
         ],
       ),
     );
   }
+}
+
+/// AppBar с кнопками "Назад" и "Стереть".
+class _FiltersAppBar extends AppBar {
+  _FiltersAppBar(
+    ThemeData theme, {
+    VoidCallback? onBackPressed,
+    VoidCallback? onClearPressed,
+  }) : super(
+          leading: IconButton(
+            icon: const SvgIcon(AppIcons.arrow),
+            splashRadius: 20.0,
+            onPressed: onBackPressed,
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: onClearPressed,
+                child: const Text(AppStrings.clear),
+                style: TextButton.styleFrom(
+                  primary: theme.colorScheme.green,
+                  textStyle: theme.textTheme.text,
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                ),
+              ),
+            ),
+          ],
+        );
 }
