@@ -3,9 +3,12 @@ abstract class AppStrings {
   // Заголовки
   static const listTitle = 'Список\nинтересных мест';
   static const favoritesTitle = 'Избранное';
+  static const settingsTitle = 'Настройки';
 
   // Названия полей
   static const categories = 'КАТЕГОРИИ';
+  static const darkTheme = 'Темная тема';
+  static const watchTutorial = 'Смотреть туториал';
 
   // Надписи на кнопках
   static const buildRoute = 'ПОСТРОИТЬ МАРШРУТ';

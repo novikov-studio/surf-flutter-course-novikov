@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:places/service/location.dart';
 
 abstract class Utils {
+  static ValueNotifier<bool> isLight = ValueNotifier(true);
+
   /// Выводит строку в консоль
   static void log(String text) {
     if (kDebugMode) {

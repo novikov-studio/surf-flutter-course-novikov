@@ -30,6 +30,7 @@ abstract class Themes {
           inactive: LightColors.inactiveBlack,
           thumb: LightColors.white,
         ),
+        listTileTheme: _buildListTileThemeData(color: LightColors.main),
         dividerColor: LightColors.divider,
         dividerTheme: _buildDividerThemeData(color: LightColors.divider),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
@@ -64,6 +65,7 @@ abstract class Themes {
           inactive: DarkColors.inactiveBlack,
           thumb: DarkColors.white,
         ),
+        listTileTheme: _buildListTileThemeData(color: DarkColors.white),
         dividerColor: DarkColors.divider,
         dividerTheme: _buildDividerThemeData(color: DarkColors.divider),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
@@ -220,6 +222,9 @@ abstract class Themes {
         // но при trackHeight: 2.0 закругления все равно не отрисовываются
         rangeTrackShape: const RectangularRangeSliderTrackShape(),
       );
+
+  static ListTileThemeData _buildListTileThemeData({required Color color}) =>
+      ListTileThemeData(textColor: color);
 
   static DividerThemeData _buildDividerThemeData({required Color color}) =>
       DividerThemeData(
