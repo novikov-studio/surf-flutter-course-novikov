@@ -35,44 +35,41 @@ class SightCardImage extends StatelessWidget {
         Positioned(
           top: 8.0,
           right: 16.0,
-          child: Material(
-            color: Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                /// Кнопка "Запланировать"
-                if (sight.isLiked && sight.isPlanned)
-                  _SvgButton(
-                    path: AppIcons.calendar,
-                    onPressed: () {
-                      Utils.logButtonPressed('card.plan');
-                    },
-                  ),
-
-                /// Кнопка "Поделиться"
-                if (sight.isVisited)
-                  _SvgButton(
-                    path: AppIcons.share,
-                    onPressed: () {
-                      Utils.logButtonPressed('card.share');
-                    },
-                  ),
-
-                spacerW8,
-
-                /// Кнопка "Избранное" - добавить/удалить
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              /// Кнопка "Запланировать"
+              if (sight.isLiked && sight.isPlanned)
                 _SvgButton(
-                  path: sight.isLiked
-                      ? (mode == CardMode.favorites
-                          ? AppIcons.close
-                          : AppIcons.heartFilled)
-                      : AppIcons.heart,
+                  path: AppIcons.calendar,
                   onPressed: () {
-                    Utils.logButtonPressed('card.like');
+                    Utils.logButtonPressed('card.plan');
                   },
                 ),
-              ],
-            ),
+
+              /// Кнопка "Поделиться"
+              if (sight.isVisited)
+                _SvgButton(
+                  path: AppIcons.share,
+                  onPressed: () {
+                    Utils.logButtonPressed('card.share');
+                  },
+                ),
+
+              spacerW8,
+
+              /// Кнопка "Избранное" - добавить/удалить
+              _SvgButton(
+                path: sight.isLiked
+                    ? (mode == CardMode.favorites
+                        ? AppIcons.close
+                        : AppIcons.heartFilled)
+                    : AppIcons.heart,
+                onPressed: () {
+                  Utils.logButtonPressed('card.like');
+                },
+              ),
+            ],
           ),
         ),
       ],

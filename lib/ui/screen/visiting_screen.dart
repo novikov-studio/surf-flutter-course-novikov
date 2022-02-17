@@ -64,16 +64,20 @@ class _Tabs extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
       child: Material(
-        color: Theme.of(context).cardColor,
+        type: MaterialType.transparency,
         borderRadius: const BorderRadius.all(Radius.circular(40.0)),
         clipBehavior: Clip.antiAlias,
-        // TODO(novikov): Добавить закругление или убрать splash при нажатии
+        // TODO(novikov): Добавить splash c закруглением при нажатии
         // Судя по исходникам TabBar, каждый таб оборачивается в InkWell,
         // поэтому штатными средствами можно только убрать splash.
         // Ждем-с: https://github.com/flutter/flutter/issues/50341
-        child: TabBar(
-          tabs: items.map((title) => Text(title)).toList(growable: false),
-          padding: EdgeInsets.zero,
+        child: Container(
+          height: 40.0,
+          color: Theme.of(context).cardColor,
+          child: TabBar(
+            tabs: items.map((title) => Text(title)).toList(growable: false),
+            padding: EdgeInsets.zero,
+          ),
         ),
       ),
     );
