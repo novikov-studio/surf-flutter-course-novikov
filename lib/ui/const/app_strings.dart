@@ -3,9 +3,12 @@ abstract class AppStrings {
   // Заголовки
   static const listTitle = 'Список\nинтересных мест';
   static const favoritesTitle = 'Избранное';
+  static const settingsTitle = 'Настройки';
 
   // Названия полей
   static const categories = 'КАТЕГОРИИ';
+  static const darkTheme = 'Темная тема';
+  static const watchTutorial = 'Смотреть туториал';
 
   // Надписи на кнопках
   static const buildRoute = 'ПОСТРОИТЬ МАРШРУТ';
@@ -22,6 +25,9 @@ abstract class AppStrings {
   static const park = 'Парк';
   static const museum = 'Музей';
   static const cafe = 'Кафе';
+
+  // Сообщения
+  static const imageLoadingError = 'Ошибка загрузки изображения';
 
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';
