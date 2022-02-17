@@ -64,7 +64,8 @@ class _CategoryCell extends StatelessWidget {
     return Column(
       children: [
         Stack(children: [
-          GestureDetector(
+          InkWell(
+            borderRadius: const BorderRadius.all(Radius.circular(64.0)),
             onTap: () {
               onPressed(category.title, !isChecked);
             },

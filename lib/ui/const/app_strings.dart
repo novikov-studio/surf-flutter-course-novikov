@@ -26,6 +26,9 @@ abstract class AppStrings {
   static const museum = 'Музей';
   static const cafe = 'Кафе';
 
+  // Сообщения
+  static const imageLoadingError = 'Ошибка загрузки изображения';
+
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';
   static const myWishList = 'Хочу посетить';
