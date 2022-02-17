@@ -25,6 +25,12 @@ abstract class Themes {
           active: LightColors.secondary,
           inactive: LightColors.inactiveBlack,
         ),
+        sliderTheme: _buildSliderThemeData(
+          active: LightColors.green,
+          inactive: LightColors.inactiveBlack,
+          thumb: LightColors.white,
+        ),
+        listTileTheme: _buildListTileThemeData(color: LightColors.main),
         dividerColor: LightColors.divider,
         dividerTheme: _buildDividerThemeData(color: LightColors.divider),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
@@ -54,6 +60,12 @@ abstract class Themes {
           active: DarkColors.white,
           inactive: DarkColors.inactiveBlack,
         ),
+        sliderTheme: _buildSliderThemeData(
+          active: DarkColors.green,
+          inactive: DarkColors.inactiveBlack,
+          thumb: DarkColors.white,
+        ),
+        listTileTheme: _buildListTileThemeData(color: DarkColors.white),
         dividerColor: DarkColors.divider,
         dividerTheme: _buildDividerThemeData(color: DarkColors.divider),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
@@ -73,6 +85,9 @@ abstract class Themes {
         titleTextStyle: subtitle.copyWith(color: foreground),
         elevation: 0.0,
         centerTitle: true,
+        iconTheme: IconThemeData(
+          color: foreground,
+        ),
       );
 
   static TabBarTheme _buildTabBarTheme({
@@ -189,6 +204,27 @@ abstract class Themes {
         onSurface: isLight ? LightColors.secondary : DarkColors.white,
         onError: const Color(0xFFFF00FF),
       );
+
+  static SliderThemeData _buildSliderThemeData({
+    required Color active,
+    required Color inactive,
+    required Color thumb,
+  }) =>
+      SliderThemeData(
+        activeTrackColor: active,
+        inactiveTrackColor: inactive,
+        activeTickMarkColor: Colors.transparent,
+        inactiveTickMarkColor: Colors.transparent,
+        thumbColor: thumb,
+        trackHeight: 2.0,
+        // Можно унаследоваться от RoundedRectRangeSliderTrackShape,
+        // переопределить метод paint и установить additionalActiveTrackHeight=0,
+        // но при trackHeight: 2.0 закругления все равно не отрисовываются
+        rangeTrackShape: const RectangularRangeSliderTrackShape(),
+      );
+
+  static ListTileThemeData _buildListTileThemeData({required Color color}) =>
+      ListTileThemeData(textColor: color);
 
   static DividerThemeData _buildDividerThemeData({required Color color}) =>
       DividerThemeData(

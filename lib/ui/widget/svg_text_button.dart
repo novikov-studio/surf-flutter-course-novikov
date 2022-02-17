@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/svg_icon.dart';
 
 class SvgTextButton extends StatelessWidget {
@@ -10,7 +9,7 @@ class SvgTextButton extends StatelessWidget {
 
   const SvgTextButton({
     Key? key,
-    required this.icon,
+    this.icon,
     required this.label,
     this.color,
     this.onPressed,
@@ -18,19 +17,23 @@ class SvgTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final style = color != null
+        ? TextButton.styleFrom(
+            primary: color,
+          )
+        : null;
 
     return icon != null
         ? TextButton.icon(
             onPressed: onPressed,
             icon: SvgIcon(icon!),
             label: Text(label),
-            style: color != null ? theme.btnMenuGreen : null,
+            style: style,
           )
         : TextButton(
             onPressed: onPressed,
             child: Text(label),
-            style: color != null ? theme.btnMenuGreen : null,
+            style: style,
           );
   }
 }

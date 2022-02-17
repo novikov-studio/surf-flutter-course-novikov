@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/service/utils.dart';
 import 'package:places/ui/screen/home_screen.dart';
 import 'package:places/ui/screen/res/themes.dart';
 
@@ -7,26 +8,18 @@ class App extends StatefulWidget {
 
   @override
   State<App> createState() => _AppState();
-
-  static _AppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_AppState>();
 }
 
 class _AppState extends State<App> {
-  bool _isLightTheme = true;
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Places',
-      theme: _isLightTheme ? Themes.light : Themes.dark,
-      home: const HomeScreen(),
+    return ValueListenableBuilder<bool>(
+      valueListenable: Utils.isLight,
+      builder: (_, value, __) => MaterialApp(
+        title: 'Places',
+        theme: value ? Themes.light : Themes.dark,
+        home: const HomeScreen(),
+      ),
     );
-  }
-
-  void toggleTheme() {
-    setState(() {
-      _isLightTheme = !_isLightTheme;
-    });
   }
 }
