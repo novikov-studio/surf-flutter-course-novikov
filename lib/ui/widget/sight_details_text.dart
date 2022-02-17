@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/common.dart';
+import 'package:places/ui/widget/svg_icon.dart';
+import 'package:places/ui/widget/svg_text_button.dart';
 
 class SightDetailsText extends StatelessWidget {
   final Sight sight;
@@ -49,7 +51,7 @@ class SightDetailsText extends StatelessWidget {
           spacerH24,
           const Divider(),
           spacerH8,
-          _BottomButtons(sight: sight),
+          _CardMenu(sight: sight),
         ],
       ),
     );
@@ -69,73 +71,36 @@ class _GoRouteButton extends StatelessWidget {
         ? Row(
             children: [
               Expanded(
-                child: TextButton.icon(
+                child: ElevatedButton.icon(
                   onPressed: null,
-                  icon: SvgPicture.asset(
-                    AppIcons.tick,
-                    color: theme.colorScheme.green,
-                  ),
-                  label: Text(
-                    AppStrings.doneRoute,
-                    style: TextStyle(color: theme.colorScheme.green),
-                  ),
-                  style: _buildGreenButtonStyle(context, enabled: false),
+                  icon: const SvgIcon(AppIcons.tick),
+                  label: const Text(AppStrings.doneRoute),
+                  style: theme.btnVisited,
                 ),
               ),
               spacerW16,
-              TextButton(
+              ElevatedButton(
                 onPressed: () {
-                  // TODO(novikov): Обработчик нажатия кнопки "Построить маршрут"
+                  Utils.logButtonPressed('details.goRoute.small');
                 },
-                child: SvgPicture.asset(
-                  AppIcons.goRoute,
-                  color: theme.colorScheme.white,
-                ),
-                style: _buildGreenButtonStyle(context, enabled: true),
+                child: const SvgIcon(AppIcons.goRoute),
               ),
             ],
           )
-        : TextButton.icon(
+        : ElevatedButton.icon(
             onPressed: () {
-              // TODO(novikov): Обработчик нажатия кнопки "Построить маршрут"
+              Utils.logButtonPressed('details.goRoute.big');
             },
-            icon: SvgPicture.asset(
-              AppIcons.goRoute,
-              color: theme.colorScheme.white,
-            ),
-            label: Text(
-              AppStrings.buildRoute,
-              style: theme.buttonWhite,
-            ),
-            style: _buildGreenButtonStyle(context, enabled: true),
+            icon: const SvgIcon(AppIcons.goRoute),
+            label: const Text(AppStrings.buildRoute),
           );
-  }
-
-  ButtonStyle _buildGreenButtonStyle(
-    BuildContext context, {
-    required bool enabled,
-  }) {
-    final theme = Theme.of(context);
-
-    return TextButton.styleFrom(
-      primary: enabled ? theme.colorScheme.white : theme.colorScheme.green,
-      backgroundColor: enabled ? theme.colorScheme.green : theme.cardColor,
-      padding: const EdgeInsets.all(15.0),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(12.0),
-        ),
-      ),
-      textStyle: enabled ? theme.buttonWhite : theme.buttonGreen,
-      minimumSize: Size.zero,
-    );
   }
 }
 
-class _BottomButtons extends StatelessWidget {
+class _CardMenu extends StatelessWidget {
   final Sight sight;
 
-  const _BottomButtons({Key? key, required this.sight}) : super(key: key);
+  const _CardMenu({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -146,37 +111,33 @@ class _BottomButtons extends StatelessWidget {
         /// Кнопка слева (один из трех вариантов)
         if (sight.isPlanned)
           Expanded(
-            child: _SvgFlatButton(
+            child: SvgTextButton(
               icon: AppIcons.calendarFill,
               label: sight.plannedDate!.toDateOnlyString(),
               color: theme.colorScheme.green,
               onPressed: () {
-                // TODO(novikov):  Обработчик нажатия кнопки пере-"Запланировать"
+                Utils.logButtonPressed('details.reschedule');
               },
             ),
           ),
         if (sight.isVisited)
           Expanded(
-            child: _SvgFlatButton(
+            child: SvgTextButton(
               icon: AppIcons.share,
               label: AppStrings.share,
-              color: theme.colorScheme.onSurface,
               onPressed: () {
-                // TODO(novikov):  Обработчик нажатия кнопки "Поделиться"
+                Utils.logButtonPressed('details.share');
               },
             ),
           ),
         if (!sight.isPlanned && !sight.isVisited)
           Expanded(
-            child: _SvgFlatButton(
+            child: SvgTextButton(
               icon: AppIcons.calendar,
               label: AppStrings.schedule,
-              color: sight.isLiked
-                  ? theme.colorScheme.onSurface
-                  : theme.colorScheme.inactiveBlack,
               onPressed: sight.isLiked
                   ? () {
-                      // TODO(novikov):  Обработчик нажатия кнопки "Запланировать"
+                      Utils.logButtonPressed('details.schedule');
                     }
                   : null,
             ),
@@ -184,45 +145,15 @@ class _BottomButtons extends StatelessWidget {
 
         /// Кнопка справа
         Expanded(
-          child: _SvgFlatButton(
+          child: SvgTextButton(
             icon: sight.isLiked ? AppIcons.heartFilled : AppIcons.heart,
             label: AppStrings.addFavorites,
-            color: theme.colorScheme.onSurface,
             onPressed: () {
-              // TODO(novikov):  Обработчик нажатия кнопки "В Избранное"
+              Utils.logButtonPressed('details.like');
             },
           ),
         ),
       ],
-    );
-  }
-}
-
-class _SvgFlatButton extends StatelessWidget {
-  final String icon;
-  final String label;
-  final Color color;
-  final VoidCallback? onPressed;
-
-  const _SvgFlatButton({
-    Key? key,
-    required this.icon,
-    required this.label,
-    required this.color,
-    this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton.icon(
-      onPressed: onPressed,
-      icon: SvgPicture.asset(icon, color: color),
-      label: Text(label),
-      style: TextButton.styleFrom(
-        primary: color,
-        textStyle: Theme.of(context).textTheme.small.copyWith(color: color),
-        padding: const EdgeInsets.symmetric(vertical: 11.0),
-      ),
     );
   }
 }

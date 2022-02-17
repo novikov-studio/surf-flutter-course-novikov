@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/service/utils.dart';
+import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
@@ -37,7 +39,9 @@ class SightCardText extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 2.0, bottom: 10.0),
                     child: Text(
-                      _formatEvent(),
+                      sight.isVisited
+                          ? AppStrings.visitedOn(sight.visitedDate!)
+                          : AppStrings.scheduledFor(sight.plannedDate!),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: sight.isPlanned
@@ -63,34 +67,16 @@ class SightCardText extends StatelessWidget {
               child: SizedBox(
                 width: 40.0,
                 height: 40.0,
-                child: TextButton(
-                  // TODO(novikov): Обработчик нажатия кнопки "Построить маршрут"
-                  onPressed: null,
-                  child: const Icon(Icons.navigation),
-                  style: TextButton.styleFrom(
-                    primary: theme.colorScheme.white,
-                    backgroundColor: theme.colorScheme.green,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12.0),
-                      ),
-                    ),
-                  ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Utils.logButtonPressed('card.goRoute');
+                  },
+                  child: const Text(AppIcons.goRoute),
                 ),
               ),
             ),
         ],
       ),
     );
-  }
-
-  String _formatEvent() {
-    assert(sight.plannedDate != null || sight.visitedDate != null);
-
-    return sight.isVisited
-        ? AppStrings.visitedOn
-            .replaceFirst('%s', sight.visitedDate!.toDateOnlyString())
-        : AppStrings.scheduledFor
-            .replaceFirst('%s', sight.plannedDate!.toDateOnlyString());
   }
 }

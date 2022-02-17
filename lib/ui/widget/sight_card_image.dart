@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/darken_image.dart';
+import 'package:places/ui/widget/svg_icon.dart';
 
 class SightCardImage extends StatelessWidget {
   final Sight sight;
@@ -32,35 +33,41 @@ class SightCardImage extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 16.0,
+          top: 8.0,
           right: 16.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               /// Кнопка "Запланировать"
               if (sight.isLiked && sight.isPlanned)
-                const _SvgButton(
-                  // TODO(novikov): Обработчик нажатия иконки "Запланировать"
+                _SvgButton(
                   path: AppIcons.calendar,
+                  onPressed: () {
+                    Utils.logButtonPressed('card.plan');
+                  },
                 ),
 
               /// Кнопка "Поделиться"
               if (sight.isVisited)
-                const _SvgButton(
-                  // TODO(novikov): Обработчик нажатия иконки "Поделиться"
+                _SvgButton(
                   path: AppIcons.share,
+                  onPressed: () {
+                    Utils.logButtonPressed('card.share');
+                  },
                 ),
 
-              spacerW16,
+              spacerW8,
 
               /// Кнопка "Избранное" - добавить/удалить
               _SvgButton(
-                // TODO(novikov): Обработчик нажатия иконки "Избранное"
                 path: sight.isLiked
                     ? (mode == CardMode.favorites
                         ? AppIcons.close
                         : AppIcons.heartFilled)
                     : AppIcons.heart,
+                onPressed: () {
+                  Utils.logButtonPressed('card.like');
+                },
               ),
             ],
           ),
@@ -72,16 +79,18 @@ class SightCardImage extends StatelessWidget {
 
 class _SvgButton extends StatelessWidget {
   final String path;
-  final VoidCallback? onTap;
+  final VoidCallback? onPressed;
 
-  const _SvgButton({Key? key, required this.path, this.onTap})
+  const _SvgButton({Key? key, required this.path, this.onPressed})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      path,
-      color: Theme.of(context).colorScheme.white,
+    return IconButton(
+      onPressed: onPressed,
+      icon: SvgIcon(path),
+      splashRadius: 20.0,
+      constraints: const BoxConstraints(minWidth: 24.0, minHeight: 24.0),
     );
   }
 }

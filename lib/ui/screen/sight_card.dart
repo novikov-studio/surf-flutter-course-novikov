@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/widget/sight_card_image.dart';
 import 'package:places/ui/widget/sight_card_text.dart';
@@ -21,11 +22,8 @@ class SightCard extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<SightDetails>(
-              builder: (context) => SightDetails(sight: sight),
-            ),
+          context.pushScreen<SightDetails>(
+            (context) => SightDetails(sight: sight),
           );
         },
         child: Column(

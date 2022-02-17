@@ -6,6 +6,7 @@ import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/sight_list.dart';
 
+/// Экран "Избранное".
 class VisitingScreen extends StatelessWidget {
   const VisitingScreen({Key? key}) : super(key: key);
 
@@ -62,15 +63,21 @@ class _Tabs extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(40.0)),
+      child: Material(
+        type: MaterialType.transparency,
+        borderRadius: const BorderRadius.all(Radius.circular(40.0)),
+        clipBehavior: Clip.antiAlias,
+        // TODO(novikov): Добавить splash c закруглением при нажатии
+        // Судя по исходникам TabBar, каждый таб оборачивается в InkWell,
+        // поэтому штатными средствами можно только убрать splash.
+        // Ждем-с: https://github.com/flutter/flutter/issues/50341
+        child: Container(
+          height: 40.0,
           color: Theme.of(context).cardColor,
-        ),
-        // TODO(novikov): Убрать splash при нажатии
-        child: TabBar(
-          tabs: items.map((title) => Text(title)).toList(growable: false),
-          padding: EdgeInsets.zero,
+          child: TabBar(
+            tabs: items.map((title) => Text(title)).toList(growable: false),
+            padding: EdgeInsets.zero,
+          ),
         ),
       ),
     );
