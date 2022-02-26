@@ -23,6 +23,10 @@ extension ThemeExtension on ThemeData {
         color: colorScheme.onBackground,
       );
 
+  TextStyle get textInactiveBlack => textTheme.text.copyWith(
+    color: colorScheme.inactiveBlack,
+  );
+
   TextStyle get text400Secondary2 => textTheme.text.copyWith(
         color: colorScheme.secondary2,
         fontWeight: FontWeight.w400,
@@ -61,8 +65,8 @@ extension ThemeExtension on ThemeData {
       );
 
   TextStyle get superSmallInactiveBlack => textTheme.superSmall.copyWith(
-    color: colorScheme.inactiveBlack,
-  );
+        color: colorScheme.inactiveBlack,
+      );
 
   // ----- Экран "Детализация" -----
 
@@ -96,6 +100,13 @@ extension ThemeExtension on ThemeData {
             Radius.circular(10.0),
           ),
         ),
+      );
+
+  //
+  Gradient get fabGradient => LinearGradient(
+        colors: [colorScheme.yellow, colorScheme.green],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
       );
 }
 

@@ -30,6 +30,7 @@ abstract class Themes {
           inactive: LightColors.inactiveBlack,
           thumb: LightColors.white,
         ),
+        inputDecorationTheme: _buildInputDecorationTheme(isLight: true),
         listTileTheme: _buildListTileThemeData(color: LightColors.main),
         dividerColor: LightColors.divider,
         dividerTheme: _buildDividerThemeData(color: LightColors.divider),
@@ -221,6 +222,49 @@ abstract class Themes {
         // переопределить метод paint и установить additionalActiveTrackHeight=0,
         // но при trackHeight: 2.0 закругления все равно не отрисовываются
         rangeTrackShape: const RectangularRangeSliderTrackShape(),
+      );
+
+  static InputDecorationTheme _buildInputDecorationTheme({
+    required bool isLight,
+  }) {
+    final inactiveBlack =
+        isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+    final green = isLight ? LightColors.green : DarkColors.green;
+    final error = isLight ? LightColors.error : DarkColors.error;
+    final onSurface = isLight ? LightColors.secondary2 : DarkColors.white;
+
+    return InputDecorationTheme(
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+      hintStyle: text.copyWith(color: inactiveBlack),
+      border: _buildOutlineInputBorder(
+        color: inactiveBlack.withOpacity(0.4),
+      ),
+      focusedBorder: _buildOutlineInputBorder(
+        color: green.withOpacity(0.4),
+        width: 2.0,
+      ),
+      errorBorder: _buildOutlineInputBorder(
+        color: error.withOpacity(0.4),
+      ),
+      focusedErrorBorder: _buildOutlineInputBorder(
+        color: error.withOpacity(0.4),
+        width: 2.0,
+      ),
+      suffixIconColor: onSurface,
+    );
+  }
+
+  static OutlineInputBorder _buildOutlineInputBorder({
+    required Color color,
+    double width = 1.0,
+  }) =>
+      OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(
+          color: color,
+          width: width,
+        ),
       );
 
   static ListTileThemeData _buildListTileThemeData({required Color color}) =>

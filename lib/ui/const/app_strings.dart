@@ -4,11 +4,17 @@ abstract class AppStrings {
   static const listTitle = 'Список\nинтересных мест';
   static const favoritesTitle = 'Избранное';
   static const settingsTitle = 'Настройки';
+  static const newSight = 'Новое место';
 
   // Названия полей
   static const categories = 'КАТЕГОРИИ';
   static const darkTheme = 'Темная тема';
   static const watchTutorial = 'Смотреть туториал';
+  static const category = 'КАТЕГОРИЯ';
+  static const name = 'НАЗВАНИЕ';
+  static const longitude = 'ДОЛГОТА';
+  static const latitude = 'ШИРОТА';
+  static const description = 'ОПИСАНИЕ';
 
   // Надписи на кнопках
   static const buildRoute = 'ПОСТРОИТЬ МАРШРУТ';
@@ -17,6 +23,9 @@ abstract class AppStrings {
   static const share = 'Поделиться';
   static const addFavorites = 'В Избранное';
   static const clear = 'Очистить';
+  static const cancel = 'Отмена';
+  static const create = 'СОЗДАТЬ';
+  static const pointOnMap = 'Указать на карте';
 
   // Категории
   static const hotel = 'Отель';
@@ -28,6 +37,11 @@ abstract class AppStrings {
 
   // Сообщения
   static const imageLoadingError = 'Ошибка загрузки изображения';
+  static const requiredField = 'Заполните поле';
+  static const numberRequired = 'Введите число';
+  static const enterString = 'Введите строку';
+  static const enterText = 'Введите текст';
+  static const enterNumber = 'Введите число';
 
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';
@@ -61,7 +75,8 @@ abstract class AppStrings {
 
   static String visitedOn(DateTime date) => _visitedOn(date.toDateOnlyString());
 
-  static String distanceRange(double start, double end) => _distanceRange(
+  static String distanceRange(double start, double end) =>
+      _distanceRange(
         start._toSmartUnits(
           omitUnits: start >= 1 && end >= 1 || start < 1 && end < 1,
         ),
@@ -70,12 +85,18 @@ abstract class AppStrings {
 
   static String showFilterResults(int count) => 'ПОКАЗАТЬ ($count)';
 
+  static String allowedRange(double start, double end) =>
+      _allowedRange(start.toStringNormalized(), end.toStringNormalized());
+
   // Внутренние
   static String _scheduledFor(String date) => 'Запланировано на $date';
 
   static String _visitedOn(String date) => 'Цель достигнута $date';
 
   static String _distanceRange(String start, String end) => 'от $start до $end';
+
+  static String _allowedRange(String start, String end) =>
+      'Допустимо: $start .. $end';
 }
 
 extension DateTimeExt on DateTime {
