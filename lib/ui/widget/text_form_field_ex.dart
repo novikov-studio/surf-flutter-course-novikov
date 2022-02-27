@@ -65,6 +65,8 @@ class TextFormFieldExState extends State<TextFormFieldEx> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final textStyle = theme.text400OnBackground;
+    final labelStyle = theme.textTheme.text400;
 
     return AnimatedBuilder(
       animation: Listenable.merge(<Listenable>[widget.focusNode, _controller]),
@@ -79,15 +81,17 @@ class TextFormFieldExState extends State<TextFormFieldEx> {
               ? TextInputAction.next
               : TextInputAction.done,
           keyboardType: widget.keyboardType,
-          style: theme.textOnBackground,
+          style: textStyle,
           minLines: widget.minLines,
           maxLines: widget.minLines != null ? null : 1,
           decoration: InputDecoration(
             suffixIcon: !isEmpty && hasFocus ? _clearButton : null,
             enabledBorder:
                 !isEmpty && !hasFocus ? _filledUnselectedBorder : null,
-            helperText: '', // чтобы поле не скакало при появлении ошибки
+            helperText: '',
+            // чтобы поле не скакало при появлении ошибки
             hintText: widget.hintText,
+            helperStyle: labelStyle,
           ),
           validator: widget.validator,
           onSaved: widget.onSaved,

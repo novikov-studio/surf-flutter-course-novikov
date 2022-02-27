@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
-import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/svg_icon.dart';
@@ -12,15 +12,6 @@ typedef CategoryPressedCallback = void Function(
 
 /// Виджет для отображения таблицы категорий.
 class CategoriesGrid extends StatelessWidget {
-  static const categories = [
-    _Category(AppStrings.hotel, AppIcons.hotel),
-    _Category(AppStrings.restaurant, AppIcons.restaurant),
-    _Category(AppStrings.particularPlace, AppIcons.particularPlace),
-    _Category(AppStrings.park, AppIcons.park),
-    _Category(AppStrings.museum, AppIcons.museum),
-    _Category(AppStrings.cafe, AppIcons.cafe),
-  ];
-
   final Set<String> checked;
   final CategoryPressedCallback onCategoryPressed;
 
@@ -35,12 +26,14 @@ class CategoriesGrid extends StatelessWidget {
     return GridView.count(
       crossAxisCount: 3,
       shrinkWrap: true,
-      children: categories
-          .map((category) => _CategoryCell(
-                category: category,
-                isChecked: checked.contains(category.title),
-                onPressed: onCategoryPressed,
-              ))
+      children: Categories.items.entries
+          .map(
+            (e) => _CategoryCell(
+              category: _Category(e.key, e.value),
+              isChecked: checked.contains(e.key),
+              onPressed: onCategoryPressed,
+            ),
+          )
           .toList(growable: false),
     );
   }

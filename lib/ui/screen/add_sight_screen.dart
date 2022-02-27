@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/service/location.dart';
 import 'package:places/service/utils.dart';
+import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/categories.dart';
+import 'package:places/ui/screen/list_picker.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/buttons/link_button.dart';
 import 'package:places/ui/widget/common.dart';
+import 'package:places/ui/widget/svg_icon.dart';
 import 'package:places/ui/widget/text_form_field_ex.dart';
 
 typedef OnSightAdd = void Function(Sight sight);
@@ -22,6 +26,7 @@ class AddSightScreen extends StatefulWidget {
 
 class _AddSightScreenState extends State<AddSightScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _typeKey = GlobalKey<FormFieldState<String>>();
   final _focusNodes = List.generate(4, (index) => FocusNode());
   final _data = NewSight();
   final _isValid = ValueNotifier(false);
@@ -32,7 +37,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(AppStrings.newSight),
+        title: const Text(AppStrings.newSightTitle),
         leadingWidth: 60.0,
         leading: LinkButton(
           label: AppStrings.cancel,
@@ -53,6 +58,28 @@ class _AddSightScreenState extends State<AddSightScreen> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(children: [
+                    spacerH12,
+                    _LabeledField(
+                      label: AppStrings.category,
+                      usePadding: false,
+                      child: FormField<String>(
+                        key: _typeKey,
+                        builder: (field) => ListTile(
+                          title: Text(
+                            field.value ?? AppStrings.notChosen,
+                            style: field.isValid
+                                ? theme.textTheme.text400
+                                : theme.text400Secondary2,
+                          ),
+                          trailing: const SvgIcon(AppIcons.view),
+                          contentPadding: EdgeInsets.zero,
+                          onTap: _showCategoryPicker,
+                        ),
+                        initialValue: _data.type,
+                        validator: _Validators.checkNotEmpty,
+                        onSaved: (value) => _data.type = value,
+                      ),
+                    ),
                     spacerH12,
                     _LabeledField(
                       label: AppStrings.name,
@@ -154,24 +181,43 @@ class _AddSightScreenState extends State<AddSightScreen> {
     super.dispose();
   }
 
+  /// Обработчик нажатия на кнопку "Создать".
   void _onCreateButtonPressed() {
     _onFormChanged();
     if (_isValid.value) {
       _formKey.currentState?.save();
 
-      // TODO(novikov): Добавить выбор категории и изображений
-      _data
-        ..type = ''
-        ..url = '';
+      // TODO(novikov): Добавить выбор изображений
+      _data.url = '';
 
       widget.onSightAdd(_data.toSight());
     }
   }
 
+  /// Вызов диалога выбора категории.
+  void _showCategoryPicker() {
+    context.pushScreen<ListPicker<String>>(
+      (context) => ListPicker<String>(
+        title: AppStrings.categoryTitle,
+        items: Categories.names,
+        initialValue: _typeKey.currentState?.value,
+        onChoiceDone: _onCategoryChanged,
+      ),
+    );
+  }
+
+  /// Callback на изменение категории.
+  void _onCategoryChanged(String value) {
+    _typeKey.currentState?.didChange(value);
+    Navigator.pop(context);
+  }
+
+  /// Обработчик нажатия на ссылку "Указать на карте".
   void _onPointOnMap() {
     Utils.logButtonPressed('addSight.pointOnMap');
   }
 
+  /// Callback на изменение данных формы.
   void _onFormChanged() {
     _isValid.value = _formKey.currentState?.validate() ?? false;
   }
@@ -181,11 +227,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
 class _LabeledField extends StatelessWidget {
   final String label;
   final Widget child;
+  final bool usePadding;
 
   const _LabeledField({
     Key? key,
     required this.label,
     required this.child,
+    this.usePadding = true,
   }) : super(key: key);
 
   @override
@@ -195,9 +243,9 @@ class _LabeledField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context).textInactiveBlack,
+          style: Theme.of(context).superSmallInactiveBlack,
         ),
-        spacerH12,
+        if (usePadding) spacerH12,
         child,
       ],
     );

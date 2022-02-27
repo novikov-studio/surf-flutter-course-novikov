@@ -19,12 +19,13 @@ extension ThemeExtension on ThemeData {
         color: colorScheme.onSurface,
       );
 
-  TextStyle get textOnBackground => textTheme.text.copyWith(
-        color: colorScheme.onBackground,
+  TextStyle get textInactiveBlack => textTheme.text.copyWith(
+        color: colorScheme.inactiveBlack,
       );
 
-  TextStyle get textInactiveBlack => textTheme.text.copyWith(
-    color: colorScheme.inactiveBlack,
+  TextStyle get text400OnBackground => textTheme.text.copyWith(
+    color: colorScheme.onBackground,
+    fontWeight: FontWeight.w400,
   );
 
   TextStyle get text400Secondary2 => textTheme.text.copyWith(
@@ -141,6 +142,8 @@ extension TextThemeExt on TextTheme {
   TextStyle get small => bodyText2!;
 
   TextStyle get superSmall => overline!;
+
+  TextStyle get text400 => text.copyWith(fontWeight: FontWeight.w400);
 }
 
 // TODO(novikov): Убрать, когда дойдем до навигации

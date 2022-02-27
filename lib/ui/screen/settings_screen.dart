@@ -6,6 +6,8 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/svg_icon.dart';
 
+
+/// Экран "Настройки".
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
@@ -19,7 +21,7 @@ class SettingsScreen extends StatelessWidget {
         title: const Text(AppStrings.settingsTitle),
       ),
       body: DefaultTextStyle(
-        style: theme.textTheme.text,
+        style: theme.textTheme.text400,
         child: Column(
           children: [
             ListTile(

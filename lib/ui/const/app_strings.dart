@@ -4,7 +4,8 @@ abstract class AppStrings {
   static const listTitle = 'Список\nинтересных мест';
   static const favoritesTitle = 'Избранное';
   static const settingsTitle = 'Настройки';
-  static const newSight = 'Новое место';
+  static const newSightTitle = 'Новое место';
+  static const categoryTitle = 'Категория';
 
   // Названия полей
   static const categories = 'КАТЕГОРИИ';
@@ -26,6 +27,7 @@ abstract class AppStrings {
   static const cancel = 'Отмена';
   static const create = 'СОЗДАТЬ';
   static const pointOnMap = 'Указать на карте';
+  static const save = 'СОХРАНИТЬ';
 
   // Категории
   static const hotel = 'Отель';
@@ -42,6 +44,7 @@ abstract class AppStrings {
   static const enterString = 'Введите строку';
   static const enterText = 'Введите текст';
   static const enterNumber = 'Введите число';
+  static const notChosen = 'Не выбрано';
 
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';

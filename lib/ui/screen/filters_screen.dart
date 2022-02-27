@@ -5,6 +5,7 @@ import 'package:places/service/location.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/categories_grid.dart';
 import 'package:places/ui/widget/common.dart';
@@ -147,7 +148,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   /// Сброс фильтра.
   void _doClear() {
     // Включаем все категории
-    categories.addAll(CategoriesGrid.categories.map((e) => e.title));
+    categories.addAll(Categories.names);
     // Устанавливаем максимальный диапазон расстояния
     distance =
         const RangeValues(_SliderBar.minDistance, _SliderBar.maxDistance);
@@ -182,7 +183,7 @@ class _SliderBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(AppStrings.distance, style: theme.textOnBackground),
+                Text(AppStrings.distance, style: theme.text400OnBackground),
                 Text(
                   AppStrings.distanceRange(range.start, range.end),
                   style: theme.text400Secondary2,

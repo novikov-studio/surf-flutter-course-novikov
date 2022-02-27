@@ -5,6 +5,7 @@ import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/svg_icon.dart';
 
+/// Виджет "Плавающая кнопка" с градиентным фоном.
 class GradientFab extends StatelessWidget {
   final double elevation;
   final VoidCallback? onPressed;
@@ -44,7 +45,7 @@ class GradientFab extends StatelessWidget {
             const SvgIcon(AppIcons.plus),
             spacerW8,
             Text(
-              AppStrings.newSight.toUpperCase(),
+              AppStrings.newSightTitle,
               style: theme.buttonWhite,
             ),
           ],
