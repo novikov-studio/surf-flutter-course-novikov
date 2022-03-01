@@ -4,6 +4,7 @@ import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/widget/simple_app_bar.dart';
 import 'package:places/ui/widget/svg_icon.dart';
 
 
@@ -17,8 +18,8 @@ class SettingsScreen extends StatelessWidget {
     final isLight = theme.colorScheme.isLight;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.settingsTitle),
+      appBar: SimpleAppBar(
+        title: AppStrings.settingsTitle,
       ),
       body: DefaultTextStyle(
         style: theme.textTheme.text400,

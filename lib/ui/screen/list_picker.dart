@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/widget/simple_app_bar.dart';
 import 'package:places/ui/widget/svg_icon.dart';
 
 /// Полноэкранный диалог для выбора одного значения из списка.
@@ -56,7 +57,7 @@ class _ListPickerState<T> extends State<ListPicker<T>> {
     final dividerColor = theme.dividerColor.withOpacity(0.24);
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: SimpleAppBar(title: widget.title),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
         child: Column(

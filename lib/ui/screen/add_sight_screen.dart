@@ -7,8 +7,9 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/list_picker.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/buttons/link_button.dart';
+import 'package:places/ui/widget/buttons/svg_text_button.dart';
 import 'package:places/ui/widget/common.dart';
+import 'package:places/ui/widget/simple_app_bar.dart';
 import 'package:places/ui/widget/svg_icon.dart';
 import 'package:places/ui/widget/text_form_field_ex.dart';
 
@@ -36,14 +37,10 @@ class _AddSightScreenState extends State<AddSightScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.newSightTitle),
-        leadingWidth: 60.0,
-        leading: LinkButton(
-          label: AppStrings.cancel,
-          color: theme.colorScheme.secondary2,
-          onPressed: () => Navigator.pop(context),
-        ),
+      appBar: SimpleAppBar(
+        title: AppStrings.newSightTitle,
+        leadingText: AppStrings.cancel,
+        leadingOnTap: () => Navigator.pop(context),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -136,7 +133,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: LinkButton(
+                      child: SvgTextButton.link(
                         label: AppStrings.pointOnMap,
                         color: theme.colorScheme.green,
                         onPressed: _onPointOnMap,

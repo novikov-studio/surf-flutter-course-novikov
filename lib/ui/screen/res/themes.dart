@@ -9,9 +9,10 @@ abstract class Themes {
         textTheme: _buildTextTheme(),
       ).copyWith(
         appBarTheme: _buildAppBarTheme(
-          isLight: true,
           background: LightColors.background,
-          foreground: LightColors.main,
+          title: LightColors.main,
+          leading: LightColors.secondary2,
+          trailing: LightColors.green,
         ),
         tabBarTheme: _buildTabBarTheme(
           tabBackground: LightColors.secondary,
@@ -45,9 +46,10 @@ abstract class Themes {
         textTheme: _buildTextTheme(),
       ).copyWith(
         appBarTheme: _buildAppBarTheme(
-          isLight: false,
           background: DarkColors.background,
-          foreground: DarkColors.white,
+          title: DarkColors.white,
+          leading: DarkColors.secondary2,
+          trailing: DarkColors.green,
         ),
         tabBarTheme: _buildTabBarTheme(
           tabBackground: DarkColors.white,
@@ -76,18 +78,22 @@ abstract class Themes {
       );
 
   static AppBarTheme _buildAppBarTheme({
-    required bool isLight,
     required Color background,
-    required Color foreground,
+    required Color title,
+    required Color leading,
+    required Color trailing,
   }) =>
       AppBarTheme(
         backgroundColor: background,
-        foregroundColor: foreground,
-        titleTextStyle: subtitle.copyWith(color: foreground),
+        foregroundColor: title,
+        titleTextStyle: subtitle.copyWith(color: title),
         elevation: 0.0,
         centerTitle: true,
         iconTheme: IconThemeData(
-          color: foreground,
+          color: leading,
+        ),
+        actionsIconTheme: IconThemeData(
+          color: trailing,
         ),
       );
 

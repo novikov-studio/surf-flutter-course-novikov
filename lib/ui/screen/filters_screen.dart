@@ -9,7 +9,7 @@ import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/categories_grid.dart';
 import 'package:places/ui/widget/common.dart';
-import 'package:places/ui/widget/svg_icon.dart';
+import 'package:places/ui/widget/simple_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Экран "Фильтр".
@@ -46,10 +46,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: _FiltersAppBar(
-        theme,
-        onBackPressed: context.popScreen,
-        onClearPressed: _onClear,
+      appBar: SimpleAppBar(
+        leadingIcon: AppIcons.arrow,
+        leadingOnTap: () => Navigator.pop(context),
+        trailingText: AppStrings.clear,
+        trailingOnTap: _onClear,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -202,33 +203,4 @@ class _SliderBar extends StatelessWidget {
       ),
     );
   }
-}
-
-/// AppBar с кнопками "Назад" и "Стереть".
-class _FiltersAppBar extends AppBar {
-  _FiltersAppBar(
-    ThemeData theme, {
-    VoidCallback? onBackPressed,
-    VoidCallback? onClearPressed,
-  }) : super(
-          leading: IconButton(
-            icon: const SvgIcon(AppIcons.arrow),
-            splashRadius: 20.0,
-            onPressed: onBackPressed,
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextButton(
-                onPressed: onClearPressed,
-                child: const Text(AppStrings.clear),
-                style: TextButton.styleFrom(
-                  primary: theme.colorScheme.green,
-                  textStyle: theme.textTheme.text,
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                ),
-              ),
-            ),
-          ],
-        );
 }

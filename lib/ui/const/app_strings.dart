@@ -28,6 +28,7 @@ abstract class AppStrings {
   static const create = 'СОЗДАТЬ';
   static const pointOnMap = 'Указать на карте';
   static const save = 'СОХРАНИТЬ';
+  static const newSight = 'НОВОЕ МЕСТО';
 
   // Категории
   static const hotel = 'Отель';

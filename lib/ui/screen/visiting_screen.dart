@@ -5,6 +5,7 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/sight_list.dart';
+import 'package:places/ui/widget/simple_app_bar.dart';
 
 /// Экран "Избранное".
 class VisitingScreen extends StatelessWidget {
@@ -15,8 +16,8 @@ class VisitingScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text(AppStrings.favoritesTitle),
+        appBar: SimpleAppBar(
+          title: AppStrings.favoritesTitle,
           bottom: const _Tabs(
             items: [
               AppStrings.myWishList,

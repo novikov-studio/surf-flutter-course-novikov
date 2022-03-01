@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/svg_icon.dart';
 
 class SvgTextButton extends StatelessWidget {
@@ -8,6 +9,7 @@ class SvgTextButton extends StatelessWidget {
   final EdgeInsets? padding;
   final FocusNode? focusNode;
   final VoidCallback? onPressed;
+  final _Mode _mode;
 
   const SvgTextButton({
     Key? key,
@@ -17,14 +19,30 @@ class SvgTextButton extends StatelessWidget {
     this.padding,
     this.focusNode,
     this.onPressed,
-  }) : super(key: key);
+  })  : _mode = _Mode.button,
+        super(key: key);
+
+  const SvgTextButton.link({
+    Key? key,
+    required this.label,
+    this.color,
+    this.padding,
+    this.onPressed,
+  })  : icon = null,
+        focusNode = null,
+        _mode = _Mode.text,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final style = color != null || padding != null
+    final textStyle =
+        _mode == _Mode.text ? Theme.of(context).textTheme.text : null;
+
+    final style = color != null || padding != null || textStyle != null
         ? TextButton.styleFrom(
             primary: color,
             padding: padding,
+            textStyle: textStyle,
           )
         : null;
 
@@ -44,3 +62,5 @@ class SvgTextButton extends StatelessWidget {
           );
   }
 }
+
+enum _Mode { button, text }

@@ -33,7 +33,10 @@ class _SightListScreenState extends State<SightListScreen> {
         mode: CardMode.list,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: GradientFab(onPressed: _onFabPressed),
+      floatingActionButton: GradientFab(
+        label: AppStrings.newSight,
+        onPressed: _onFabPressed,
+      ),
     );
   }
 
