@@ -32,6 +32,8 @@ abstract class Themes {
           thumb: LightColors.white,
         ),
         inputDecorationTheme: _buildInputDecorationTheme(isLight: true),
+        textSelectionTheme:
+            _buildTextSelectionThemeData(color: LightColors.green),
         listTileTheme: _buildListTileThemeData(color: LightColors.main),
         dividerColor: LightColors.divider,
         dividerTheme: _buildDividerThemeData(color: LightColors.divider),
@@ -68,6 +70,9 @@ abstract class Themes {
           inactive: DarkColors.inactiveBlack,
           thumb: DarkColors.white,
         ),
+        inputDecorationTheme: _buildInputDecorationTheme(isLight: false),
+        textSelectionTheme:
+            _buildTextSelectionThemeData(color: DarkColors.green),
         listTileTheme: _buildListTileThemeData(color: DarkColors.white),
         dividerColor: DarkColors.divider,
         dividerTheme: _buildDividerThemeData(color: DarkColors.divider),
@@ -260,6 +265,15 @@ abstract class Themes {
       suffixIconColor: onSurface,
     );
   }
+
+  static TextSelectionThemeData _buildTextSelectionThemeData({
+    required Color color,
+  }) =>
+      TextSelectionThemeData(
+        cursorColor: color,
+        selectionColor: color.withOpacity(0.5),
+        selectionHandleColor: color,
+      );
 
   static OutlineInputBorder _buildOutlineInputBorder({
     required Color color,
