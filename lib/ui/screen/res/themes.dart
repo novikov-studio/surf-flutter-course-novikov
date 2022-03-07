@@ -4,7 +4,9 @@ import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
 
 abstract class Themes {
-  static ThemeData get light => ThemeData.from(
+  /// Светлая тема.
+  static ThemeData get light =>
+      ThemeData.from(
         colorScheme: _buildColorScheme(isLight: true),
         textTheme: _buildTextTheme(),
       ).copyWith(
@@ -33,17 +35,19 @@ abstract class Themes {
         ),
         inputDecorationTheme: _buildInputDecorationTheme(isLight: true),
         textSelectionTheme:
-            _buildTextSelectionThemeData(color: LightColors.green),
+        _buildTextSelectionThemeData(color: LightColors.green),
         listTileTheme: _buildListTileThemeData(color: LightColors.main),
-        dividerColor: LightColors.divider,
-        dividerTheme: _buildDividerThemeData(color: LightColors.divider),
+        dividerColor: LightColors.inactiveBlack.withOpacity(0.24),
+        dividerTheme: _buildDividerThemeData(color: LightColors.inactiveBlack.withOpacity(0.24)),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
           background: LightColors.background,
           foreground: DarkColors.secondary,
         ),
       );
 
-  static ThemeData get dark => ThemeData.from(
+  /// Темная тема.
+  static ThemeData get dark =>
+      ThemeData.from(
         colorScheme: _buildColorScheme(isLight: false),
         textTheme: _buildTextTheme(),
       ).copyWith(
@@ -72,16 +76,44 @@ abstract class Themes {
         ),
         inputDecorationTheme: _buildInputDecorationTheme(isLight: false),
         textSelectionTheme:
-            _buildTextSelectionThemeData(color: DarkColors.green),
+        _buildTextSelectionThemeData(color: DarkColors.green),
         listTileTheme: _buildListTileThemeData(color: DarkColors.white),
-        dividerColor: DarkColors.divider,
-        dividerTheme: _buildDividerThemeData(color: DarkColors.divider),
+        dividerColor: DarkColors.inactiveBlack.withOpacity(0.24),
+        dividerTheme: _buildDividerThemeData(color: DarkColors.inactiveBlack.withOpacity(0.24)),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
           background: DarkColors.background,
           foreground: DarkColors.white,
         ),
       );
 
+  /// Тема для строки поиска SearchBar.
+  static ThemeData searchBarTheme({required bool isLight}) {
+    final inactiveBlack =
+    isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+    final surface =
+    isLight ? LightColors.cardBackground : DarkColors.cardBackground;
+
+    final onSurface = isLight ? LightColors.secondary2 : DarkColors.white;
+
+    return ThemeData(
+      inputDecorationTheme: InputDecorationTheme(
+        fillColor: surface,
+        filled: true,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+        hintStyle: text.copyWith(color: inactiveBlack),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+          borderSide: BorderSide.none,
+        ),
+        prefixIconColor: inactiveBlack,
+        suffixIconColor: onSurface,
+      ),
+      textSelectionTheme: _buildTextSelectionThemeData(color: onSurface),
+    );
+  }
+
+  /// AppBar.
   static AppBarTheme _buildAppBarTheme({
     required Color background,
     required Color title,
@@ -102,6 +134,7 @@ abstract class Themes {
         ),
       );
 
+  /// TabBar.
   static TabBarTheme _buildTabBarTheme({
     required Color tabBackground,
     required Color labelColor,
@@ -113,14 +146,16 @@ abstract class Themes {
           color: tabBackground,
         ),
         labelPadding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 11.0),
+        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 11.0),
         labelColor: labelColor,
         unselectedLabelColor: unselectedLabelColor,
         labelStyle: smallBold,
         unselectedLabelStyle: smallBold,
       );
 
-  static CardTheme _buildCardTheme() => const CardTheme(
+  /// Card.
+  static CardTheme _buildCardTheme() =>
+      const CardTheme(
         elevation: 0.0,
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
@@ -131,20 +166,23 @@ abstract class Themes {
         ),
       );
 
-  static IconThemeData _buildIconTheme({required Color color}) => IconThemeData(
+  /// Icon.
+  static IconThemeData _buildIconTheme({required Color color}) =>
+      IconThemeData(
         color: color,
         size: 24.0,
       );
 
+  /// ElevatedButton.
   static ElevatedButtonThemeData _buildElevatedButtonThemeData({
     required bool isLight,
   }) {
     final background = isLight ? LightColors.green : DarkColors.green;
     final foreground = isLight ? LightColors.white : DarkColors.white;
     final disabledBackground =
-        isLight ? LightColors.cardBackground : DarkColors.cardBackground;
+    isLight ? LightColors.cardBackground : DarkColors.cardBackground;
     final disabledForeground =
-        isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+    isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
 
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -161,12 +199,14 @@ abstract class Themes {
         elevation: 0.0,
       ).copyWith(
         backgroundColor: MaterialStateProperty.resolveWith(
-          (states) => states.contains(MaterialState.disabled)
+              (states) =>
+          states.contains(MaterialState.disabled)
               ? disabledBackground
               : background,
         ),
         foregroundColor: MaterialStateProperty.resolveWith(
-          (states) => states.contains(MaterialState.disabled)
+              (states) =>
+          states.contains(MaterialState.disabled)
               ? disabledForeground
               : foreground,
         ),
@@ -174,6 +214,7 @@ abstract class Themes {
     );
   }
 
+  /// TextButton.
   static TextButtonThemeData _buildTextButtonThemeData({
     required Color active,
     required Color inactive,
@@ -186,7 +227,9 @@ abstract class Themes {
         ),
       );
 
-  static TextTheme _buildTextTheme() => const TextTheme(
+  /// Text.
+  static TextTheme _buildTextTheme() =>
+      const TextTheme(
         headline5: largeTitle,
         headline6: title,
         subtitle1: subtitle,
@@ -197,6 +240,7 @@ abstract class Themes {
         overline: superSmall,
       ).apply(fontFamily: 'Roboto');
 
+  /// ColorScheme
   static ColorScheme _buildColorScheme({
     required bool isLight,
   }) =>
@@ -205,10 +249,10 @@ abstract class Themes {
         primary: isLight ? LightColors.main : DarkColors.main,
         secondary: isLight ? LightColors.secondary : DarkColors.secondary,
         secondaryContainer:
-            isLight ? LightColors.secondary2 : DarkColors.secondary2,
+        isLight ? LightColors.secondary2 : DarkColors.secondary2,
         background: isLight ? LightColors.background : DarkColors.background,
         surface:
-            isLight ? LightColors.cardBackground : DarkColors.cardBackground,
+        isLight ? LightColors.cardBackground : DarkColors.cardBackground,
         error: isLight ? LightColors.error : DarkColors.error,
         onPrimary: const Color(0xFFFF00FF),
         onSecondary: const Color(0xFFFF00FF),
@@ -217,6 +261,7 @@ abstract class Themes {
         onError: const Color(0xFFFF00FF),
       );
 
+  /// Slider.
   static SliderThemeData _buildSliderThemeData({
     required Color active,
     required Color inactive,
@@ -235,18 +280,19 @@ abstract class Themes {
         rangeTrackShape: const RectangularRangeSliderTrackShape(),
       );
 
+  /// InputDecoration.
   static InputDecorationTheme _buildInputDecorationTheme({
     required bool isLight,
   }) {
     final inactiveBlack =
-        isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+    isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
     final green = isLight ? LightColors.green : DarkColors.green;
     final error = isLight ? LightColors.error : DarkColors.error;
     final onSurface = isLight ? LightColors.secondary2 : DarkColors.white;
 
     return InputDecorationTheme(
       contentPadding:
-          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
       hintStyle: text.copyWith(color: inactiveBlack),
       border: _buildOutlineInputBorder(
         color: inactiveBlack.withOpacity(0.4),
@@ -266,6 +312,7 @@ abstract class Themes {
     );
   }
 
+  /// TextSelection.
   static TextSelectionThemeData _buildTextSelectionThemeData({
     required Color color,
   }) =>
@@ -275,6 +322,7 @@ abstract class Themes {
         selectionHandleColor: color,
       );
 
+  /// OutlineInputBorder для InputDecoration.
   static OutlineInputBorder _buildOutlineInputBorder({
     required Color color,
     double width = 1.0,
@@ -287,15 +335,18 @@ abstract class Themes {
         ),
       );
 
+  /// ListTile.
   static ListTileThemeData _buildListTileThemeData({required Color color}) =>
       ListTileThemeData(textColor: color);
 
+  /// Divider.
   static DividerThemeData _buildDividerThemeData({required Color color}) =>
       DividerThemeData(
         color: color,
         thickness: 0.8,
       );
 
+  /// BottomNavigationBar.
   static BottomNavigationBarThemeData _buildBottomNavigationBarTheme({
     required Color background,
     required Color foreground,

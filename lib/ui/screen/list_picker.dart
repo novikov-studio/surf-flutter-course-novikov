@@ -54,7 +54,6 @@ class _ListPickerState<T> extends State<ListPicker<T>> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dividerColor = theme.dividerColor.withOpacity(0.24);
 
     return Scaffold(
       appBar: SimpleAppBar(title: widget.title),
@@ -75,7 +74,7 @@ class _ListPickerState<T> extends State<ListPicker<T>> {
                   contentPadding: EdgeInsets.zero,
                   shape: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: dividerColor,
+                      color: theme.dividerColor,
                       width: 0.8,
                     ),
                   ),

@@ -17,6 +17,8 @@ class SimpleAppBar extends AppBar {
   }) : super(
           key: key,
           title: title != null ? Text(title) : null,
+          centerTitle: true,
+          automaticallyImplyLeading: false,
           leading: leadingIcon != null || leadingText != null
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -17,8 +17,18 @@ class DarkenImage extends StatelessWidget {
   );
 
   final String url;
+  final Size? size;
+  final double? borderRadius;
 
-  const DarkenImage({Key? key, required this.url}) : super(key: key);
+  final bool _showErrorText;
+
+  const DarkenImage({
+    Key? key,
+    required this.url,
+    this.size,
+    this.borderRadius,
+  })  : _showErrorText = borderRadius == null,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,48 +36,63 @@ class DarkenImage extends StatelessWidget {
 
     return CachedNetworkImage(
       imageUrl: url,
-      imageBuilder: (context, provider) =>
-          Ink.image(
-            image: provider,
-            fit: BoxFit.cover,
-            child: const DecoratedBox(
-              decoration: _gradientDecoration,
-            ),
-          ),
-      progressIndicatorBuilder: (context, _, progress) =>
-          Center(
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: theme.colorScheme.inactiveBlack),
-              child: Center(
-                child: CircularProgressIndicator(
-                  backgroundColor: theme.cardColor,
-                  color: theme.colorScheme.inactiveBlack,
-                  value: progress.progress,
+      height: size?.height,
+      width: size?.width,
+      imageBuilder: (context, provider) => borderRadius != null
+          ? DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(borderRadius!),
+                image: DecorationImage(
+                  image: provider,
+                  fit: BoxFit.cover,
                 ),
               ),
+            )
+          : Ink.image(
+              image: provider,
+              fit: BoxFit.cover,
+              child: const DecoratedBox(
+                decoration: _gradientDecoration,
+              ),
+            ),
+      progressIndicatorBuilder: (context, _, progress) => Center(
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: theme.colorScheme.inactiveBlack),
+          child: Center(
+            child: CircularProgressIndicator(
+              backgroundColor: theme.cardColor,
+              color: theme.colorScheme.inactiveBlack,
+              value: progress.progress,
             ),
           ),
+        ),
+      ),
       // ignore: avoid_annotating_with_dynamic
-      errorWidget: (context, _, dynamic __) =>
-          DecoratedBox(
-            decoration:
-            BoxDecoration(color: theme.colorScheme.error.withOpacity(0.15)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgIcon(
-                  AppIcons.error,
-                  color: theme.colorScheme.error,
-                  size: 32.0,
-                ),
-                spacerH8,
-                Text(
-                  AppStrings.imageLoadingError,
-                  style: TextStyle(color: theme.colorScheme.error),
-                ),
-              ],
+      errorWidget: (context, _, dynamic __) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.error.withOpacity(0.15),
+          borderRadius: borderRadius != null
+              ? BorderRadius.circular(borderRadius!)
+              : null,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgIcon(
+              AppIcons.error,
+              color: theme.colorScheme.error,
+              size: 32.0,
             ),
-          ),
+            if (_showErrorText) ...[
+              spacerH8,
+              Text(
+                AppStrings.imageLoadingError,
+                style: TextStyle(color: theme.colorScheme.error),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

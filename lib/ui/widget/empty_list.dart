@@ -13,18 +13,21 @@ class EmptyList extends StatelessWidget {
   /// Текстовое пояснение.
   final String? details;
 
+  final EdgeInsets? padding;
+
   const EmptyList({
     Key? key,
     required this.icon,
     required this.title,
     this.details,
+    this.padding,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return FractionallySizedBox(
+    Widget body = FractionallySizedBox(
       widthFactor: 0.7,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -52,5 +55,14 @@ class EmptyList extends StatelessWidget {
         ],
       ),
     );
+
+    if (padding != null) {
+      body = Padding(
+        padding: padding!,
+        child: body,
+      );
+    }
+
+    return body;
   }
 }

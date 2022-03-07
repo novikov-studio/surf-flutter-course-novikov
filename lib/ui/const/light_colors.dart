@@ -13,6 +13,4 @@ abstract class LightColors {
   static const green = Color(0xFF4CAF50);
   static const error = Color(0xFFEF4343);
   static const inactiveBlack = Color(0x8F7C7E92);
-
-  static const divider = Color(0x7C7E928F);
 }

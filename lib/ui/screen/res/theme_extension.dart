@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
+import 'package:places/ui/screen/res/themes.dart';
 
 /// Доступ к текстовым стилям и цветам по названиям из дизайн-макета
 extension ThemeExtension on ThemeData {
@@ -23,10 +24,14 @@ extension ThemeExtension on ThemeData {
         color: colorScheme.inactiveBlack,
       );
 
-  TextStyle get text400OnBackground => textTheme.text.copyWith(
+  TextStyle get textOnBackground => textTheme.text.copyWith(
     color: colorScheme.onBackground,
-    fontWeight: FontWeight.w400,
   );
+
+  TextStyle get text400OnBackground => textTheme.text.copyWith(
+        color: colorScheme.onBackground,
+        fontWeight: FontWeight.w400,
+      );
 
   TextStyle get text400Secondary2 => textTheme.text.copyWith(
         color: colorScheme.secondary2,
@@ -109,6 +114,10 @@ extension ThemeExtension on ThemeData {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       );
+
+  // Кастомные темы
+  ThemeData get searchBarTheme =>
+      Themes.searchBarTheme(isLight: colorScheme.isLight);
 }
 
 extension ColorSchemeExt on ColorScheme {

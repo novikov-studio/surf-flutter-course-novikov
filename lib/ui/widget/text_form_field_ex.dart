@@ -43,6 +43,7 @@ class TextFormFieldExState extends State<TextFormFieldEx> {
     // Кнопка "Очистить"
     _clearButton = IconButton(
       icon: const SvgIcon(AppIcons.clear),
+      splashRadius: 20.0,
       onPressed: _controller.clear,
     );
   }
