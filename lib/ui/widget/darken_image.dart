@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/common.dart';
+import 'package:places/ui/widget/loader.dart';
 import 'package:places/ui/widget/svg_icon.dart';
 
 class DarkenImage extends StatelessWidget {
@@ -55,18 +55,7 @@ class DarkenImage extends StatelessWidget {
                 decoration: _gradientDecoration,
               ),
             ),
-      progressIndicatorBuilder: (context, _, progress) => Center(
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: theme.colorScheme.inactiveBlack),
-          child: Center(
-            child: CircularProgressIndicator(
-              backgroundColor: theme.cardColor,
-              color: theme.colorScheme.inactiveBlack,
-              value: progress.progress,
-            ),
-          ),
-        ),
-      ),
+      progressIndicatorBuilder: (context, _, progress) => const Loader(),
       // ignore: avoid_annotating_with_dynamic
       errorWidget: (context, _, dynamic __) => DecoratedBox(
         decoration: BoxDecoration(

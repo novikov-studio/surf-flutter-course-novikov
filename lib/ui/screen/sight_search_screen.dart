@@ -12,6 +12,7 @@ import 'package:places/ui/widget/buttons/svg_text_button.dart';
 import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/darken_image.dart';
 import 'package:places/ui/widget/empty_list.dart';
+import 'package:places/ui/widget/loader.dart';
 import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/simple_app_bar.dart';
 import 'package:places/ui/widget/svg_icon.dart';
@@ -83,7 +84,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                 );
 
               case SearchState.inProgress:
-                return const _ProgressWidget();
+                return const Loader();
 
               case SearchState.found:
                 final divider = Divider(
@@ -142,32 +143,26 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
     //Если ввели только 1-2 символа или текст не изменился, ничего не делаем
     if (text.isNotEmpty && text.length < 3 || text == _lastSearch) {
-      Utils.log('do nothing');
-
       return;
     }
     _lastSearch = text;
 
     // Если поле пустое, показыаем историю
     if (text.trim().isEmpty) {
-      Utils.log('empty text');
       _delayedSearch.cancel();
       _state.value = SearchState.initial;
     } // Если ввели целое слово, сразу начинаем поиск
     else if (text.endsWith(' ')) {
-      Utils.log('search by word');
       _delayedSearch.cancel();
       _search(text.trimRight());
     } // Отложенный поиск
     else {
-      Utils.log('delayed search');
       _delayedSearch(text);
     }
   }
 
   /// Поиск мест по подстроке.
   Future<void> _search(String text) async {
-    Utils.log('async search start');
     // Добавляем запрос в историю поиска
     await _historyProvider.add(text);
 
@@ -197,7 +192,6 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
       Utils.log(e.toString());
       _state.value = SearchState.error;
     }
-    Utils.log('async search end');
   }
 }
 
@@ -221,7 +215,7 @@ class _HistoryWidget extends StatelessWidget {
       builder: (_, snapshot) {
         // Прогресс
         if (snapshot.connectionState != ConnectionState.done) {
-          return const _ProgressWidget();
+          return const Loader();
         }
 
         // Пустой экран
@@ -327,18 +321,6 @@ class _SightListTile extends StatelessWidget {
   void _showDetails(BuildContext context) {
     context.pushScreen<SightDetails>(
       (context) => SightDetails(sight: sight),
-    );
-  }
-}
-
-/// Индикатор выполнения операции.
-class _ProgressWidget extends StatelessWidget {
-  const _ProgressWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
     );
   }
 }
