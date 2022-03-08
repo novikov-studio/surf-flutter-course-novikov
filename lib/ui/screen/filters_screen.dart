@@ -10,13 +10,17 @@ import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/categories_grid.dart';
 import 'package:places/ui/widget/common.dart';
 import 'package:places/ui/widget/simple_app_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Экран "Фильтр".
 class FiltersScreen extends StatefulWidget {
   final List<Sight> sights;
+  final void Function(List<Sight> filtered) onApplyFilter;
 
-  const FiltersScreen({Key? key, required this.sights}) : super(key: key);
+  const FiltersScreen({
+    Key? key,
+    required this.sights,
+    required this.onApplyFilter,
+  }) : super(key: key);
 
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
@@ -93,21 +97,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   /// Обработчик нажатия на кнопку "Показать".
   void _onApplyFilter() {
-    // TODO(novikov): Возврат на предыдущий экран с применением фильтра
-
-    // Для отладки выводим список отобранных мест
-    Utils.log(filter
-        .map((e) =>
-            '${e.name} - ${Utils.calcDistance(currentLocation, e.location).toStringNormalized()} км')
-        .toList()
-        .join('\n'));
-
-    // Для самопроверки открываем список отобранных мест на Яндекс.Картах
-    final url = Utils.buildYandexMapsUrl(
-      current: currentLocation,
-      points: filter.map((e) => e.location),
-    );
-    launch(url);
+    widget.onApplyFilter(filter);
   }
 
   /// Обработчик переключения категорий.

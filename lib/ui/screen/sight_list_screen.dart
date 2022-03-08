@@ -24,6 +24,15 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
+  final List<Sight> sights = mocks;
+  late List<Sight> filtered;
+
+  @override
+  void initState() {
+    super.initState();
+    filtered = sights;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +44,7 @@ class _SightListScreenState extends State<SightListScreen> {
           children: [
             GestureDetector(
               child: const SearchBar(enabled: false),
-              onTap: () => context.pushScreen<SightSearchScreen>(
-                    (context) => SightSearchScreen(sights: mocks),
-              ),
+              onTap: _showSearchDialog,
             ),
             Positioned(
               right: 16.0,
@@ -49,9 +56,7 @@ class _SightListScreenState extends State<SightListScreen> {
                     color: Theme.of(context).colorScheme.green,
                   ),
                   splashRadius: 20.0,
-                  onPressed: () => context.pushScreen<FiltersScreen>(
-                    (context) => FiltersScreen(sights: mocks),
-                  ),
+                  onPressed: _showFilterDialog,
                 ),
               ),
             ),
@@ -59,7 +64,7 @@ class _SightListScreenState extends State<SightListScreen> {
         ),
       ),
       body: SightList(
-        sights: mocks,
+        sights: filtered,
         empty: const EmptyList(
           icon: AppIcons.list,
           title: AppStrings.empty,
@@ -69,12 +74,24 @@ class _SightListScreenState extends State<SightListScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: GradientFab(
         label: AppStrings.newSight,
-        onPressed: _onFabPressed,
+        onPressed: _showAddDialog,
       ),
     );
   }
 
-  void _onFabPressed() {
+  void _showSearchDialog() {
+    context.pushScreen<SightSearchScreen>(
+      (context) => SightSearchScreen(sights: filtered),
+    );
+  }
+
+  void _showFilterDialog() {
+    context.pushScreen<FiltersScreen>(
+      (context) => FiltersScreen(sights: sights, onApplyFilter: _onApplyFilter),
+    );
+  }
+
+  void _showAddDialog() {
     context.pushScreen<AddSightScreen>(
       (context) => AddSightScreen(onSightAdd: _onSightAdd),
     );
@@ -82,7 +99,14 @@ class _SightListScreenState extends State<SightListScreen> {
 
   void _onSightAdd(Sight sight) {
     setState(() {
-      mocks.add(sight);
+      sights.add(sight);
+    });
+    Navigator.pop(context);
+  }
+
+  void _onApplyFilter(List<Sight> filtered) {
+    setState(() {
+      this.filtered = filtered;
     });
     Navigator.pop(context);
   }
