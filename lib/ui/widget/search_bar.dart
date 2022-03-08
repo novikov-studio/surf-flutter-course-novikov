@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/svg_icon.dart';
 
@@ -30,11 +31,13 @@ class SearchBar extends StatelessWidget implements PreferredSizeWidget {
           controller: controller,
           autofocus: autofocus,
           enabled: enabled,
+          style: theme.text400OnSurface,
           decoration: InputDecoration(
             prefixIcon: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               child: SvgIcon(AppIcons.search),
             ),
+            hintText: AppStrings.search,
             suffixIcon: enabled
                 ? Material(
                     type: MaterialType.transparency,

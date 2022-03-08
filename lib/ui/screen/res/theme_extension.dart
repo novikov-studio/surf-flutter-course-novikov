@@ -38,6 +38,11 @@ extension ThemeExtension on ThemeData {
         fontWeight: FontWeight.w400,
       );
 
+  TextStyle get text400OnSurface => textTheme.text.copyWith(
+    color: colorScheme.onSurface,
+    fontWeight: FontWeight.w400,
+  );
+
   TextStyle get smallGreen => textTheme.small.copyWith(
         color: colorScheme.green,
       );

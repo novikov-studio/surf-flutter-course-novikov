@@ -5,8 +5,7 @@ import 'package:places/ui/const/light_colors.dart';
 
 abstract class Themes {
   /// Светлая тема.
-  static ThemeData get light =>
-      ThemeData.from(
+  static ThemeData get light => ThemeData.from(
         colorScheme: _buildColorScheme(isLight: true),
         textTheme: _buildTextTheme(),
       ).copyWith(
@@ -35,10 +34,12 @@ abstract class Themes {
         ),
         inputDecorationTheme: _buildInputDecorationTheme(isLight: true),
         textSelectionTheme:
-        _buildTextSelectionThemeData(color: LightColors.green),
+            _buildTextSelectionThemeData(color: LightColors.green),
         listTileTheme: _buildListTileThemeData(color: LightColors.main),
         dividerColor: LightColors.inactiveBlack.withOpacity(0.24),
-        dividerTheme: _buildDividerThemeData(color: LightColors.inactiveBlack.withOpacity(0.24)),
+        dividerTheme: _buildDividerThemeData(
+          color: LightColors.inactiveBlack.withOpacity(0.24),
+        ),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
           background: LightColors.background,
           foreground: DarkColors.secondary,
@@ -46,8 +47,7 @@ abstract class Themes {
       );
 
   /// Темная тема.
-  static ThemeData get dark =>
-      ThemeData.from(
+  static ThemeData get dark => ThemeData.from(
         colorScheme: _buildColorScheme(isLight: false),
         textTheme: _buildTextTheme(),
       ).copyWith(
@@ -76,10 +76,12 @@ abstract class Themes {
         ),
         inputDecorationTheme: _buildInputDecorationTheme(isLight: false),
         textSelectionTheme:
-        _buildTextSelectionThemeData(color: DarkColors.green),
+            _buildTextSelectionThemeData(color: DarkColors.green),
         listTileTheme: _buildListTileThemeData(color: DarkColors.white),
         dividerColor: DarkColors.inactiveBlack.withOpacity(0.24),
-        dividerTheme: _buildDividerThemeData(color: DarkColors.inactiveBlack.withOpacity(0.24)),
+        dividerTheme: _buildDividerThemeData(
+          color: DarkColors.inactiveBlack.withOpacity(0.24),
+        ),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
           background: DarkColors.background,
           foreground: DarkColors.white,
@@ -89,9 +91,9 @@ abstract class Themes {
   /// Тема для строки поиска SearchBar.
   static ThemeData searchBarTheme({required bool isLight}) {
     final inactiveBlack =
-    isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+        isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
     final surface =
-    isLight ? LightColors.cardBackground : DarkColors.cardBackground;
+        isLight ? LightColors.cardBackground : DarkColors.cardBackground;
 
     final onSurface = isLight ? LightColors.secondary2 : DarkColors.white;
 
@@ -101,7 +103,8 @@ abstract class Themes {
         filled: true,
         contentPadding:
             const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-        hintStyle: text.copyWith(color: inactiveBlack),
+        hintStyle:
+            text.copyWith(color: inactiveBlack, fontWeight: FontWeight.w400),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(12.0)),
           borderSide: BorderSide.none,
@@ -146,7 +149,7 @@ abstract class Themes {
           color: tabBackground,
         ),
         labelPadding:
-        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 11.0),
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 11.0),
         labelColor: labelColor,
         unselectedLabelColor: unselectedLabelColor,
         labelStyle: smallBold,
@@ -154,8 +157,7 @@ abstract class Themes {
       );
 
   /// Card.
-  static CardTheme _buildCardTheme() =>
-      const CardTheme(
+  static CardTheme _buildCardTheme() => const CardTheme(
         elevation: 0.0,
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
@@ -167,8 +169,7 @@ abstract class Themes {
       );
 
   /// Icon.
-  static IconThemeData _buildIconTheme({required Color color}) =>
-      IconThemeData(
+  static IconThemeData _buildIconTheme({required Color color}) => IconThemeData(
         color: color,
         size: 24.0,
       );
@@ -180,9 +181,9 @@ abstract class Themes {
     final background = isLight ? LightColors.green : DarkColors.green;
     final foreground = isLight ? LightColors.white : DarkColors.white;
     final disabledBackground =
-    isLight ? LightColors.cardBackground : DarkColors.cardBackground;
+        isLight ? LightColors.cardBackground : DarkColors.cardBackground;
     final disabledForeground =
-    isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+        isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
 
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -199,14 +200,12 @@ abstract class Themes {
         elevation: 0.0,
       ).copyWith(
         backgroundColor: MaterialStateProperty.resolveWith(
-              (states) =>
-          states.contains(MaterialState.disabled)
+          (states) => states.contains(MaterialState.disabled)
               ? disabledBackground
               : background,
         ),
         foregroundColor: MaterialStateProperty.resolveWith(
-              (states) =>
-          states.contains(MaterialState.disabled)
+          (states) => states.contains(MaterialState.disabled)
               ? disabledForeground
               : foreground,
         ),
@@ -228,8 +227,7 @@ abstract class Themes {
       );
 
   /// Text.
-  static TextTheme _buildTextTheme() =>
-      const TextTheme(
+  static TextTheme _buildTextTheme() => const TextTheme(
         headline5: largeTitle,
         headline6: title,
         subtitle1: subtitle,
@@ -249,10 +247,10 @@ abstract class Themes {
         primary: isLight ? LightColors.main : DarkColors.main,
         secondary: isLight ? LightColors.secondary : DarkColors.secondary,
         secondaryContainer:
-        isLight ? LightColors.secondary2 : DarkColors.secondary2,
+            isLight ? LightColors.secondary2 : DarkColors.secondary2,
         background: isLight ? LightColors.background : DarkColors.background,
         surface:
-        isLight ? LightColors.cardBackground : DarkColors.cardBackground,
+            isLight ? LightColors.cardBackground : DarkColors.cardBackground,
         error: isLight ? LightColors.error : DarkColors.error,
         onPrimary: const Color(0xFFFF00FF),
         onSecondary: const Color(0xFFFF00FF),
@@ -285,14 +283,14 @@ abstract class Themes {
     required bool isLight,
   }) {
     final inactiveBlack =
-    isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+        isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
     final green = isLight ? LightColors.green : DarkColors.green;
     final error = isLight ? LightColors.error : DarkColors.error;
     final onSurface = isLight ? LightColors.secondary2 : DarkColors.white;
 
     return InputDecorationTheme(
       contentPadding:
-      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
       hintStyle: text.copyWith(color: inactiveBlack),
       border: _buildOutlineInputBorder(
         color: inactiveBlack.withOpacity(0.4),
