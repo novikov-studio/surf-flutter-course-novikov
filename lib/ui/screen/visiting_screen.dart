@@ -3,9 +3,9 @@ import 'package:places/mocks.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/sight_list.dart';
-import 'package:places/ui/widget/simple_app_bar.dart';
 
 /// Экран "Избранное".
 class VisitingScreen extends StatelessWidget {

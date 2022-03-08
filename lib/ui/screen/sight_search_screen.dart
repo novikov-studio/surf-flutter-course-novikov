@@ -8,12 +8,12 @@ import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_details.dart';
-import 'package:places/ui/widget/darken_image.dart';
+import 'package:places/ui/widget/controls/darken_image.dart';
+import 'package:places/ui/widget/controls/loader.dart';
+import 'package:places/ui/widget/controls/search_bar.dart';
+import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
-import 'package:places/ui/widget/loader.dart';
-import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/search_history.dart';
-import 'package:places/ui/widget/simple_app_bar.dart';
 
 /// Экран "Поиск мест" по названию.
 ///

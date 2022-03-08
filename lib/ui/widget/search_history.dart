@@ -3,10 +3,10 @@ import 'package:places/domain/search_history_provider.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/buttons/svg_text_button.dart';
-import 'package:places/ui/widget/common.dart';
-import 'package:places/ui/widget/loader.dart';
-import 'package:places/ui/widget/svg_icon.dart';
+import 'package:places/ui/widget/controls/loader.dart';
+import 'package:places/ui/widget/controls/spacers.dart';
+import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:places/ui/widget/controls/svg_text_button.dart';
 
 /// Виджет для отображения истории поиска.
 class SearchHistory extends StatelessWidget {

@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/widget/common.dart';
-import 'package:places/ui/widget/loader.dart';
-import 'package:places/ui/widget/svg_icon.dart';
+import 'package:places/ui/widget/controls/loader.dart';
+import 'package:places/ui/widget/controls/spacers.dart';
+import 'package:places/ui/widget/controls/svg_icon.dart';
 
 class DarkenImage extends StatelessWidget {
   static const _gradientDecoration = BoxDecoration(

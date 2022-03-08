@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/buttons/svg_text_button.dart';
-import 'package:places/ui/widget/svg_icon.dart';
+import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:places/ui/widget/controls/svg_text_button.dart';
+
 
 class SimpleAppBar extends AppBar {
   SimpleAppBar({

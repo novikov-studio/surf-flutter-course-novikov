@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/gradient_progress_indicator.dart';
+import 'package:places/ui/widget/controls/gradient_progress_indicator.dart';
 
 /// Индикатор выполнения операции.
 class Loader extends StatelessWidget {

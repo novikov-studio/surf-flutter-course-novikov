@@ -8,12 +8,12 @@ import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
-import 'package:places/ui/widget/buttons/gradient_fab.dart';
-import 'package:places/ui/widget/custom_app_bar.dart';
+import 'package:places/ui/widget/controls/custom_app_bar.dart';
+import 'package:places/ui/widget/controls/gradient_fab.dart';
+import 'package:places/ui/widget/controls/search_bar.dart';
+import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
-import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/sight_list.dart';
-import 'package:places/ui/widget/svg_icon.dart';
 
 /// Экран "Список мест".
 class SightListScreen extends StatefulWidget {
