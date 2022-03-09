@@ -4,14 +4,16 @@ import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
 
 abstract class Themes {
+  /// Светлая тема.
   static ThemeData get light => ThemeData.from(
         colorScheme: _buildColorScheme(isLight: true),
         textTheme: _buildTextTheme(),
       ).copyWith(
         appBarTheme: _buildAppBarTheme(
-          isLight: true,
           background: LightColors.background,
-          foreground: LightColors.main,
+          title: LightColors.main,
+          leading: LightColors.secondary2,
+          trailing: LightColors.green,
         ),
         tabBarTheme: _buildTabBarTheme(
           tabBackground: LightColors.secondary,
@@ -30,23 +32,30 @@ abstract class Themes {
           inactive: LightColors.inactiveBlack,
           thumb: LightColors.white,
         ),
+        inputDecorationTheme: _buildInputDecorationTheme(isLight: true),
+        textSelectionTheme:
+            _buildTextSelectionThemeData(color: LightColors.green),
         listTileTheme: _buildListTileThemeData(color: LightColors.main),
-        dividerColor: LightColors.divider,
-        dividerTheme: _buildDividerThemeData(color: LightColors.divider),
+        dividerColor: LightColors.inactiveBlack.withOpacity(0.24),
+        dividerTheme: _buildDividerThemeData(
+          color: LightColors.inactiveBlack.withOpacity(0.24),
+        ),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
           background: LightColors.background,
           foreground: DarkColors.secondary,
         ),
       );
 
+  /// Темная тема.
   static ThemeData get dark => ThemeData.from(
         colorScheme: _buildColorScheme(isLight: false),
         textTheme: _buildTextTheme(),
       ).copyWith(
         appBarTheme: _buildAppBarTheme(
-          isLight: false,
           background: DarkColors.background,
-          foreground: DarkColors.white,
+          title: DarkColors.white,
+          leading: DarkColors.secondary2,
+          trailing: DarkColors.green,
         ),
         tabBarTheme: _buildTabBarTheme(
           tabBackground: DarkColors.white,
@@ -65,31 +74,70 @@ abstract class Themes {
           inactive: DarkColors.inactiveBlack,
           thumb: DarkColors.white,
         ),
+        inputDecorationTheme: _buildInputDecorationTheme(isLight: false),
+        textSelectionTheme:
+            _buildTextSelectionThemeData(color: DarkColors.green),
         listTileTheme: _buildListTileThemeData(color: DarkColors.white),
-        dividerColor: DarkColors.divider,
-        dividerTheme: _buildDividerThemeData(color: DarkColors.divider),
+        dividerColor: DarkColors.inactiveBlack.withOpacity(0.24),
+        dividerTheme: _buildDividerThemeData(
+          color: DarkColors.inactiveBlack.withOpacity(0.24),
+        ),
         bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
           background: DarkColors.background,
           foreground: DarkColors.white,
         ),
       );
 
+  /// Тема для строки поиска SearchBar.
+  static ThemeData searchBarTheme({required bool isLight}) {
+    final inactiveBlack =
+        isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+    final surface =
+        isLight ? LightColors.cardBackground : DarkColors.cardBackground;
+
+    final onSurface = isLight ? LightColors.secondary2 : DarkColors.white;
+
+    return ThemeData(
+      inputDecorationTheme: InputDecorationTheme(
+        fillColor: surface,
+        filled: true,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+        hintStyle:
+            text.copyWith(color: inactiveBlack, fontWeight: FontWeight.w400),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+          borderSide: BorderSide.none,
+        ),
+        prefixIconColor: inactiveBlack,
+        suffixIconColor: onSurface,
+      ),
+      textSelectionTheme: _buildTextSelectionThemeData(color: onSurface),
+    );
+  }
+
+  /// AppBar.
   static AppBarTheme _buildAppBarTheme({
-    required bool isLight,
     required Color background,
-    required Color foreground,
+    required Color title,
+    required Color leading,
+    required Color trailing,
   }) =>
       AppBarTheme(
         backgroundColor: background,
-        foregroundColor: foreground,
-        titleTextStyle: subtitle.copyWith(color: foreground),
+        foregroundColor: title,
+        titleTextStyle: subtitle.copyWith(color: title),
         elevation: 0.0,
         centerTitle: true,
         iconTheme: IconThemeData(
-          color: foreground,
+          color: leading,
+        ),
+        actionsIconTheme: IconThemeData(
+          color: trailing,
         ),
       );
 
+  /// TabBar.
   static TabBarTheme _buildTabBarTheme({
     required Color tabBackground,
     required Color labelColor,
@@ -108,6 +156,7 @@ abstract class Themes {
         unselectedLabelStyle: smallBold,
       );
 
+  /// Card.
   static CardTheme _buildCardTheme() => const CardTheme(
         elevation: 0.0,
         clipBehavior: Clip.antiAlias,
@@ -119,11 +168,13 @@ abstract class Themes {
         ),
       );
 
+  /// Icon.
   static IconThemeData _buildIconTheme({required Color color}) => IconThemeData(
         color: color,
         size: 24.0,
       );
 
+  /// ElevatedButton.
   static ElevatedButtonThemeData _buildElevatedButtonThemeData({
     required bool isLight,
   }) {
@@ -162,6 +213,7 @@ abstract class Themes {
     );
   }
 
+  /// TextButton.
   static TextButtonThemeData _buildTextButtonThemeData({
     required Color active,
     required Color inactive,
@@ -174,6 +226,7 @@ abstract class Themes {
         ),
       );
 
+  /// Text.
   static TextTheme _buildTextTheme() => const TextTheme(
         headline5: largeTitle,
         headline6: title,
@@ -185,6 +238,7 @@ abstract class Themes {
         overline: superSmall,
       ).apply(fontFamily: 'Roboto');
 
+  /// ColorScheme
   static ColorScheme _buildColorScheme({
     required bool isLight,
   }) =>
@@ -205,6 +259,7 @@ abstract class Themes {
         onError: const Color(0xFFFF00FF),
       );
 
+  /// Slider.
   static SliderThemeData _buildSliderThemeData({
     required Color active,
     required Color inactive,
@@ -223,15 +278,73 @@ abstract class Themes {
         rangeTrackShape: const RectangularRangeSliderTrackShape(),
       );
 
+  /// InputDecoration.
+  static InputDecorationTheme _buildInputDecorationTheme({
+    required bool isLight,
+  }) {
+    final inactiveBlack =
+        isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+    final green = isLight ? LightColors.green : DarkColors.green;
+    final error = isLight ? LightColors.error : DarkColors.error;
+    final onSurface = isLight ? LightColors.secondary2 : DarkColors.white;
+
+    return InputDecorationTheme(
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+      hintStyle: text.copyWith(color: inactiveBlack),
+      border: _buildOutlineInputBorder(
+        color: inactiveBlack.withOpacity(0.4),
+      ),
+      focusedBorder: _buildOutlineInputBorder(
+        color: green.withOpacity(0.4),
+        width: 2.0,
+      ),
+      errorBorder: _buildOutlineInputBorder(
+        color: error.withOpacity(0.4),
+      ),
+      focusedErrorBorder: _buildOutlineInputBorder(
+        color: error.withOpacity(0.4),
+        width: 2.0,
+      ),
+      suffixIconColor: onSurface,
+    );
+  }
+
+  /// TextSelection.
+  static TextSelectionThemeData _buildTextSelectionThemeData({
+    required Color color,
+  }) =>
+      TextSelectionThemeData(
+        cursorColor: color,
+        selectionColor: color.withOpacity(0.5),
+        selectionHandleColor: color,
+      );
+
+  /// OutlineInputBorder для InputDecoration.
+  static OutlineInputBorder _buildOutlineInputBorder({
+    required Color color,
+    double width = 1.0,
+  }) =>
+      OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+        borderSide: BorderSide(
+          color: color,
+          width: width,
+        ),
+      );
+
+  /// ListTile.
   static ListTileThemeData _buildListTileThemeData({required Color color}) =>
       ListTileThemeData(textColor: color);
 
+  /// Divider.
   static DividerThemeData _buildDividerThemeData({required Color color}) =>
       DividerThemeData(
         color: color,
         thickness: 0.8,
       );
 
+  /// BottomNavigationBar.
   static BottomNavigationBarThemeData _buildBottomNavigationBarTheme({
     required Color background,
     required Color foreground,

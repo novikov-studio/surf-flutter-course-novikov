@@ -5,17 +5,22 @@ import 'package:places/service/location.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/categories_grid.dart';
-import 'package:places/ui/widget/common.dart';
-import 'package:places/ui/widget/svg_icon.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:places/ui/widget/controls/simple_app_bar.dart';
+import 'package:places/ui/widget/controls/spacers.dart';
 
 /// Экран "Фильтр".
 class FiltersScreen extends StatefulWidget {
   final List<Sight> sights;
+  final void Function(List<Sight> filtered) onApplyFilter;
 
-  const FiltersScreen({Key? key, required this.sights}) : super(key: key);
+  const FiltersScreen({
+    Key? key,
+    required this.sights,
+    required this.onApplyFilter,
+  }) : super(key: key);
 
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
@@ -45,10 +50,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: _FiltersAppBar(
-        theme,
-        onBackPressed: context.popScreen,
-        onClearPressed: _onClear,
+      appBar: SimpleAppBar(
+        leadingIcon: AppIcons.arrow,
+        leadingOnTap: () => Navigator.pop(context),
+        trailingText: AppStrings.clear,
+        trailingOnTap: _onClear,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -91,21 +97,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   /// Обработчик нажатия на кнопку "Показать".
   void _onApplyFilter() {
-    // TODO(novikov): Возврат на предыдущий экран с применением фильтра
-
-    // Для отладки выводим список отобранных мест
-    Utils.log(filter
-        .map((e) =>
-            '${e.name} - ${Utils.calcDistance(currentLocation, e.location).toStringNormalized()} км')
-        .toList()
-        .join('\n'));
-
-    // Для самопроверки открываем список отобранных мест на Яндекс.Картах
-    final url = Utils.buildYandexMapsUrl(
-      current: currentLocation,
-      points: filter.map((e) => e.location),
-    );
-    launch(url);
+    widget.onApplyFilter(filter);
   }
 
   /// Обработчик переключения категорий.
@@ -147,7 +139,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   /// Сброс фильтра.
   void _doClear() {
     // Включаем все категории
-    categories.addAll(CategoriesGrid.categories.map((e) => e.title));
+    categories.addAll(Categories.names);
     // Устанавливаем максимальный диапазон расстояния
     distance =
         const RangeValues(_SliderBar.minDistance, _SliderBar.maxDistance);
@@ -182,7 +174,7 @@ class _SliderBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(AppStrings.distance, style: theme.textOnBackground),
+                Text(AppStrings.distance, style: theme.text400OnBackground),
                 Text(
                   AppStrings.distanceRange(range.start, range.end),
                   style: theme.text400Secondary2,
@@ -201,33 +193,4 @@ class _SliderBar extends StatelessWidget {
       ),
     );
   }
-}
-
-/// AppBar с кнопками "Назад" и "Стереть".
-class _FiltersAppBar extends AppBar {
-  _FiltersAppBar(
-    ThemeData theme, {
-    VoidCallback? onBackPressed,
-    VoidCallback? onClearPressed,
-  }) : super(
-          leading: IconButton(
-            icon: const SvgIcon(AppIcons.arrow),
-            splashRadius: 20.0,
-            onPressed: onBackPressed,
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextButton(
-                onPressed: onClearPressed,
-                child: const Text(AppStrings.clear),
-                style: TextButton.styleFrom(
-                  primary: theme.colorScheme.green,
-                  textStyle: theme.textTheme.text,
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                ),
-              ),
-            ),
-          ],
-        );
 }

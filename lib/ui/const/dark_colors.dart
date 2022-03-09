@@ -14,6 +14,4 @@ abstract class DarkColors {
   static const green = Color(0xFF6ADA6F);
   static const error = Color(0xFFCF2A2A);
   static const inactiveBlack = Color(0x8F7C7E92);
-
-  static const divider = secondary2;
 }

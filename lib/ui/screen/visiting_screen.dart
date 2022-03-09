@@ -3,6 +3,7 @@ import 'package:places/mocks.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/sight_list.dart';
 
@@ -15,8 +16,8 @@ class VisitingScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text(AppStrings.favoritesTitle),
+        appBar: SimpleAppBar(
+          title: AppStrings.favoritesTitle,
           bottom: const _Tabs(
             items: [
               AppStrings.myWishList,
