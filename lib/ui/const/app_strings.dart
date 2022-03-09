@@ -1,7 +1,7 @@
 /// Строковые константы приложения
 abstract class AppStrings {
   // Заголовки
-  static const listTitle = 'Список\nинтересных мест';
+  static const listTitle = 'Список интересных мест';
   static const favoritesTitle = 'Избранное';
   static const settingsTitle = 'Настройки';
   static const newSightTitle = 'Новое место';
@@ -16,6 +16,7 @@ abstract class AppStrings {
   static const longitude = 'ДОЛГОТА';
   static const latitude = 'ШИРОТА';
   static const description = 'ОПИСАНИЕ';
+  static const yourHistory = 'ВЫ ИСКАЛИ';
 
   // Надписи на кнопках
   static const buildRoute = 'ПОСТРОИТЬ МАРШРУТ';
@@ -29,6 +30,7 @@ abstract class AppStrings {
   static const pointOnMap = 'Указать на карте';
   static const save = 'СОХРАНИТЬ';
   static const newSight = 'НОВОЕ МЕСТО';
+  static const clearHistory = 'Очистить историю';
 
   // Категории
   static const hotel = 'Отель';
@@ -46,6 +48,11 @@ abstract class AppStrings {
   static const enterText = 'Введите текст';
   static const enterNumber = 'Введите число';
   static const notChosen = 'Не выбрано';
+  static const search = 'Поиск';
+  static const error = 'Ошибка';
+  static const tryLater = 'Что-то пошло не так,\nпопробуйте позже';
+  static const nothingFound = 'Ничего не найдено';
+  static const tryAnotherSearch = 'Попробуйте изменить параметры поиска';
 
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/svg_icon.dart';
+import 'package:places/ui/widget/controls/svg_icon.dart';
 
 /// Виджет "Текстовое поле" с нестандартной логикой состояний.
 ///
@@ -43,6 +43,7 @@ class TextFormFieldExState extends State<TextFormFieldEx> {
     // Кнопка "Очистить"
     _clearButton = IconButton(
       icon: const SvgIcon(AppIcons.clear),
+      splashRadius: 20.0,
       onPressed: _controller.clear,
     );
   }

@@ -7,11 +7,11 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/list_picker.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/buttons/svg_text_button.dart';
-import 'package:places/ui/widget/common.dart';
-import 'package:places/ui/widget/simple_app_bar.dart';
-import 'package:places/ui/widget/svg_icon.dart';
-import 'package:places/ui/widget/text_form_field_ex.dart';
+import 'package:places/ui/widget/controls/simple_app_bar.dart';
+import 'package:places/ui/widget/controls/spacers.dart';
+import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:places/ui/widget/controls/svg_text_button.dart';
+import 'package:places/ui/widget/controls/text_form_field_ex.dart';
 
 typedef OnSightAdd = void Function(Sight sight);
 

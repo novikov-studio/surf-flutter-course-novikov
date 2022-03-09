@@ -32,4 +32,12 @@ class Sight {
     this.visitedDate,
     this.isLiked = false,
   });
+
+  /// Соответствие поисковому запросу.
+  bool isMatch(String text) {
+    final lowerText = text.toLowerCase();
+
+    return name.toLowerCase().contains(lowerText) ||
+        type.toLowerCase().contains(lowerText);
+  }
 }

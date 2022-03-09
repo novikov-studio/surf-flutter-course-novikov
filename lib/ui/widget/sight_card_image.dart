@@ -4,9 +4,9 @@ import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
-import 'package:places/ui/widget/common.dart';
-import 'package:places/ui/widget/darken_image.dart';
-import 'package:places/ui/widget/svg_icon.dart';
+import 'package:places/ui/widget/controls/darken_image.dart';
+import 'package:places/ui/widget/controls/spacers.dart';
+import 'package:places/ui/widget/controls/svg_icon.dart';
 
 class SightCardImage extends StatelessWidget {
   final Sight sight;
