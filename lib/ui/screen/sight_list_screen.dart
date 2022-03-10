@@ -13,6 +13,7 @@ import 'package:places/ui/widget/controls/gradient_fab.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
+import 'package:places/ui/widget/favorites.dart';
 import 'package:places/ui/widget/sight_list.dart';
 
 /// Экран "Список мест".
@@ -63,13 +64,16 @@ class _SightListScreenState extends State<SightListScreen> {
           ],
         ),
       ),
-      body: SightList(
-        sights: filtered,
-        empty: const EmptyList(
-          icon: AppIcons.list,
-          title: AppStrings.empty,
+      body: AnimatedBuilder(
+        animation: Favorites.of(context)!,
+        builder: (_, __) => SightList(
+          sights: filtered,
+          empty: const EmptyList(
+            icon: AppIcons.list,
+            title: AppStrings.empty,
+          ),
+          mode: CardMode.list,
         ),
-        mode: CardMode.list,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: GradientFab(

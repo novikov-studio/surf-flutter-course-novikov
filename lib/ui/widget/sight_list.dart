@@ -23,6 +23,7 @@ class SightList extends StatelessWidget {
               children: sights
                   .map(
                     (sight) => Padding(
+                      key: ValueKey(sight.id),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,
                         vertical: 8.0,

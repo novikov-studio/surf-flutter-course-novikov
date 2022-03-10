@@ -7,6 +7,7 @@ import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:places/ui/widget/favorites.dart';
 
 class SightCardImage extends StatelessWidget {
   final Sight sight;
@@ -65,15 +66,20 @@ class SightCardImage extends StatelessWidget {
                         ? AppIcons.close
                         : AppIcons.heartFilled)
                     : AppIcons.heart,
-                onPressed: () {
-                  Utils.logButtonPressed('card.like');
-                },
+                onPressed: () => _toggleInFavorites(context),
               ),
             ],
           ),
         ),
       ],
     );
+  }
+
+  Future<void> _toggleInFavorites(BuildContext context) async {
+    final favoritesProvider = Favorites.of(context)!;
+    sight.isLiked
+        ? await favoritesProvider.remove(sight)
+        : await favoritesProvider.add(sight);
   }
 }
 

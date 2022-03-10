@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:places/mocks.dart';
+import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
+import 'package:places/ui/widget/favorites.dart';
 import 'package:places/ui/widget/sight_list.dart';
 
 /// Экран "Избранное".
@@ -13,6 +15,8 @@ class VisitingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favoritesProvider = Favorites.of(context)!;
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -25,27 +29,43 @@ class VisitingScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
-            SightList(
-              sights: mocks.where((sight) => sight.isPlanned),
-              empty: const EmptyList(
-                icon: AppIcons.card,
-                title: AppStrings.empty,
-                details: AppStrings.tagPlaces,
-              ),
-              mode: CardMode.favorites,
-            ),
-            SightList(
-              sights: mocks.where((sight) => sight.isVisited),
-              empty: const EmptyList(
-                icon: AppIcons.goRouteBig,
-                title: AppStrings.empty,
-                details: AppStrings.finishRoute,
-              ),
-              mode: CardMode.favorites,
-            ),
-          ],
+        body: AnimatedBuilder(
+          animation: favoritesProvider,
+          builder: (_, __) {
+            return FutureBuilder<Iterable<Sight>>(
+              future: favoritesProvider.items(),
+              builder: (context, snapshot) {
+                // Прогресс
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Loader();
+                }
+                final data = snapshot.data!;
+
+                return TabBarView(
+                  children: [
+                    SightList(
+                      sights: data.where((sight) => !sight.isVisited),
+                      empty: const EmptyList(
+                        icon: AppIcons.card,
+                        title: AppStrings.empty,
+                        details: AppStrings.tagPlaces,
+                      ),
+                      mode: CardMode.favorites,
+                    ),
+                    SightList(
+                      sights: data.where((sight) => sight.isVisited),
+                      empty: const EmptyList(
+                        icon: AppIcons.goRouteBig,
+                        title: AppStrings.empty,
+                        details: AppStrings.finishRoute,
+                      ),
+                      mode: CardMode.favorites,
+                    ),
+                  ],
+                );
+              },
+            );
+          },
         ),
       ),
     );
