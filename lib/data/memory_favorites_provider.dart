@@ -8,12 +8,6 @@ import 'package:places/mocks.dart';
 /// Менеджер списка Избранное на моковых данных.
 class MemoryFavoritesProvider extends ChangeNotifier
     implements FavoritesProvider {
-  static MemoryFavoritesProvider? _instance;
-
-  factory MemoryFavoritesProvider() =>
-      _instance ??= MemoryFavoritesProvider._();
-
-  MemoryFavoritesProvider._();
 
   @override
   Future<Iterable<Sight>> items() async =>
