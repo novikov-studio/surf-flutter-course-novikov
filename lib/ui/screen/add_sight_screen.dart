@@ -187,7 +187,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
       // TODO(novikov): Добавить выбор изображений
       _data.url = '';
 
-      widget.onSightAdd(_data.toSight());
+      // id будет возвращать бэк, пока просто пишем некую строку
+      widget.onSightAdd(_data.toSight(id: UniqueKey().toString()));
     }
   }
 
@@ -298,7 +299,8 @@ class NewSight {
         'details: $details';
   }
 
-  Sight toSight() => Sight(
+  Sight toSight({required String id}) => Sight(
+        id: id,
         name: name!,
         location: Location(
           latitude: latitude!,

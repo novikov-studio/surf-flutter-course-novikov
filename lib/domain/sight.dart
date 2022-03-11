@@ -2,6 +2,7 @@ import 'package:places/service/location.dart';
 
 /// Модель достопримечательности.
 class Sight {
+  final String id; // уникальный идентификатор
   final String name; // название
   final Location location; // координаты
   final String url; // ссылка на фотографию
@@ -22,6 +23,7 @@ class Sight {
   bool get isVisited => visitedDate != null;
 
   const Sight({
+    required this.id,
     required this.name,
     required this.location,
     required this.url,
@@ -39,5 +41,29 @@ class Sight {
 
     return name.toLowerCase().contains(lowerText) ||
         type.toLowerCase().contains(lowerText);
+  }
+
+  /// Клонирование объекта.
+  Sight copyWith({
+    DateTime? plannedDate,
+    DateTime? visitedDate,
+    bool? isLiked,
+  }) {
+    final sight = Sight(
+      id: id,
+      name: name,
+      location: location,
+      url: url,
+      info: info,
+      details: details,
+      type: type,
+      plannedDate: isLiked == false ? null : (plannedDate ?? this.plannedDate),
+      visitedDate: isLiked == false ? null : (visitedDate ?? this.visitedDate),
+      isLiked: isLiked ?? this.isLiked,
+    );
+    // Проверяем, что при удалении из Избранного сбрасываются даты
+    assert(this.isLiked || plannedDate == null && visitedDate == null);
+
+    return sight;
   }
 }
