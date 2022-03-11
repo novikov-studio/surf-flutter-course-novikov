@@ -7,6 +7,7 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/list_picker.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/widget/add_sight_photos.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
@@ -28,6 +29,7 @@ class AddSightScreen extends StatefulWidget {
 class _AddSightScreenState extends State<AddSightScreen> {
   final _formKey = GlobalKey<FormState>();
   final _typeKey = GlobalKey<FormFieldState<String>>();
+  final _urlsKey = GlobalKey<FormFieldState<List<String>>>();
   final _focusNodes = List.generate(4, (index) => FocusNode());
   final _data = NewSight();
   final _isValid = ValueNotifier(false);
@@ -54,103 +56,122 @@ class _AddSightScreenState extends State<AddSightScreen> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(children: [
-                    spacerH12,
-                    _LabeledField(
-                      label: AppStrings.category,
-                      usePadding: false,
-                      child: FormField<String>(
-                        key: _typeKey,
-                        builder: (field) => ListTile(
-                          title: Text(
-                            field.value ?? AppStrings.notChosen,
-                            style: field.isValid
-                                ? theme.textTheme.text400
-                                : theme.text400Secondary2,
-                          ),
-                          trailing: const SvgIcon(AppIcons.view),
-                          contentPadding: EdgeInsets.zero,
-                          onTap: _showCategoryPicker,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      spacerH24,
+                      FormField<List<String>>(
+                        key: _urlsKey,
+                        builder: (field) => AddSightPhotos(
+                          initialValue: field.value,
+                          onChange: _onUrlsChanged,
                         ),
-                        initialValue: _data.type,
-                        validator: _Validators.checkNotEmpty,
-                        onSaved: (value) => _data.type = value,
+                        initialValue: _data.urls,
+                        validator: _Validators.checkListNotEmpty,
+                        onSaved: (value) => _data.urls = value ?? <String>[],
                       ),
-                    ),
-                    spacerH12,
-                    _LabeledField(
-                      label: AppStrings.name,
-                      child: TextFormFieldEx(
-                        hintText: AppStrings.enterString,
-                        validator: _Validators.checkNotEmpty,
-                        onSaved: (value) => _data.name = value,
-                        focusNode: _focusNodes.first,
-                        nextFocusNode: _focusNodes[1],
+                      spacerH24,
+                      _LabeledField(
+                        label: AppStrings.category,
+                        usePadding: false,
+                        child: FormField<String>(
+                          key: _typeKey,
+                          builder: (field) => ListTile(
+                            title: Text(
+                              field.value ?? AppStrings.notChosen,
+                              style: field.isValid
+                                  ? theme.textTheme.text400
+                                  : theme.text400Secondary2,
+                            ),
+                            trailing: const SvgIcon(AppIcons.view),
+                            contentPadding: EdgeInsets.zero,
+                            onTap: _showCategoryPicker,
+                          ),
+                          initialValue: _data.type,
+                          validator: _Validators.checkNotEmpty,
+                          onSaved: (value) => _data.type = value,
+                        ),
                       ),
-                    ),
-                    spacerH12,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: _LabeledField(
-                            label: AppStrings.latitude,
-                            child: TextFormFieldEx(
-                              hintText: AppStrings.enterNumber,
-                              validator: _Validators.checkLatitude,
-                              onSaved: (value) =>
-                                  _data.latitude = double.parse(value!),
-                              focusNode: _focusNodes[1],
-                              nextFocusNode: _focusNodes[2],
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                signed: true,
-                                decimal: true,
+                      spacerH12,
+                      _LabeledField(
+                        label: AppStrings.name,
+                        child: TextFormFieldEx(
+                          hintText: AppStrings.enterString,
+                          validator: _Validators.checkNotEmpty,
+                          onSaved: (value) => _data.name = value,
+                          focusNode: _focusNodes.first,
+                          nextFocusNode: _focusNodes[1],
+                        ),
+                      ),
+                      spacerH12,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: _LabeledField(
+                              label: AppStrings.latitude,
+                              child: TextFormFieldEx(
+                                hintText: AppStrings.enterNumber,
+                                validator: _Validators.checkLatitude,
+                                onSaved: (value) =>
+                                    _data.latitude = double.parse(value!),
+                                focusNode: _focusNodes[1],
+                                nextFocusNode: _focusNodes[2],
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                  signed: true,
+                                  decimal: true,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        spacerW16,
-                        Expanded(
-                          child: _LabeledField(
-                            label: AppStrings.longitude,
-                            child: TextFormFieldEx(
-                              hintText: AppStrings.enterNumber,
-                              validator: _Validators.checkLongitude,
-                              onSaved: (value) =>
-                                  _data.longitude = double.parse(value!),
-                              focusNode: _focusNodes[2],
-                              nextFocusNode: _focusNodes[3],
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                signed: true,
-                                decimal: true,
+                          spacerW16,
+                          Expanded(
+                            child: _LabeledField(
+                              label: AppStrings.longitude,
+                              child: TextFormFieldEx(
+                                hintText: AppStrings.enterNumber,
+                                validator: _Validators.checkLongitude,
+                                onSaved: (value) =>
+                                    _data.longitude = double.parse(value!),
+                                focusNode: _focusNodes[2],
+                                nextFocusNode: _focusNodes[3],
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                  signed: true,
+                                  decimal: true,
+                                ),
                               ),
                             ),
                           ),
+                        ],
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Transform.translate(
+                          offset: const Offset(-8.0, 0),
+                          child: SvgTextButton.link(
+                            label: AppStrings.pointOnMap,
+                            color: theme.colorScheme.green,
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            onPressed: _onPointOnMap,
+                          ),
                         ),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: SvgTextButton.link(
-                        label: AppStrings.pointOnMap,
-                        color: theme.colorScheme.green,
-                        onPressed: _onPointOnMap,
                       ),
-                    ),
-                    spacerH12,
-                    _LabeledField(
-                      label: AppStrings.description,
-                      child: TextFormFieldEx(
-                        hintText: AppStrings.enterText,
-                        onSaved: (value) => _data.details =
-                            (value?.isNotEmpty ?? false) ? value : null,
-                        focusNode: _focusNodes[3],
-                        minLines: 3,
+                      spacerH12,
+                      _LabeledField(
+                        label: AppStrings.description,
+                        child: TextFormFieldEx(
+                          hintText: AppStrings.enterText,
+                          onSaved: (value) => _data.details =
+                              (value?.isNotEmpty ?? false) ? value : null,
+                          focusNode: _focusNodes[3],
+                          minLines: 3,
+                        ),
                       ),
-                    ),
-                  ]),
+                    ],
+                  ),
                 ),
               ),
               spacerH12,
@@ -184,9 +205,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
     if (_isValid.value) {
       _formKey.currentState?.save();
 
-      // TODO(novikov): Добавить выбор изображений
-      _data.url = '';
-
       // id будет возвращать бэк, пока просто пишем некую строку
       widget.onSightAdd(_data.toSight(id: UniqueKey().toString()));
     }
@@ -208,6 +226,11 @@ class _AddSightScreenState extends State<AddSightScreen> {
   void _onCategoryChanged(String value) {
     _typeKey.currentState?.didChange(value);
     Navigator.pop(context);
+  }
+
+  /// Callback на изменение списка фото.
+  void _onUrlsChanged(List<String> value) {
+    _urlsKey.currentState?.didChange(value);
   }
 
   /// Обработчик нажатия на ссылку "Указать на карте".
@@ -252,6 +275,9 @@ class _LabeledField extends StatelessWidget {
 
 /// Валидаторы текстовых полей.
 abstract class _Validators {
+  static String? checkListNotEmpty<T>(List<T>? list) =>
+      (list?.isEmpty ?? true) ? AppStrings.requiredField : null;
+
   static String? checkNotEmpty(String? text) =>
       (text?.isEmpty ?? true) ? AppStrings.requiredField : null;
 
@@ -289,7 +315,7 @@ class NewSight {
   double? longitude;
   String? details;
   String? type;
-  String? url;
+  List<String> urls = <String>[];
 
   @override
   String toString() {
@@ -308,6 +334,6 @@ class NewSight {
         ),
         type: type!,
         details: details,
-        url: url!,
+        urls: urls,
       );
 }

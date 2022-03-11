@@ -202,7 +202,7 @@ class _SightListTile extends StatelessWidget {
 
     return ListTile(
       leading: DarkenImage(
-        url: sight.url,
+        url: sight.urls.first,
         size: const Size.square(56.0),
         borderRadius: 12.0,
       ),

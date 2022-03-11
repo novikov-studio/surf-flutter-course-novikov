@@ -25,7 +25,7 @@ class SightDetails extends StatelessWidget {
             children: [
               AspectRatio(
                 aspectRatio: 1.0,
-                child: DarkenImage(url: sight.url),
+                child: DarkenImage(url: sight.urls.first),
               ),
               Positioned(
                 left: 16.0,
