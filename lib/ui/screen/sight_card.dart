@@ -8,18 +8,19 @@ import 'package:places/ui/widget/sight_card_text.dart';
 /// Виджет карточки места.
 class SightCard extends StatelessWidget {
   final Sight sight;
-
   final CardMode mode;
+  final bool draggable;
 
   const SightCard({
     Key? key,
     required this.sight,
     required this.mode,
+    this.draggable = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    Widget card = Card(
       child: InkWell(
         onTap: () {
           context.pushScreen<SightDetails>(
@@ -44,6 +45,26 @@ class SightCard extends StatelessWidget {
         ),
       ),
     );
+
+    if (draggable) {
+      card = LongPressDraggable<String>(
+        child: card,
+        data: sight.id,
+        axis: Axis.vertical,
+        childWhenDragging: const SizedBox(),
+        feedback: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width - 16.0 * 2,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Opacity(opacity: 0.8, child: card),
+          ),
+        ),
+      );
+    }
+
+    return card;
   }
 }
 
