@@ -60,7 +60,6 @@ class SightList extends StatelessWidget {
                         key: ValueKey(sight.id),
                         sight: sight,
                         mode: mode,
-                        draggable: draggable,
                       ),
                     ],
                   ),

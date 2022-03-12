@@ -79,6 +79,11 @@ extension ThemeExtension on ThemeData {
         color: colorScheme.inactiveBlack,
       );
 
+  TextStyle get superSmall500White => textTheme.superSmall.copyWith(
+    color: colorScheme.white,
+    fontWeight: FontWeight.w500,
+  );
+
   // ----- Экран "Детализация" -----
 
   TextStyle get smallBoldForDetailsType => textTheme.smallBold.copyWith(
