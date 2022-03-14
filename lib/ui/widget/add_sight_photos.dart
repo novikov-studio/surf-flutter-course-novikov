@@ -9,7 +9,7 @@ import 'package:places/ui/widget/controls/svg_icon.dart';
 /// Виджет для управления фото при добавлении нового места.
 class AddSightPhotos extends StatefulWidget {
   final List<String>? initialValue;
-  final void Function(List<String>) onChange;
+  final ValueChanged<List<String>> onChange;
 
   const AddSightPhotos({
     Key? key,

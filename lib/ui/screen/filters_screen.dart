@@ -67,11 +67,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
               style: theme.superSmallInactiveBlack,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: CategoriesGrid(
-              checked: categories,
-              onCategoryPressed: _onCategoriesChange,
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: CategoriesGrid(
+                checked: categories,
+                onCategoryPressed: _onCategoriesChange,
+              ),
             ),
           ),
           spacerH8,
@@ -79,18 +81,17 @@ class _FiltersScreenState extends State<FiltersScreen> {
             range: distance,
             onChanged: _onDistanceChange,
           ),
-          const Expanded(child: SizedBox()),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: ElevatedButton(
-              onPressed: filter.isNotEmpty ? _onApplyFilter : null,
-              child: Text(
-                AppStrings.showFilterResults(filter.length),
-              ),
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding:
+        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: ElevatedButton(
+          onPressed: filter.isNotEmpty ? _onApplyFilter : null,
+          child: Text(
+            AppStrings.showFilterResults(filter.length),
+          ),
+        ),
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/platform.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
@@ -36,7 +37,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   final _historyProvider = SearchHistoryProvider.createProvider();
   final _state = ValueNotifier<SearchState>(SearchState.initial);
   String? _lastSearch = '';
-  Iterable<Sight> _filtered = List.empty();
+  List<Sight> _filtered = List.empty();
 
   @override
   void initState() {
@@ -85,22 +86,16 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                 return const Loader();
 
               case SearchState.found:
-                final divider = Divider(
-                  height: 0.8,
-                  indent: 16 + 56 + 16,
-                  endIndent: 16.0,
-                  color: Theme.of(context).dividerColor,
-                );
-
-                // TODO(novikov): Напрашивается ListView.separated
-                return SingleChildScrollView(
-                  child: Column(
-                    children: _filtered
-                        .expand((sight) => [
-                              if (sight != _filtered.first) divider,
-                              _SightListTile(sight: sight),
-                            ])
-                        .toList(growable: false),
+                return ListView.separated(
+                  physics: platformScrollPhysics,
+                  itemCount: _filtered.length,
+                  itemBuilder: (_, index) => _SightListTile(
+                    sight: _filtered[index],
+                  ),
+                  separatorBuilder: (_, index) => const Divider(
+                    height: 0.8,
+                    indent: 16 + 56 + 16,
+                    endIndent: 16.0,
                   ),
                 );
 

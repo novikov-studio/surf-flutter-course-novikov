@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/search_history_provider.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/platform.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
@@ -43,7 +44,8 @@ class SearchHistory extends StatelessWidget {
         return AnimatedBuilder(
           animation: historyProvider,
           builder: (context, child) {
-            if (snapshot.data!.isEmpty) {
+            final items = snapshot.data!.toList(growable: false);
+            if (items.isEmpty) {
               return const SizedBox();
             }
 
@@ -63,30 +65,28 @@ class SearchHistory extends StatelessWidget {
                         constraints: BoxConstraints(
                           maxHeight: constraints.maxHeight - 100.0,
                         ),
-                        // TODO(novikov): ListView.separated
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: ListTile.divideTiles(
-                              tiles: snapshot.data!.map((e) => ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                title: Text(
-                                  e,
-                                  style: theme.text400Secondary2,
-                                ),
-                                trailing: IconButton(
-                                  splashRadius: 20.0,
-                                  icon: SvgIcon(
-                                    AppIcons.close,
-                                    color: closeColor,
-                                  ),
-                                  onPressed: () =>
-                                      historyProvider.remove(e),
-                                ),
-                                onTap: () => onItemTap(e),
-                              )),
-                              color: theme.dividerColor,
-                            ).toList(growable: false),
+                        child: ListView.separated(
+                          physics: platformScrollPhysics,
+                          shrinkWrap: true,
+                          itemCount: items.length,
+                          itemBuilder: (_, index) => ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                              items[index],
+                              style: theme.text400Secondary2,
+                            ),
+                            trailing: IconButton(
+                              splashRadius: 20.0,
+                              icon: SvgIcon(
+                                AppIcons.close,
+                                color: closeColor,
+                              ),
+                              onPressed: () =>
+                                  historyProvider.remove(items[index]),
+                            ),
+                            onTap: () => onItemTap(items[index]),
                           ),
+                          separatorBuilder: (_, index) => const Divider(),
                         ),
                       ),
                       child!,
