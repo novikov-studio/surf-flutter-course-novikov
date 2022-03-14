@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/const/platform.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
@@ -36,27 +37,17 @@ class SightList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final draggable = onOrderChanged != null && sights.length > 1;
-    // ListView.separated было бы логичней, но тогда приишлось бы тулить DragTarget в начале и конце списка
-    final count = sights.length * 2 + 1;
+    final count = sights.length;
 
     return sights.isEmpty
         ? empty
-        : ListView.builder(
-            itemCount: count,
-            itemBuilder: (_, virtualIndex) {
-              final index = virtualIndex ~/ 2;
-
-              // Четные - карточки
-              if (virtualIndex.isOdd) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SightCard(sight: sights[index], mode: mode),
-                );
-              }
-
-              // Нечетные - разделители
-              final targetId =
-                  virtualIndex < count - 1 ? sights[index].id : null;
+        // Смысл itemBuilder и separatorBuilder инвертирован,
+        // чтобы поместить DragTarget в начало и конец списка
+        : ListView.separated(
+            physics: platformScrollPhysics,
+            itemCount: count + 1,
+            itemBuilder: (_, index) {
+              final targetId = index < count ? sights[index].id : null;
 
               return draggable
                   ? _DragTargetSpacer(
@@ -65,6 +56,10 @@ class SightList extends StatelessWidget {
                     )
                   : spacerH24;
             },
+            separatorBuilder: (_, index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: SightCard(sight: sights[index], mode: mode),
+            ),
           );
   }
 }
