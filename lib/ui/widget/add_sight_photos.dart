@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/platform.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
@@ -31,9 +32,11 @@ class _AddSightPhotosState extends State<AddSightPhotos> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
+    return SizedBox(
+      height: _cardSize,
+      child: ListView(
+        physics: platformScrollPhysics,
+        scrollDirection: Axis.horizontal,
         children: [
           _AddCard(onTap: _addPhoto),
           ...items.expand((element) => [
