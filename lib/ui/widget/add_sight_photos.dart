@@ -10,8 +10,11 @@ class AddSightPhotos extends StatefulWidget {
   final List<String>? initialValue;
   final void Function(List<String>) onChange;
 
-  const AddSightPhotos({Key? key, this.initialValue, required this.onChange,})
-      : super(key: key);
+  const AddSightPhotos({
+    Key? key,
+    this.initialValue,
+    required this.onChange,
+  }) : super(key: key);
 
   @override
   State<AddSightPhotos> createState() => _AddSightPhotosState();
@@ -33,32 +36,35 @@ class _AddSightPhotosState extends State<AddSightPhotos> {
       child: Row(
         children: [
           _AddCard(onTap: _addPhoto),
-          ...items.expand((element) =>
-          [
-            spacerW16,
-            _PhotoCard(
-              fileName: element,
-              onNeedRemove: _removePhoto,
-            ),
-          ]),
+          ...items.expand((element) => [
+                spacerW16,
+                _PhotoCard(
+                  fileName: element,
+                  onNeedRemove: _removePhoto,
+                ),
+              ]),
         ],
       ),
     );
   }
 
   void _addPhoto() {
-    setState(() {
-      final fileName = mocks[items.length % mocks.length].urls.first;
-      items.add(fileName);
+    final fileName = mocks[items.length % mocks.length].urls.first;
+    if (!items.contains(fileName)) {
+      setState(() {
+        items.add(fileName);
+      });
       _notifyChanges();
-    });
+    } else {
+      // TODO(novikov): Всплывашка с сообщением, что такое фото уже есть
+    }
   }
 
   void _removePhoto(String fileName) {
     setState(() {
       items.remove(fileName);
-      _notifyChanges();
     });
+    _notifyChanges();
   }
 
   void _notifyChanges() {
@@ -115,27 +121,32 @@ class _PhotoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
-      width: _cardSize,
-      height: _cardSize,
-      alignment: Alignment.topRight,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        image: DecorationImage(
-          // TODO(novikov): Заменить на FileImage
-          image: NetworkImage(fileName),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            theme.colorScheme.main.withOpacity(0.24),
-            BlendMode.color,
+    return Dismissible(
+      key: ValueKey(fileName),
+      direction: DismissDirection.up,
+      onDismissed: (_) => _remove(),
+      child: Container(
+        width: _cardSize,
+        height: _cardSize,
+        alignment: Alignment.topRight,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+          image: DecorationImage(
+            // TODO(novikov): Заменить на FileImage
+            image: NetworkImage(fileName),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              theme.colorScheme.main.withOpacity(0.24),
+              BlendMode.color,
+            ),
           ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(right: 4.0, top: 4.0),
-        child: GestureDetector(
-          child: const SvgIcon(AppIcons.clear),
-          onTap: _remove,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 4.0, top: 4.0),
+          child: GestureDetector(
+            child: const SvgIcon(AppIcons.clear),
+            onTap: _remove,
+          ),
         ),
       ),
     );

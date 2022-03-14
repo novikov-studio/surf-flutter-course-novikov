@@ -8,7 +8,6 @@ import 'package:places/mocks.dart';
 /// Менеджер списка Избранное на моковых данных.
 class MemoryFavoritesProvider extends ChangeNotifier
     implements FavoritesProvider {
-
   @override
   Future<Iterable<Sight>> items() async =>
       UnmodifiableListView(mocks.where((element) => element.isLiked));
@@ -21,6 +20,28 @@ class MemoryFavoritesProvider extends ChangeNotifier
   @override
   Future<void> remove(Sight value) async {
     _manage(value.id, false);
+  }
+
+  @override
+  Future<void> reorder({required String sourceId, String? insertBeforeId}) async {
+    final sourceIndex = mocks.indexWhere((element) => element.id == sourceId);
+    final targetIndex = insertBeforeId != null
+        ? mocks.indexWhere((element) => element.id == insertBeforeId)
+        : null;
+    assert(sourceIndex >= 0 || (targetIndex ?? 0) >= 0);
+
+    if (sourceIndex >= 0 && sourceIndex != targetIndex) {
+      final sight = mocks.removeAt(sourceIndex);
+      if (targetIndex == null) {
+        mocks.add(sight);
+        notifyListeners();
+      } else {
+        if (targetIndex >= 0) {
+          mocks.insert(targetIndex, sight);
+          notifyListeners();
+        }
+      }
+    }
   }
 
   void _manage(String id, bool isLiked) {
