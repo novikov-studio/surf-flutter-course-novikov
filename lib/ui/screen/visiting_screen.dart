@@ -44,7 +44,9 @@ class VisitingScreen extends StatelessWidget {
                 return TabBarView(
                   children: [
                     SightList(
-                      sights: data.where((sight) => !sight.isVisited),
+                      sights: data
+                          .where((sight) => !sight.isVisited)
+                          .toList(growable: false),
                       empty: const EmptyList(
                         icon: AppIcons.card,
                         title: AppStrings.empty,
@@ -55,7 +57,9 @@ class VisitingScreen extends StatelessWidget {
                           _onDragComplete(context, sourceId, insertAfterId),
                     ),
                     SightList(
-                      sights: data.where((sight) => sight.isVisited),
+                      sights: data
+                          .where((sight) => sight.isVisited)
+                          .toList(growable: false),
                       empty: const EmptyList(
                         icon: AppIcons.goRouteBig,
                         title: AppStrings.empty,
