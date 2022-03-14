@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_details.dart';
+import 'package:places/ui/widget/controls/spacers.dart';
+import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/sight_card_image.dart';
 import 'package:places/ui/widget/sight_card_text.dart';
 
@@ -9,18 +13,21 @@ import 'package:places/ui/widget/sight_card_text.dart';
 class SightCard extends StatelessWidget {
   final Sight sight;
   final CardMode mode;
-  final bool draggable;
 
   const SightCard({
     Key? key,
     required this.sight,
     required this.mode,
-    this.draggable = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final draggable = mode == CardMode.favorites;
+    final dismissible = draggable;
+
     Widget card = Card(
+      margin: EdgeInsets.zero,
       child: InkWell(
         onTap: () {
           context.pushScreen<SightDetails>(
@@ -61,6 +68,39 @@ class SightCard extends StatelessWidget {
             child: Opacity(opacity: 0.8, child: card),
           ),
         ),
+      );
+    }
+
+    if (dismissible) {
+      card = Stack(
+        alignment: Alignment.centerRight,
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: theme.colorScheme.error,
+                borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 16.0,
+            child: Column(
+              children: [
+                const SvgIcon(AppIcons.bucket),
+                spacerH8,
+                Text(AppStrings.delete, style: theme.superSmall500White),
+              ],
+            ),
+          ),
+          Dismissible(
+            child: card,
+            key: ValueKey('dm_${sight.id}'),
+            direction: DismissDirection.endToStart,
+            onDismissed: (_) =>
+                SightCardImage.toggleInFavorites(context, sight),
+          ),
+        ],
       );
     }
 
