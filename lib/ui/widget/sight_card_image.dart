@@ -24,7 +24,7 @@ class SightCardImage extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        DarkenImage(url: sight.url),
+        DarkenImage(url: sight.urls.first),
         Positioned(
           top: 16.0,
           left: 16.0,
@@ -66,7 +66,7 @@ class SightCardImage extends StatelessWidget {
                         ? AppIcons.close
                         : AppIcons.heartFilled)
                     : AppIcons.heart,
-                onPressed: () => _toggleInFavorites(context),
+                onPressed: () => toggleInFavorites(context, sight),
               ),
             ],
           ),
@@ -75,7 +75,7 @@ class SightCardImage extends StatelessWidget {
     );
   }
 
-  Future<void> _toggleInFavorites(BuildContext context) async {
+  static Future<void> toggleInFavorites(BuildContext context, Sight sight) async {
     final favoritesProvider = Favorites.of(context)!;
     sight.isLiked
         ? await favoritesProvider.remove(sight)

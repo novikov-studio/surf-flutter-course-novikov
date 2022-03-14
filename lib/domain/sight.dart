@@ -5,7 +5,7 @@ class Sight {
   final String id; // уникальный идентификатор
   final String name; // название
   final Location location; // координаты
-  final String url; // ссылка на фотографию
+  final List<String> urls; // ссылки на фотографии
   final String? info; // краткое описание
   final String? details; // полное описание
   final String type; // категория объекта
@@ -26,7 +26,7 @@ class Sight {
     required this.id,
     required this.name,
     required this.location,
-    required this.url,
+    required this.urls,
     this.info,
     this.details,
     required this.type,
@@ -53,7 +53,7 @@ class Sight {
       id: id,
       name: name,
       location: location,
-      url: url,
+      urls: urls,
       info: info,
       details: details,
       type: type,
