@@ -31,6 +31,7 @@ abstract class AppStrings {
   static const save = 'СОХРАНИТЬ';
   static const newSight = 'НОВОЕ МЕСТО';
   static const clearHistory = 'Очистить историю';
+  static const delete = 'Удалить';
 
   // Категории
   static const hotel = 'Отель';

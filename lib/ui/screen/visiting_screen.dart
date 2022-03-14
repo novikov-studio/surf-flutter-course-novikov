@@ -51,6 +51,8 @@ class VisitingScreen extends StatelessWidget {
                         details: AppStrings.tagPlaces,
                       ),
                       mode: CardMode.favorites,
+                      onOrderChanged: (sourceId, insertAfterId) =>
+                          _onDragComplete(context, sourceId, insertAfterId),
                     ),
                     SightList(
                       sights: data.where((sight) => sight.isVisited),
@@ -60,6 +62,8 @@ class VisitingScreen extends StatelessWidget {
                         details: AppStrings.finishRoute,
                       ),
                       mode: CardMode.favorites,
+                      onOrderChanged: (sourceId, insertAfterId) =>
+                          _onDragComplete(context, sourceId, insertAfterId),
                     ),
                   ],
                 );
@@ -68,6 +72,18 @@ class VisitingScreen extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Future<void> _onDragComplete(
+    BuildContext context,
+    String sourceId,
+    String? insertAfterId,
+  ) async {
+    final favoritesProvider = Favorites.of(context)!;
+    await favoritesProvider.reorder(
+      sourceId: sourceId,
+      insertBeforeId: insertAfterId,
     );
   }
 }
