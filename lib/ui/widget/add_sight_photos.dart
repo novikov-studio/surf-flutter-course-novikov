@@ -8,7 +8,7 @@ import 'package:places/ui/widget/controls/svg_icon.dart';
 /// Виджет для управления фото при добавлении нового места.
 class AddSightPhotos extends StatefulWidget {
   final List<String>? initialValue;
-  final void Function(List<String>) onChange;
+  final ValueChanged<List<String>> onChange;
 
   const AddSightPhotos({
     Key? key,
@@ -31,9 +31,10 @@ class _AddSightPhotosState extends State<AddSightPhotos> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
+    return SizedBox(
+      height: _cardSize,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
         children: [
           _AddCard(onTap: _addPhoto),
           ...items.expand((element) => [

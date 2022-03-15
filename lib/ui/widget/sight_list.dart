@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
@@ -12,7 +11,7 @@ import 'package:places/ui/widget/controls/spacers.dart';
 /// Используется на экранах [SightListScreen] и [VisitingScreen].
 class SightList extends StatelessWidget {
   /// Список элементов для отображения.
-  final Iterable<Sight> sights;
+  final List<Sight> sights;
 
   /// Виджет, отображаемый в случае пустого списка элементов.
   final Widget empty;
@@ -37,41 +36,27 @@ class SightList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final draggable = onOrderChanged != null && sights.length > 1;
+    final count = sights.length;
 
     return sights.isEmpty
         ? empty
-        : SingleChildScrollView(
-            dragStartBehavior: DragStartBehavior.down,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ...sights.expand(
-                    (sight) => [
-                      if (draggable)
-                        _DragTargetSpacer(
-                          id: sight.id,
-                          onOrderChanged: onOrderChanged,
-                        )
-                      else
-                        spacerH24,
-                      SightCard(
-                        key: ValueKey(sight.id),
-                        sight: sight,
-                        mode: mode,
-                      ),
-                    ],
-                  ),
-                  if (draggable)
-                    _DragTargetSpacer(
-                      id: null,
+        // Смысл itemBuilder и separatorBuilder инвертирован,
+        // чтобы поместить DragTarget в начало и конец списка
+        : ListView.separated(
+            itemCount: count + 1,
+            itemBuilder: (_, index) {
+              final targetId = index < count ? sights[index].id : null;
+
+              return draggable
+                  ? _DragTargetSpacer(
+                      id: targetId,
                       onOrderChanged: onOrderChanged,
                     )
-                  else
-                    spacerH24,
-                ],
-              ),
+                  : spacerH24;
+            },
+            separatorBuilder: (_, index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: SightCard(sight: sights[index], mode: mode),
             ),
           );
   }
