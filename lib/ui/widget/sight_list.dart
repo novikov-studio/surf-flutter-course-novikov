@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/const/platform.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
@@ -44,7 +43,6 @@ class SightList extends StatelessWidget {
         // Смысл itemBuilder и separatorBuilder инвертирован,
         // чтобы поместить DragTarget в начало и конец списка
         : ListView.separated(
-            physics: platformScrollPhysics,
             itemCount: count + 1,
             itemBuilder: (_, index) {
               final targetId = index < count ? sights[index].id : null;

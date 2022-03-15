@@ -6,7 +6,6 @@ import 'package:places/domain/sight.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/const/platform.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
@@ -87,14 +86,13 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
               case SearchState.found:
                 return ListView.separated(
-                  physics: platformScrollPhysics,
                   itemCount: _filtered.length,
                   itemBuilder: (_, index) => _SightListTile(
                     sight: _filtered[index],
                   ),
                   separatorBuilder: (_, index) => const Divider(
                     height: 0.8,
-                    indent: 16 + 56 + 16,
+                    indent: 88,
                     endIndent: 16.0,
                   ),
                 );

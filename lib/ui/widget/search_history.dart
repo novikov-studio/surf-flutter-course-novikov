@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/search_history_provider.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/const/platform.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
@@ -66,7 +65,6 @@ class SearchHistory extends StatelessWidget {
                           maxHeight: constraints.maxHeight - 100.0,
                         ),
                         child: ListView.separated(
-                          physics: platformScrollPhysics,
                           shrinkWrap: true,
                           itemCount: items.length,
                           itemBuilder: (_, index) => ListTile(
