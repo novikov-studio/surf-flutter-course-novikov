@@ -32,6 +32,8 @@ abstract class AppStrings {
   static const newSight = 'НОВОЕ МЕСТО';
   static const clearHistory = 'Очистить историю';
   static const delete = 'Удалить';
+  static const skip = 'Пропустить';
+  static const start = 'НА СТАРТ';
 
   // Категории
   static const hotel = 'Отель';
@@ -62,6 +64,16 @@ abstract class AppStrings {
   static const tagPlaces =
       'Отмечайте понравившиеся места, и они появятся здесь.';
   static const finishRoute = 'Завершите маршрут, чтобы место попало сюда.';
+
+  // Экран Онбординг
+  static const welcome = 'Добро пожаловать\nв Путеводитель';
+  static const welcomeDetails = 'Ищи новые локации и сохраняй самые любимые.';
+
+  static const routing = 'Построй маршрут\nи отправляйся в путь';
+  static const routingDetails = 'Достигай цели максимально быстро и комфортно.';
+
+  static const savePlaces = 'Добавляй места,\nкоторые нашёл сам';
+  static const savePlacesDetails = 'Делись самыми интересными и помоги нам стать лучше!';
 
   static const months = [
     'янв.',
