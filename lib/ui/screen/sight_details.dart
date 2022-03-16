@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
-import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/sight_details_text.dart';
 
 /// Экран "Детализация".
@@ -20,57 +19,18 @@ class _SightDetailsState extends State<SightDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final statusHeight = MediaQuery.of(context).viewPadding.top;
-    final photos = widget.sight.urls;
-
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Stack(
-            children: [
-              AspectRatio(
-                aspectRatio: 1.0,
-                child: photos.length > 1
-                    ? PageView(
-                        controller: _controller,
-                        children: photos
-                            .map((element) => DarkenImage(url: element))
-                            .toList(growable: false),
-                      )
-                    : DarkenImage(url: photos.first),
-              ),
-              if (photos.length > 1)
-                Positioned(
-                  left: 0.0,
-                  right: 0.0,
-                  bottom: 0.0,
-                  height: 8.0,
-                  child: _PageIndicator(
-                    pageController: _controller,
-                    pageCount: photos.length,
-                    color: theme.colorScheme.onBackground,
-                  ),
-                ),
-              Positioned(
-                left: 16.0,
-                top: statusHeight + 16.0,
-                height: 32.0,
-                width: 32.0,
-                child: ElevatedButton(
-                  onPressed: context.popScreen,
-                  child: const Icon(Icons.chevron_left),
-                  style: theme.btnBack,
-                ),
-              ),
-            ],
-          ),
-          spacerH24,
-          Expanded(
-            child: SingleChildScrollView(
-              child: SightDetailsText(sight: widget.sight),
+      body: CustomScrollView(
+        slivers: [
+          SliverPersistentHeader(
+            delegate: _GalleryDelegate(
+              photos: widget.sight.urls,
+              controller: _controller,
+              maxHeight: MediaQuery.of(context).size.width,
             ),
+          ),
+          SliverToBoxAdapter(
+            child: SightDetailsText(sight: widget.sight),
           ),
         ],
       ),
@@ -114,5 +74,84 @@ class _PageIndicator extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// Схлопывающаяся галерея фото.
+class _GalleryDelegate extends SliverPersistentHeaderDelegate {
+  final List<String> photos;
+  final PageController controller;
+  final double maxHeight;
+
+  @override
+  double get maxExtent => maxHeight;
+
+  @override
+  double get minExtent => 0;
+
+  _GalleryDelegate({
+    required this.photos,
+    required this.controller,
+    required this.maxHeight,
+  });
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    final theme = Theme.of(context);
+    final statusHeight = MediaQuery.of(context).padding.top;
+
+    return Stack(
+      children: [
+        if (photos.length > 1)
+          PageView(
+            controller: controller,
+            children: photos
+                .map((element) => DarkenImage(url: element))
+                .toList(growable: false),
+          )
+        else
+          DarkenImage(
+            url: photos.first,
+            size: Size(maxHeight, maxHeight),
+          ),
+        if (photos.length > 1)
+          Positioned(
+            left: 0.0,
+            right: 0.0,
+            bottom: 0.0,
+            height: 8.0,
+            child: _PageIndicator(
+              pageController: controller,
+              pageCount: photos.length,
+              color: theme.colorScheme.onBackground,
+            ),
+          ),
+        Positioned(
+          left: 16.0,
+          top: statusHeight + 16.0,
+          height: 32.0,
+          width: 32.0,
+          child: ElevatedButton(
+            onPressed: context.popScreen,
+            child: const Icon(Icons.chevron_left),
+            style: theme.btnBack,
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return oldDelegate is! _GalleryDelegate ||
+        minExtent != oldDelegate.minExtent ||
+        maxExtent != oldDelegate.maxHeight ||
+        snapConfiguration != oldDelegate.snapConfiguration ||
+        photos != oldDelegate.photos ||
+        controller != oldDelegate.controller;
   }
 }
