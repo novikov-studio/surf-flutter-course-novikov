@@ -24,8 +24,6 @@ class SightDetailsText extends StatelessWidget {
         children: [
           Text(
             sight.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
             style: theme.titleOnSurface,
           ),
           Wrap(

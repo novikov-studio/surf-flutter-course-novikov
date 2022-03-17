@@ -16,6 +16,10 @@ extension ThemeExtension on ThemeData {
         color: colorScheme.onSurface,
       );
 
+  TextStyle get titleOnBackground => textTheme.title.copyWith(
+    color: colorScheme.onBackground,
+  );
+
   TextStyle get textOnSurface => textTheme.text.copyWith(
         color: colorScheme.onSurface,
       );
@@ -169,6 +173,15 @@ extension TextThemeExt on TextTheme {
 extension ContextExt on BuildContext {
   void pushScreen<T>(WidgetBuilder builder) {
     Navigator.push(
+      this,
+      MaterialPageRoute<T>(
+        builder: builder,
+      ),
+    );
+  }
+
+  void replaceScreen<T>(WidgetBuilder builder) {
+    Navigator.pushReplacement(
       this,
       MaterialPageRoute<T>(
         builder: builder,

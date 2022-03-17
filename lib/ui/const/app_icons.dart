@@ -49,10 +49,16 @@ abstract class AppIcons {
   static const particularPlace = '$_catalog/particular place.svg';
   static const restaurant = '$_catalog/restaurant.svg';
 
+  // Tutorial
+  static const tutorial1 = '$_tutorial/Tutorial 1 frame.svg';
+  static const tutorial2 = '$_tutorial/Tutorial 2 frame.svg';
+  static const tutorial3 = '$_tutorial/Tutorial 3 frame.svg';
+
   // Paths
   static const _base = 'res/icons';
   static const _emptyPages = '$_base/empty_pages';
   static const _menu = '$_base/menu';
   static const _others = '$_base/others';
   static const _catalog = '$_base/catalog';
+  static const _tutorial = '$_base/tutorial';
 }
