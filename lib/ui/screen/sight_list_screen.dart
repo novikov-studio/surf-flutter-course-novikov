@@ -13,7 +13,7 @@ import 'package:places/ui/widget/controls/search_bar.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/favorites.dart';
-import 'package:places/ui/widget/sight_list.dart';
+import 'package:places/ui/widget/sliver_sight_list.dart';
 
 /// Экран "Список мест".
 class SightListScreen extends StatefulWidget {
@@ -42,6 +42,7 @@ class _SightListScreenState extends State<SightListScreen> {
         animation: Favorites.of(context)!,
         builder: (_, __) => CustomScrollView(
           slivers: [
+            /// AppBar
             SliverAppBar(
               expandedHeight: 140.0,
               pinned: true,
@@ -56,6 +57,7 @@ class _SightListScreenState extends State<SightListScreen> {
                 ),
               ),
             ),
+            /// SearchBar
             SliverToBoxAdapter(
               child: _InactiveSearchBar(
                 searchBar: const SearchBar(enabled: false),
@@ -63,26 +65,15 @@ class _SightListScreenState extends State<SightListScreen> {
                 onIconTap: _showFilterDialog,
               ),
             ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                filtered
-                    .map((e) => SizedBox(
-                          height: 200.0,
-                          child: Center(child: Text(e.name)),
-                        ))
-                    .toList(growable: false),
+            /// Sight List
+            SliverSightList(
+              sights: sights,
+              empty: const EmptyList(
+                icon: AppIcons.list,
+                title: AppStrings.empty,
               ),
+              mode: CardMode.list,
             ),
-            // SliverToBoxAdapter(
-            //   child: SightList(
-            //     sights: filtered,
-            //     empty: const EmptyList(
-            //       icon: AppIcons.list,
-            //       title: AppStrings.empty,
-            //     ),
-            //     mode: CardMode.list,
-            //   ),
-            // ),
           ],
         ),
       ),

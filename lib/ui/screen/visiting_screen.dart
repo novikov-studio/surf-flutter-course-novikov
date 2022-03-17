@@ -7,7 +7,7 @@ import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/favorites.dart';
-import 'package:places/ui/widget/sight_list.dart';
+import 'package:places/ui/widget/sliver_sight_list.dart';
 
 /// Экран "Избранное".
 class VisitingScreen extends StatelessWidget {
@@ -43,31 +43,39 @@ class VisitingScreen extends StatelessWidget {
 
                 return TabBarView(
                   children: [
-                    SightList(
-                      sights: data
-                          .where((sight) => !sight.isVisited)
-                          .toList(growable: false),
-                      empty: const EmptyList(
-                        icon: AppIcons.card,
-                        title: AppStrings.empty,
-                        details: AppStrings.tagPlaces,
-                      ),
-                      mode: CardMode.favorites,
-                      onOrderChanged: (sourceId, insertAfterId) =>
-                          _onDragComplete(context, sourceId, insertAfterId),
+                    CustomScrollView(
+                      slivers: [
+                        SliverSightList(
+                          sights: data
+                              .where((sight) => !sight.isVisited)
+                              .toList(growable: false),
+                          empty: const EmptyList(
+                            icon: AppIcons.card,
+                            title: AppStrings.empty,
+                            details: AppStrings.tagPlaces,
+                          ),
+                          mode: CardMode.favorites,
+                          onOrderChanged: (sourceId, insertAfterId) =>
+                              _onDragComplete(context, sourceId, insertAfterId),
+                        ),
+                      ],
                     ),
-                    SightList(
-                      sights: data
-                          .where((sight) => sight.isVisited)
-                          .toList(growable: false),
-                      empty: const EmptyList(
-                        icon: AppIcons.goRouteBig,
-                        title: AppStrings.empty,
-                        details: AppStrings.finishRoute,
+                    CustomScrollView(
+                    slivers: [
+                      SliverSightList(
+                        sights: data
+                              .where((sight) => sight.isVisited)
+                              .toList(growable: false),
+                        empty: const EmptyList(
+                          icon: AppIcons.goRouteBig,
+                          title: AppStrings.empty,
+                          details: AppStrings.finishRoute,
+                        ),
+                        mode: CardMode.favorites,
+                        onOrderChanged: (sourceId, insertAfterId) =>
+                            _onDragComplete(context, sourceId, insertAfterId),
                       ),
-                      mode: CardMode.favorites,
-                      onOrderChanged: (sourceId, insertAfterId) =>
-                          _onDragComplete(context, sourceId, insertAfterId),
+                    ],
                     ),
                   ],
                 );
