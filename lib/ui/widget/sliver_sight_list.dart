@@ -10,7 +10,7 @@ import 'package:places/ui/widget/controls/spacers.dart';
 ///
 /// Используется на экранах [SightListScreen] и [VisitingScreen].
 class SliverSightList extends SliverList {
-  SliverSightList({
+  factory SliverSightList({
     Key? key,
 
     /// Список элементов для отображения.
@@ -27,60 +27,59 @@ class SliverSightList extends SliverList {
 
     /// Callback на перемещение карточки.
     OnOrderChanged? onOrderChanged,
+  }) =>
+      SliverSightList._(
+        key: key,
+        sights: sights,
+        empty: empty,
+        mode: mode,
+        onOrderChanged: onOrderChanged,
+        draggable: onOrderChanged != null && sights.length > 1,
+      );
+
+  SliverSightList._({
+    Key? key,
+    required List<Sight> sights,
+    required Widget empty,
+    required CardMode mode,
+    OnOrderChanged? onOrderChanged,
+    required final bool draggable,
   }) : super(
           key: key,
           delegate: SliverChildListDelegate(
-            // ignore: avoid-returning-widgets
-            _buildWidgets(
-              sights: sights,
-              mode: mode,
-              empty: empty,
-              onOrderChanged: onOrderChanged,
-            ),
+            sights.isEmpty
+                ? <Widget>[empty]
+                : sights
+                    .expand((sight) => [
+                          // Разделитель
+                          if (draggable)
+                            _DragTargetSpacer(
+                              id: sight.id,
+                              onOrderChanged: onOrderChanged,
+                            )
+                          else
+                            spacerH24,
+
+                          // Карточка
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: SightCard(sight: sight, mode: mode),
+                          ),
+
+                          // Хвостовой разделитель
+                          if (sight == sights.last)
+                            if (draggable)
+                              _DragTargetSpacer(
+                                id: null,
+                                onOrderChanged: onOrderChanged,
+                              )
+                            else
+                              spacerH24,
+                        ])
+                    .toList(growable: false),
           ),
         );
-
-  static List<Widget> _buildWidgets({
-    required List<Sight> sights,
-    required CardMode mode,
-    required Widget empty,
-    OnOrderChanged? onOrderChanged,
-  }) {
-    if (sights.isEmpty) {
-      return <Widget>[empty];
-    }
-
-    final draggable = onOrderChanged != null && sights.length > 1;
-
-    return sights
-        .expand((sight) => [
-              // Разделитель
-              if (draggable)
-                _DragTargetSpacer(
-                  id: sight.id,
-                  onOrderChanged: onOrderChanged,
-                )
-              else
-                spacerH24,
-
-              // Карточка
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: SightCard(sight: sight, mode: mode),
-              ),
-
-              // Хвостовой разделитель
-              if (sight == sights.last)
-                if (draggable)
-                  _DragTargetSpacer(
-                    id: null,
-                    onOrderChanged: onOrderChanged,
-                  )
-                else
-                  spacerH24,
-            ])
-        .toList(growable: false);
-  }
 }
 
 /// Разделитель, выступающий в роли приемника карточек при ручной сортировке.
