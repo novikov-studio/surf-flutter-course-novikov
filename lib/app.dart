@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/favorites_provider.dart';
 import 'package:places/service/utils.dart';
-import 'package:places/ui/screen/home_screen.dart';
-import 'package:places/ui/screen/onboarding_screen.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/res/themes.dart';
+import 'package:places/ui/screen/splash_screen.dart';
 import 'package:places/ui/widget/favorites.dart';
 
 /// Корневой виджет приложения.
@@ -38,12 +36,6 @@ class _StartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OnboardingScreen(
-      onStart: () => _start(context),
-    );
-  }
-
-  void _start(BuildContext context) {
-    context.replaceScreen<HomeScreen>((context) => const HomeScreen());
+    return const SplashScreen();
   }
 }

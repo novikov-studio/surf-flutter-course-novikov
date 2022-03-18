@@ -56,6 +56,8 @@ abstract class AppStrings {
   static const tryLater = 'Что-то пошло не так,\nпопробуйте позже';
   static const nothingFound = 'Ничего не найдено';
   static const tryAnotherSearch = 'Попробуйте изменить параметры поиска';
+  static const errorOnInit  = 'Ошибка инициализации';
+  static const errorOnInitDesc  = 'Попробуйте очистить кэш и перезапустить приложение';
 
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';
