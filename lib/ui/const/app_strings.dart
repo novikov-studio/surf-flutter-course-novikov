@@ -1,7 +1,7 @@
 /// Строковые константы приложения
 abstract class AppStrings {
   // Заголовки
-  static const listTitle = 'Список интересных мест';
+  static const listTitle = 'Список интересных\u00A0мест';
   static const favoritesTitle = 'Избранное';
   static const settingsTitle = 'Настройки';
   static const newSightTitle = 'Новое место';
