@@ -22,6 +22,7 @@ class SightDetailsText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          spacerH24,
           Text(
             sight.name,
             style: theme.titleOnSurface,
