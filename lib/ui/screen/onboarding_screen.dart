@@ -7,10 +7,15 @@ import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 
 /// Экран "Онбординг".
+///
+/// Если передан параметр [nextScreen], то при нажатии Пропустить или СТАРТ
+/// происходит замена текущего экрана на указанный.
+/// Если параметр [nextScreen] = null, при нажатии вышеуказанных кнопок
+/// произойдет возврат на предыдущий экран.
 class OnboardingScreen extends StatefulWidget {
-  final VoidCallback onStart;
+  final String? nextScreen;
 
-  const OnboardingScreen({Key? key, required this.onStart}) : super(key: key);
+  const OnboardingScreen({Key? key, this.nextScreen}) : super(key: key);
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -34,20 +39,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   icon: AppIcons.tutorial1,
                   title: AppStrings.welcome,
                   details: AppStrings.welcomeDetails,
-                  onStart: widget.onStart,
+                  onStart: _onStart,
                 ),
                 _StepPage(
                   icon: AppIcons.tutorial2,
                   title: AppStrings.routing,
                   details: AppStrings.routingDetails,
-                  onStart: widget.onStart,
+                  onStart: _onStart,
                 ),
                 _StepPage(
                   icon: AppIcons.tutorial3,
                   title: AppStrings.savePlaces,
                   details: AppStrings.savePlacesDetails,
                   isLast: true,
-                  onStart: widget.onStart,
+                  onStart: _onStart,
                 ),
               ],
             ),
@@ -69,6 +74,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void _onStart() {
+    if (widget.nextScreen != null) {
+      context.replaceScreen(widget.nextScreen!);
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 }
 

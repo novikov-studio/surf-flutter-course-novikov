@@ -5,9 +5,9 @@ import 'package:places/domain/search_history_provider.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
@@ -207,9 +207,7 @@ class _SightListTile extends StatelessWidget {
 
   /// Показ экрана детализации.
   void _showDetails(BuildContext context) {
-    context.pushScreen<SightDetails>(
-      (context) => SightDetails(sight: sight),
-    );
+    context.pushScreen(AppRoutes.details, args: sight.id);
   }
 }
 

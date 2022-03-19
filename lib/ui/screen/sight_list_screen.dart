@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/screen/add_sight_screen.dart';
-import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
-import 'package:places/ui/screen/sight_search_screen.dart';
 import 'package:places/ui/widget/controls/gradient_fab.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
@@ -57,6 +55,7 @@ class _SightListScreenState extends State<SightListScreen> {
                 ),
               ),
             ),
+
             /// SearchBar
             SliverToBoxAdapter(
               child: _InactiveSearchBar(
@@ -65,9 +64,10 @@ class _SightListScreenState extends State<SightListScreen> {
                 onIconTap: _showFilterDialog,
               ),
             ),
+
             /// Sight List
             SliverSightList(
-              sights: sights,
+              sights: filtered,
               empty: const EmptyList(
                 icon: AppIcons.list,
                 title: AppStrings.empty,
@@ -86,35 +86,26 @@ class _SightListScreenState extends State<SightListScreen> {
   }
 
   void _showSearchDialog() {
-    context.pushScreen<SightSearchScreen>(
-      (context) => SightSearchScreen(sights: filtered),
-    );
+    context.pushScreen(AppRoutes.search, args: filtered);
   }
 
-  void _showFilterDialog() {
-    context.pushScreen<FiltersScreen>(
-      (context) => FiltersScreen(sights: sights, onApplyFilter: _onApplyFilter),
-    );
+  Future<void> _showFilterDialog() async {
+    final result =
+        await context.pushScreen<List<Sight>>(AppRoutes.filters, args: sights);
+    if (result != null) {
+      setState(() {
+        filtered = result;
+      });
+    }
   }
 
-  void _showAddDialog() {
-    context.pushScreen<AddSightScreen>(
-      (context) => AddSightScreen(onSightAdd: _onSightAdd),
-    );
-  }
-
-  void _onSightAdd(Sight sight) {
-    setState(() {
-      sights.add(sight);
-    });
-    Navigator.pop(context);
-  }
-
-  void _onApplyFilter(List<Sight> filtered) {
-    setState(() {
-      this.filtered = filtered;
-    });
-    Navigator.pop(context);
+  Future<void> _showAddDialog() async {
+    final result = await context.pushScreen<Sight>(AppRoutes.newSight);
+    if (result != null) {
+      setState(() {
+        sights.add(result);
+      });
+    }
   }
 }
 

@@ -14,13 +14,9 @@ import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/controls/svg_text_button.dart';
 import 'package:places/ui/widget/controls/text_form_field_ex.dart';
 
-typedef OnSightAdd = void Function(Sight sight);
-
 /// Экран "Новое место".
 class AddSightScreen extends StatefulWidget {
-  final OnSightAdd onSightAdd;
-
-  const AddSightScreen({Key? key, required this.onSightAdd}) : super(key: key);
+  const AddSightScreen({Key? key}) : super(key: key);
 
   @override
   State<AddSightScreen> createState() => _AddSightScreenState();
@@ -206,26 +202,25 @@ class _AddSightScreenState extends State<AddSightScreen> {
       _formKey.currentState?.save();
 
       // id будет возвращать бэк, пока просто пишем некую строку
-      widget.onSightAdd(_data.toSight(id: UniqueKey().toString()));
+      Navigator.of(context).pop(_data.toSight(id: UniqueKey().toString()));
     }
   }
 
   /// Вызов диалога выбора категории.
-  void _showCategoryPicker() {
-    context.pushScreen<ListPicker<String>>(
-      (context) => ListPicker<String>(
-        title: AppStrings.categoryTitle,
-        items: Categories.names,
-        initialValue: _typeKey.currentState?.value,
-        onChoiceDone: _onCategoryChanged,
+  Future<void> _showCategoryPicker() async {
+    final result = await Navigator.of(context).push<String>(
+      MaterialPageRoute(
+        builder: (_) => ListPicker<String>(
+          title: AppStrings.categoryTitle,
+          items: Categories.names,
+          initialValue: _typeKey.currentState?.value,
+        ),
       ),
     );
-  }
 
-  /// Callback на изменение категории.
-  void _onCategoryChanged(String value) {
-    _typeKey.currentState?.didChange(value);
-    Navigator.pop(context);
+    if (result != null) {
+      _typeKey.currentState?.didChange(result);
+    }
   }
 
   /// Callback на изменение списка фото.

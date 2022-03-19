@@ -17,8 +17,8 @@ extension ThemeExtension on ThemeData {
       );
 
   TextStyle get titleOnBackground => textTheme.title.copyWith(
-    color: colorScheme.onBackground,
-  );
+        color: colorScheme.onBackground,
+      );
 
   TextStyle get textOnSurface => textTheme.text.copyWith(
         color: colorScheme.onSurface,
@@ -29,8 +29,8 @@ extension ThemeExtension on ThemeData {
       );
 
   TextStyle get textOnBackground => textTheme.text.copyWith(
-    color: colorScheme.onBackground,
-  );
+        color: colorScheme.onBackground,
+      );
 
   TextStyle get text400OnBackground => textTheme.text.copyWith(
         color: colorScheme.onBackground,
@@ -43,9 +43,9 @@ extension ThemeExtension on ThemeData {
       );
 
   TextStyle get text400OnSurface => textTheme.text.copyWith(
-    color: colorScheme.onSurface,
-    fontWeight: FontWeight.w400,
-  );
+        color: colorScheme.onSurface,
+        fontWeight: FontWeight.w400,
+      );
 
   TextStyle get smallGreen => textTheme.small.copyWith(
         color: colorScheme.green,
@@ -84,9 +84,9 @@ extension ThemeExtension on ThemeData {
       );
 
   TextStyle get superSmall500White => textTheme.superSmall.copyWith(
-    color: colorScheme.white,
-    fontWeight: FontWeight.w500,
-  );
+        color: colorScheme.white,
+        fontWeight: FontWeight.w500,
+      );
 
   // ----- Экран "Детализация" -----
 
@@ -169,29 +169,15 @@ extension TextThemeExt on TextTheme {
   TextStyle get text400 => text.copyWith(fontWeight: FontWeight.w400);
 }
 
-// TODO(novikov): Убрать, когда дойдем до навигации
 extension ContextExt on BuildContext {
-  void pushScreen<T>(WidgetBuilder builder) {
-    Navigator.push(
-      this,
-      MaterialPageRoute<T>(
-        builder: builder,
-      ),
-    );
+  Future<T?> pushScreen<T extends Object?>(String name, {Object? args}) async {
+    // workaround: https://github.com/flutter/flutter/issues/57186
+    return await Navigator.of(this).pushNamed(name, arguments: args) as T?;
   }
 
-  void replaceScreen<T>(WidgetBuilder builder) {
-    Navigator.pushReplacement(
-      this,
-      MaterialPageRoute<T>(
-        builder: builder,
-      ),
-    );
+  void replaceScreen(String name, {Object? args}) {
+    Navigator.of(this).pushReplacementNamed(name, arguments: args);
   }
 
-  void popScreen() {
-    if (Navigator.canPop(this)) {
-      Navigator.pop(this);
-    }
-  }
+  T? routeArgs<T>() => ModalRoute.of(this)?.settings.arguments as T?;
 }

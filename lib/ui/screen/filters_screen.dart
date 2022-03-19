@@ -14,12 +14,10 @@ import 'package:places/ui/widget/controls/spacers.dart';
 /// Экран "Фильтр".
 class FiltersScreen extends StatefulWidget {
   final List<Sight> sights;
-  final void Function(List<Sight> filtered) onApplyFilter;
 
   const FiltersScreen({
     Key? key,
     required this.sights,
-    required this.onApplyFilter,
   }) : super(key: key);
 
   @override
@@ -98,7 +96,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   /// Обработчик нажатия на кнопку "Показать".
   void _onApplyFilter() {
-    widget.onApplyFilter(filter);
+    Navigator.of(context).pop(filter);
   }
 
   /// Обработчик переключения категорий.
