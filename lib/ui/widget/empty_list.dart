@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 
+/// Виджет для полноэкранного отображения ошибок и сообщений.
+// Возможно, стоит переименовать.
 class EmptyList extends StatelessWidget {
   /// Путь к svg-изображению в ресурсах.
   final String icon;

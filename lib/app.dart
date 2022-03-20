@@ -12,7 +12,7 @@ import 'package:places/ui/screen/res/themes.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
 import 'package:places/ui/screen/splash_screen.dart';
-import 'package:places/ui/widget/favorites.dart';
+import 'package:places/ui/widget/holders/favorites.dart';
 
 /// Корневой виджет приложения.
 class App extends StatefulWidget {
@@ -26,7 +26,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Favorites(
-      favoritesProvider: FavoritesProvider.createProvider(),
+      value: FavoritesProvider.createProvider(),
       child: ValueListenableBuilder<bool>(
         valueListenable: Utils.isLight,
         builder: (_, value, __) => MaterialApp(

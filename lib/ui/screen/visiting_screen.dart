@@ -6,7 +6,7 @@ import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
-import 'package:places/ui/widget/favorites.dart';
+import 'package:places/ui/widget/holders/favorites.dart';
 import 'package:places/ui/widget/sliver_sight_list.dart';
 
 /// Экран "Избранное".

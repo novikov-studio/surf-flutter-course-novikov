@@ -82,8 +82,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         ],
       ),
       bottomNavigationBar: Padding(
-        padding:
-        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: ElevatedButton(
           onPressed: filter.isNotEmpty ? _onApplyFilter : null,
           child: Text(

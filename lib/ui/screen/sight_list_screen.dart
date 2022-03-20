@@ -10,7 +10,7 @@ import 'package:places/ui/widget/controls/gradient_fab.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
-import 'package:places/ui/widget/favorites.dart';
+import 'package:places/ui/widget/holders/favorites.dart';
 import 'package:places/ui/widget/sliver_sight_list.dart';
 
 /// Экран "Список мест".

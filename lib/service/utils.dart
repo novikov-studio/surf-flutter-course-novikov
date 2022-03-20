@@ -33,12 +33,13 @@ abstract class Utils {
   static bool isPointInRingArea({
     required Location point,
     required Location center,
-    required double minRadius,
+    required double? minRadius,
     required double maxRadius,
   }) {
     final distance = calcDistance(center, point);
 
-    return distance >= minRadius && distance <= maxRadius;
+    return (minRadius == null || distance >= minRadius) &&
+        distance <= maxRadius;
   }
 
   /// Формирует URL для отображения списка точек на Яндекс.Картах
