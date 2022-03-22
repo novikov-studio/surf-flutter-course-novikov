@@ -5,11 +5,6 @@ import 'package:places/ui/screen/res/themes.dart';
 
 /// Доступ к текстовым стилям и цветам по названиям из дизайн-макета
 extension ThemeExtension on ThemeData {
-  // TODO(novikov): убрать после перехода на SliverAppBar
-  TextStyle get largeTitleForAppBar => textTheme.largeTitle.copyWith(
-        color: appBarTheme.foregroundColor,
-      );
-
   // ----- Общие стили -----
 
   TextStyle get titleOnSurface => textTheme.title.copyWith(

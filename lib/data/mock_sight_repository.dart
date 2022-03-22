@@ -1,11 +1,15 @@
 import 'package:places/domain/filter.dart';
+import 'package:places/domain/location_provider.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/domain/sight_repository.dart';
 import 'package:places/mocks.dart';
 import 'package:places/service/utils.dart';
 
 class MockSightRepository implements SightRepository {
+  final LocationProvider _locationProvider;
   int _generatorId = 10000;
+
+  MockSightRepository(this._locationProvider);
 
   @override
   Future<Sight> create(Sight value) async {
@@ -50,10 +54,11 @@ class MockSightRepository implements SightRepository {
 
     // Фильтр по расстоянию
     if (filter.maxRadius != null) {
+      final location = await _locationProvider.current();
       result.retainWhere(
-        (element) => Utils.isPointInRingArea(
-          point: element.location,
-          center: filter.location!,
+        (sight) => Utils.isPointInRingArea(
+          point: sight.location,
+          center: location,
           minRadius: filter.minRadius,
           maxRadius: filter.maxRadius!,
         ),
@@ -65,6 +70,8 @@ class MockSightRepository implements SightRepository {
 
   @override
   Future<Sight> read(String id) async {
+    await Future<void>.delayed(const Duration(seconds: 1));
+
     return mocks.firstWhere((element) => element.id == id);
   }
 

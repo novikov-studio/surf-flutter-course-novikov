@@ -27,14 +27,18 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  final _locationProvider = LocationProvider.createProvider();
+
   @override
   Widget build(BuildContext context) {
     return Locations(
-      value: LocationProvider.createProvider(),
+      value: _locationProvider,
       child: Favorites(
         value: FavoritesProvider.createProvider(),
         child: Sights(
-          value: SightRepository.createRepository(),
+          value: SightRepository.createRepository(
+            locationProvider: _locationProvider,
+          ),
           child: ValueListenableBuilder<bool>(
             valueListenable: Utils.isLight,
             builder: (_, value, __) => MaterialApp(
@@ -58,7 +62,7 @@ class _AppState extends State<App> {
 
                 /// Фильтры.
                 AppRoutes.filters: (context) =>
-                    FiltersScreen(initialValue: context.routeArgs<Filter>()),
+                    FiltersScreen(initialValue: context.routeArgs<Filter>()!),
 
                 /// Поиск.
                 AppRoutes.search: (context) =>

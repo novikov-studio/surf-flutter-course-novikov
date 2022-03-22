@@ -72,6 +72,7 @@ class _SightListScreenState extends State<SightListScreen> {
                 SliverToBoxAdapter(
                   child: _InactiveSearchBar(
                     searchBar: const SearchBar(enabled: false),
+                    filterIsEmpty: _filter.isEmpty,
                     onFieldTap: isProgress ? null : _showSearchDialog,
                     onIconTap: isProgress ? null : _showFilterDialog,
                   ),
@@ -157,6 +158,7 @@ class _InactiveSearchBar extends StatelessWidget
   final VoidCallback? onFieldTap;
   final VoidCallback? onIconTap;
   final SearchBar searchBar;
+  final bool filterIsEmpty;
 
   @override
   Size get preferredSize => searchBar.preferredSize;
@@ -164,12 +166,15 @@ class _InactiveSearchBar extends StatelessWidget
   const _InactiveSearchBar({
     Key? key,
     required this.searchBar,
+    required this.filterIsEmpty,
     this.onFieldTap,
     this.onIconTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Stack(
       alignment: Alignment.centerRight,
       children: [
@@ -184,7 +189,9 @@ class _InactiveSearchBar extends StatelessWidget
             child: IconButton(
               icon: SvgIcon(
                 AppIcons.filter,
-                color: Theme.of(context).colorScheme.green,
+                color: filterIsEmpty
+                    ? theme.colorScheme.onSurface
+                    : theme.colorScheme.green,
               ),
               splashRadius: 20.0,
               onPressed: onIconTap,

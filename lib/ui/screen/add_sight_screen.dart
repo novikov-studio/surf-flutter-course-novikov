@@ -200,9 +200,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
     _onFormChanged();
     if (_isValid.value) {
       _formKey.currentState?.save();
-
-      // id будет возвращать бэк, пока просто пишем некую строку
-      Navigator.of(context).pop(_data.toSight(id: UniqueKey().toString()));
+      Navigator.of(context).pop(_data.toSight());
     }
   }
 
@@ -320,8 +318,8 @@ class NewSight {
         'details: $details';
   }
 
-  Sight toSight({required String id}) => Sight(
-        id: id,
+  Sight toSight() => Sight(
+        id: '',
         name: name!,
         location: Location(
           latitude: latitude!,

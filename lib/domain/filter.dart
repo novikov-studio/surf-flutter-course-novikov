@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:places/service/location.dart';
 
 /// Класс для хранения настроек фильтра.
 @immutable
@@ -9,9 +8,6 @@ class Filter {
 
   // Список категорий
   final Set<String>? categories;
-
-  // Текущие координаты
-  final Location? location;
 
   // Минимальный радиус поиска
   final double? minRadius;
@@ -25,33 +21,44 @@ class Filter {
   bool get isEmpty =>
       categories == null && maxRadius == null && pattern == null;
 
+  @override
+  int get hashCode => Object.hashAll([
+        if (categories != null) Object.hashAllUnordered(categories!) else null,
+        minRadius,
+        maxRadius,
+        pattern,
+      ]);
+
   const Filter({
     this.categories,
-    this.location,
     this.minRadius,
     this.maxRadius,
     this.pattern,
-  })  : assert(location == null && maxRadius == null ||
-            location != null && maxRadius != null),
-        assert(minRadius == null || location != null && maxRadius != null);
+  }) : assert(minRadius == null || maxRadius != null);
 
   @override
   String toString() => 'Filter('
       'categories: ${categories?.length}, '
-      'location: $location, '
       'minRadius: $minRadius, '
       'maxRadius: $maxRadius, '
       'pattern: $pattern)';
 
+  @override
+  bool operator ==(Object other) {
+    return other is Filter &&
+        setEquals(categories, other.categories) &&
+        minRadius == other.minRadius &&
+        maxRadius == other.maxRadius &&
+        pattern == other.pattern;
+  }
+
   Filter copyWith({
     Set<String>? categories,
-    Location? location,
     double? minRadius,
     double? maxRadius,
     String? pattern,
   }) =>
       Filter(
-        location: location ?? this.location,
         minRadius: minRadius ?? this.minRadius,
         maxRadius: maxRadius ?? this.maxRadius,
         categories: categories ?? this.categories,
