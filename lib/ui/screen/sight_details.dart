@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/empty_list.dart';
+import 'package:places/ui/widget/holders/sights.dart';
 import 'package:places/ui/widget/sight_details_text.dart';
 
 /// Экран "Детализация".
@@ -21,12 +21,19 @@ class SightDetails extends StatefulWidget {
 
 class _SightDetailsState extends State<SightDetails> {
   final _controller = PageController();
+  late Future<Sight> _load;
+
+  @override
+  void initState() {
+    super.initState();
+    _load = Sights.of(context)!.read(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<Sight>(
-        future: _getSight(),
+        future: _load,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const EmptyList(
@@ -54,13 +61,6 @@ class _SightDetailsState extends State<SightDetails> {
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  Future<Sight> _getSight() async {
-    await Future<void>.delayed(const Duration(seconds: 1));
-
-    // TODO(novikov): Заменить на запрос к провайдеру данных
-    return mocks.firstWhere((element) => element.id == widget.id);
   }
 }
 

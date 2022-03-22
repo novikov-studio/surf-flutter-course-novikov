@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:places/domain/filter.dart';
 import 'package:places/domain/search_history_provider.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/service/utils.dart';
@@ -13,6 +14,7 @@ import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
+import 'package:places/ui/widget/holders/sights.dart';
 import 'package:places/ui/widget/search_history.dart';
 
 /// Экран "Поиск мест" по названию.
@@ -22,9 +24,9 @@ import 'package:places/ui/widget/search_history.dart';
 /// она же отображается при очистке поля ввода.
 /// Для возврата на предыдущий экран необходимо нажать иконку "Очистить" при пустом поле ввода.
 class SightSearchScreen extends StatefulWidget {
-  final List<Sight> sights;
+  final Filter filter;
 
-  const SightSearchScreen({Key? key, required this.sights}) : super(key: key);
+  const SightSearchScreen({Key? key, required this.filter}) : super(key: key);
 
   @override
   State<SightSearchScreen> createState() => _SightSearchScreenState();
@@ -154,6 +156,8 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
   /// Поиск мест по подстроке.
   Future<void> _search(String text) async {
+    final sightsRepository = Sights.of(context)!;
+
     // Добавляем запрос в историю поиска
     await _historyProvider.add(text);
 
@@ -162,9 +166,10 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
     // Производим поиск
     try {
-      _filtered = widget.sights.where((e) => e.isMatch(text)).toList(
-            growable: false,
-          );
+      _filtered = (await sightsRepository.items(
+        filter: widget.filter.copyWith(pattern: _controller.text),
+      ))
+          .toList(growable: false);
 
       // Если за время поиска успели очистить поле ввода,
       // значит результат уже не интересен, отображаем историю
