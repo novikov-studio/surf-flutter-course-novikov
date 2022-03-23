@@ -6,6 +6,7 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 
+/// Нижняя часть карточки [SightCard].
 class SightCardText extends StatelessWidget {
   final Sight sight;
   final CardMode mode;

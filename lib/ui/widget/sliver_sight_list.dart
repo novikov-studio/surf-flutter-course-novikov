@@ -9,77 +9,77 @@ import 'package:places/ui/widget/controls/spacers.dart';
 /// Виджет для отображения списка карточек мест.
 ///
 /// Используется на экранах [SightListScreen] и [VisitingScreen].
-class SliverSightList extends SliverList {
-  factory SliverSightList({
+
+class SliverSightList extends StatelessWidget {
+  /// Список элементов для отображения.
+  final List<Sight> sights;
+
+  /// Виджет, отображаемый в случае пустого списка элементов.
+  final Widget empty;
+
+  /// Режим отображения [CardMode] карточки места.
+  ///
+  /// Карточка одного и того же места может отображаться по-разному,
+  /// в зависимости от того, на каком экране она находится
+  final CardMode mode;
+
+  /// Callback на перемещение карточки.
+  final OnOrderChanged? onOrderChanged;
+
+  const SliverSightList({
     Key? key,
+    required this.sights,
+    required this.empty,
+    required this.mode,
+    this.onOrderChanged,
+  }) : super(key: key);
 
-    /// Список элементов для отображения.
-    required List<Sight> sights,
-
-    /// Виджет, отображаемый в случае пустого списка элементов.
-    required Widget empty,
-
-    /// Режим отображения [CardMode] карточки места.
-    ///
-    /// Карточка одного и того же места может отображаться по-разному,
-    /// в зависимости от того, на каком экране она находится
-    required CardMode mode,
-
-    /// Callback на перемещение карточки.
-    OnOrderChanged? onOrderChanged,
-  }) =>
-      SliverSightList._(
-        key: key,
-        sights: sights,
-        empty: empty,
-        mode: mode,
-        onOrderChanged: onOrderChanged,
-        draggable: onOrderChanged != null && sights.length > 1,
+  @override
+  Widget build(BuildContext context) {
+    if (sights.isEmpty) {
+      return SliverFillRemaining(
+        child: Center(child: empty),
       );
+    }
 
-  SliverSightList._({
-    Key? key,
-    required List<Sight> sights,
-    required Widget empty,
-    required CardMode mode,
-    OnOrderChanged? onOrderChanged,
-    required final bool draggable,
-  }) : super(
-          key: key,
-          delegate: SliverChildListDelegate(
-            sights.isEmpty
-                ? <Widget>[empty]
-                : sights
-                    .expand((sight) => [
-                          // Разделитель
-                          if (draggable)
-                            _DragTargetSpacer(
-                              id: sight.id,
-                              onOrderChanged: onOrderChanged,
-                            )
-                          else
-                            spacerH24,
+    final draggable = onOrderChanged != null && sights.length > 1;
 
-                          // Карточка
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: SightCard(sight: sight, mode: mode),
-                          ),
+    return SliverList(
+      key: key,
+      delegate: SliverChildListDelegate(
+        sights.isEmpty
+            ? <Widget>[empty]
+            : sights
+                .expand((sight) => [
+                      // Разделитель
+                      if (draggable)
+                        _DragTargetSpacer(
+                          id: sight.id,
+                          onOrderChanged: onOrderChanged,
+                        )
+                      else
+                        spacerH24,
 
-                          // Хвостовой разделитель
-                          if (sight == sights.last)
-                            if (draggable)
-                              _DragTargetSpacer(
-                                id: null,
-                                onOrderChanged: onOrderChanged,
-                              )
-                            else
-                              spacerH24,
-                        ])
-                    .toList(growable: false),
-          ),
-        );
+                      // Карточка
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: SightCard(sight: sight, mode: mode),
+                      ),
+
+                      // Хвостовой разделитель
+                      if (sight == sights.last)
+                        if (draggable)
+                          _DragTargetSpacer(
+                            id: null,
+                            onOrderChanged: onOrderChanged,
+                          )
+                        else
+                          spacerH24,
+                    ])
+                .toList(growable: false),
+      ),
+    );
+  }
 }
 
 /// Разделитель, выступающий в роли приемника карточек при ручной сортировке.

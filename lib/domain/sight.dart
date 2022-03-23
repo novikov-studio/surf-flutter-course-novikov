@@ -45,12 +45,13 @@ class Sight {
 
   /// Клонирование объекта.
   Sight copyWith({
+    String? id,
     DateTime? plannedDate,
     DateTime? visitedDate,
     bool? isLiked,
   }) {
     final sight = Sight(
-      id: id,
+      id: id ?? this.id,
       name: name,
       location: location,
       urls: urls,

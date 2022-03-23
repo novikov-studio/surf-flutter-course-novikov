@@ -1,25 +1,32 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:places/domain/filter.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
-import 'package:places/service/location.dart';
-import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/categories_grid.dart';
+import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
+import 'package:places/ui/widget/holders/sights.dart';
 
 /// Экран "Фильтр".
+///
+/// Кнопка Очистить задает значение фильтра по-умолчанию.
+/// Однако оно используется только при нажатии кнопки ПОКАЗАТЬ.
+///
+/// Если после нажатия Очистить вернуться на главный экран
+/// с помощью программной или аппаратной кнопки Назад
+/// филььр будет сброшен.
 class FiltersScreen extends StatefulWidget {
-  final List<Sight> sights;
-  final void Function(List<Sight> filtered) onApplyFilter;
+  final Filter initialValue;
 
   const FiltersScreen({
     Key? key,
-    required this.sights,
-    required this.onApplyFilter,
+    required this.initialValue,
   }) : super(key: key);
 
   @override
@@ -27,69 +34,112 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  final Location currentLocation = mockCurrentLocation;
+  late final _DelayedSearch _delayedSearch;
+  late Filter _filter;
+  late Future<Iterable<Sight>> _search;
 
-  // Список выбранных категорий
-  final Set<String> categories = {};
-
-  // Выбранный диапазон расстояний
-  RangeValues distance =
-      const RangeValues(_SliderBar.minDistance, _SliderBar.maxDistance);
-
-  // Список мест, удовлетворяющих фильтру
-  List<Sight> filter = [];
+  /// Фильтр по-умолчанию.
+  Filter get _defaultFilter => Filter(
+        categories: Categories.names.toSet(),
+        minRadius: Filter.minDistance,
+        maxRadius: Filter.maxDistance,
+      );
 
   @override
   void initState() {
     super.initState();
-    _doClear();
+
+    // Отложенный поиск для сокращения кол-ва обращений к серверу
+    _delayedSearch = _DelayedSearch(
+      milliseconds: 1000,
+      callback: () {
+        setState(() {
+          _search = _updateFilter();
+        });
+      },
+    );
+
+    // Инициализация фильтра
+    _filter = _defaultFilter.copyWith(
+      categories: widget.initialValue.categories,
+      minRadius: widget.initialValue.minRadius,
+      maxRadius: widget.initialValue.maxRadius,
+      pattern: widget.initialValue.pattern,
+    );
+
+    // Запуск поиска подходящих мест
+    _search = _updateFilter();
   }
 
   @override
   Widget build(BuildContext context) {
+    // TODO(novikov): Оптимизировать верстку - уйти от глобального setState
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: SimpleAppBar(
-        leadingIcon: AppIcons.arrow,
-        leadingOnTap: () => Navigator.pop(context),
-        trailingText: AppStrings.clear,
-        trailingOnTap: _onClear,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-            child: Text(
-              AppStrings.categories,
-              style: theme.superSmallInactiveBlack,
-            ),
-          ),
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: CategoriesGrid(
-                checked: categories,
-                onCategoryPressed: _onCategoriesChange,
+    return WillPopScope(
+      onWillPop: () async {
+        _back();
+
+        return false;
+      },
+      child: Scaffold(
+        appBar: SimpleAppBar(
+          leadingIcon: AppIcons.arrow,
+          leadingOnTap: _back,
+          trailingText: AppStrings.clear,
+          trailingOnTap: _onClear,
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+              child: Text(
+                AppStrings.categories,
+                style: theme.superSmallInactiveBlack,
               ),
             ),
-          ),
-          spacerH8,
-          _SliderBar(
-            range: distance,
-            onChanged: _onDistanceChange,
-          ),
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding:
-        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: ElevatedButton(
-          onPressed: filter.isNotEmpty ? _onApplyFilter : null,
-          child: Text(
-            AppStrings.showFilterResults(filter.length),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: CategoriesGrid(
+                  checked: _filter.categories!,
+                  onCategoryPressed: _onCategoriesChange,
+                ),
+              ),
+            ),
+            spacerH8,
+            _SliderBar(
+              range: RangeValues(_filter.minRadius!, _filter.maxRadius!),
+              onChanged: _onDistanceChange,
+            ),
+          ],
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: FutureBuilder<Iterable<Sight>>(
+            future: _search,
+            builder: (context, snapshot) {
+              final isProgress =
+                  snapshot.connectionState != ConnectionState.done;
+              final count = snapshot.hasData ? snapshot.data!.length : 0;
+
+              return ElevatedButton(
+                onPressed: count > 0 ? _onApplyFilter : null,
+                child: isProgress
+                    ? const AspectRatio(
+                        aspectRatio: 1.0,
+                        child: Loader(),
+                      )
+                    : Text(
+                        AppStrings.showFilterResults(count),
+                      ),
+                style: ElevatedButton.styleFrom(
+                  maximumSize: const Size(double.infinity, 48.0),
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -98,63 +148,54 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   /// Обработчик нажатия на кнопку "Показать".
   void _onApplyFilter() {
-    widget.onApplyFilter(filter);
+    Navigator.of(context).pop(_filter);
   }
 
   /// Обработчик переключения категорий.
   void _onCategoriesChange(String category, bool isChecked) {
     setState(() {
-      isChecked ? categories.add(category) : categories.remove(category);
-      _updateFilter();
+      isChecked
+          ? _filter.categories!.add(category)
+          : _filter.categories!.remove(category);
+      _delayedSearch();
     });
   }
 
   /// Обработчик изменения позиции слайдеров.
   void _onDistanceChange(RangeValues range) {
     setState(() {
-      distance = range;
-      _updateFilter();
+      _filter = _filter.copyWith(minRadius: range.start, maxRadius: range.end);
+      _delayedSearch();
     });
   }
 
   /// Обработчик нажатия на кнопку "Очистить".
   void _onClear() {
-    setState(_doClear);
+    setState(() {
+      _filter = _defaultFilter;
+      _delayedSearch();
+    });
   }
 
   /// Обновление фильтра.
-  void _updateFilter() {
-    filter = widget.sights
-        // Фильтр по категории
-        .where((sight) => categories.contains(sight.type))
-        // Фильтр по расстоянию
-        .where((sight) => Utils.isPointInRingArea(
-              point: sight.location,
-              center: currentLocation,
-              minRadius: distance.start,
-              maxRadius: distance.end,
-            ))
-        .toList(growable: false);
+  Future<Iterable<Sight>> _updateFilter() async {
+    final sightRepository = Sights.of(context)!;
+
+    return sightRepository.items(filter: _filter);
   }
 
-  /// Сброс фильтра.
-  void _doClear() {
-    // Включаем все категории
-    categories.addAll(Categories.names);
-    // Устанавливаем максимальный диапазон расстояния
-    distance =
-        const RangeValues(_SliderBar.minDistance, _SliderBar.maxDistance);
-    // Обновляем список мест, удовлетворяющих фильтру
-    _updateFilter();
+  void _back() {
+    // Если фильтр по-умолчанию, то возвращаем пустой фильтр
+    final result = _filter == _defaultFilter ? const Filter() : _filter;
+    Navigator.of(context).pop(result);
   }
 }
 
 /// Виджет выбора диапазона расстояния.
 class _SliderBar extends StatelessWidget {
-  static const double minDistance = 0.1; // км
-  static const double maxDistance = 10.0; // км
   static const double stepDistance = 0.1; // км
-  static const int _ticks = (maxDistance - minDistance) ~/ stepDistance;
+  static const int _ticks =
+      (Filter.maxDistance - Filter.minDistance) ~/ stepDistance;
 
   final RangeValues range;
   final ValueChanged<RangeValues>? onChanged;
@@ -185,13 +226,38 @@ class _SliderBar extends StatelessWidget {
           ),
           RangeSlider(
             values: range,
-            min: minDistance,
-            max: maxDistance,
+            min: Filter.minDistance,
+            max: Filter.maxDistance,
             divisions: _ticks,
             onChanged: onChanged,
           ),
         ],
       ),
     );
+  }
+}
+
+/// Класс для задержки реакции на изменение.
+class _DelayedSearch {
+  final VoidCallback callback;
+  final Duration _delay;
+  Timer? _timer;
+
+  _DelayedSearch({
+    required int milliseconds,
+    required this.callback,
+  }) : _delay = Duration(milliseconds: milliseconds);
+
+  void call() {
+    _timer?.cancel();
+    _timer = Timer(_delay, callback);
+  }
+
+  void cancel() {
+    _timer?.cancel();
+  }
+
+  void dispose() {
+    cancel();
   }
 }

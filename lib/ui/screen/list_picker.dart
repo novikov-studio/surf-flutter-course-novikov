@@ -20,16 +20,12 @@ class ListPicker<T> extends StatefulWidget {
   /// Значение, выбранное по-умолчанию.
   final T? initialValue;
 
-  /// Callback, вызываемый при подтверждении вызова.
-  final void Function(T value) onChoiceDone;
-
   const ListPicker({
     Key? key,
     required this.title,
     required this.items,
     this.initialValue,
     this.names,
-    required this.onChoiceDone,
   })  : assert(names == null || items.length == names.length),
         super(key: key);
 
@@ -104,7 +100,7 @@ class _ListPickerState<T> extends State<ListPicker<T>> {
 
   void _onSaveButtonPressed() {
     if (index != null) {
-      widget.onChoiceDone(widget.items[index!]);
+      Navigator.of(context).pop(widget.items[index!]);
     }
   }
 }

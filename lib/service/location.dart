@@ -6,4 +6,7 @@ class Location {
     required this.latitude,
     required this.longitude,
   });
+
+  @override
+  String toString() => '(lat: $latitude, lon: $longitude)';
 }

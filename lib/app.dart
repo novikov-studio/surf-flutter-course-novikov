@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/favorites_provider.dart';
+import 'package:places/domain/location_provider.dart';
+import 'package:places/domain/sight_repository.dart';
 import 'package:places/service/utils.dart';
+import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/screen/res/themes.dart';
-import 'package:places/ui/screen/splash_screen.dart';
-import 'package:places/ui/widget/favorites.dart';
+import 'package:places/ui/widget/holders/favorites.dart';
+import 'package:places/ui/widget/holders/locations.dart';
+import 'package:places/ui/widget/holders/sights.dart';
 
 /// Корневой виджет приложения.
 class App extends StatefulWidget {
@@ -14,28 +18,29 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  final _locationProvider = LocationProvider.createProvider();
+
   @override
   Widget build(BuildContext context) {
-    return Favorites(
-      favoritesProvider: FavoritesProvider.createProvider(),
-      child: ValueListenableBuilder<bool>(
-        valueListenable: Utils.isLight,
-        builder: (_, value, __) => MaterialApp(
-          title: 'Places',
-          theme: value ? Themes.light : Themes.dark,
-          home: const _StartScreen(),
+    return Locations(
+      value: _locationProvider,
+      child: Favorites(
+        value: FavoritesProvider.createProvider(),
+        child: Sights(
+          value: SightRepository.createRepository(
+            locationProvider: _locationProvider,
+          ),
+          child: ValueListenableBuilder<bool>(
+            valueListenable: Utils.isLight,
+            builder: (_, value, __) => MaterialApp(
+              title: 'Places',
+              theme: value ? Themes.light : Themes.dark,
+              initialRoute: AppRoutes.splash,
+              routes: AppRoutes.routes(),
+            ),
+          ),
         ),
       ),
     );
-  }
-}
-
-/// Стартовый экран.
-class _StartScreen extends StatelessWidget {
-  const _StartScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const SplashScreen();
   }
 }

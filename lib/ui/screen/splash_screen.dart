@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/screen/home_screen.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
@@ -53,8 +53,8 @@ class _SplashScreenState extends State<SplashScreen> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [colorScheme.yellow, colorScheme.green],
-              begin: const Alignment(-2, 0.0),
-              end: const Alignment(1.0, 0.6),
+              begin: const Alignment(-1.28, 0.19),
+              end: const Alignment(1.61, -0.19),
             ),
           ),
           child: Center(
@@ -78,6 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  /// Инициализация приложения.
   Future<void> _init() async {
     // Имитация инициализации
     await Future<void>.delayed(
@@ -86,13 +87,13 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  /// Ожидание готовности и переход на следующий экран.
   Future<void> _navigateToNext() async {
     // Ожидаем инициализации и анимации
     await Future.wait([isInitialized, elapsed]);
 
     // Переходим на следующий экран
     if (!mounted) return;
-    debugPrint('Переход на следующий экран');
-    context.replaceScreen<HomeScreen>((context) => const HomeScreen());
+    context.replaceScreen(AppRoutes.onboarding, args: AppRoutes.home);
   }
 }

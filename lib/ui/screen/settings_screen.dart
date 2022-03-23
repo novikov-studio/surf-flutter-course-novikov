@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/screen/onboarding_screen.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
@@ -50,8 +50,6 @@ class SettingsScreen extends StatelessWidget {
   }
 
   void _showTutorial(BuildContext context) {
-    context.pushScreen<OnboardingScreen>((context) => OnboardingScreen(
-          onStart: context.popScreen,
-        ));
+    context.pushScreen(AppRoutes.onboarding);
   }
 }

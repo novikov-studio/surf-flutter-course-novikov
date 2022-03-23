@@ -3,12 +3,15 @@ import 'package:places/domain/search_history_provider.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/screen/sight_search_screen.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/controls/svg_text_button.dart';
 
 /// Виджет для отображения истории поиска.
+///
+/// Используется на экране [SightSearchScreen].
 class SearchHistory extends StatelessWidget {
   final SearchHistoryProvider historyProvider;
   final void Function(String) onItemTap;

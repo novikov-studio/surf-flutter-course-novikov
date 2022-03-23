@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/sight_card_image.dart';
@@ -30,9 +30,7 @@ class SightCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       child: InkWell(
         onTap: () {
-          context.pushScreen<SightDetails>(
-            (context) => SightDetails(sight: sight),
-          );
+          context.pushScreen(AppRoutes.details, args: sight.id);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -7,8 +7,9 @@ import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
-import 'package:places/ui/widget/favorites.dart';
+import 'package:places/ui/widget/holders/favorites.dart';
 
+/// Верхняя часть карточки [SightCard].
 class SightCardImage extends StatelessWidget {
   final Sight sight;
   final CardMode mode;
