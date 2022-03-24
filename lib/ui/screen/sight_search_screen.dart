@@ -212,7 +212,7 @@ class _SightListTile extends StatelessWidget {
 
   /// Показ экрана детализации.
   void _showDetails(BuildContext context) {
-    context.pushScreen(AppRoutes.details, args: sight.id);
+    context.pushBottomSheet(AppRoutes.details, args: sight.id);
   }
 }
 

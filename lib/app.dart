@@ -36,7 +36,7 @@ class _AppState extends State<App> {
               title: 'Places',
               theme: value ? Themes.light : Themes.dark,
               initialRoute: AppRoutes.splash,
-              routes: AppRoutes.routes(),
+              routes: AppRoutes.routes,
             ),
           ),
         ),

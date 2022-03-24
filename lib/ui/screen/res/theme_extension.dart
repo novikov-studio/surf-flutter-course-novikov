@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
 import 'package:places/ui/screen/res/themes.dart';
@@ -39,6 +40,11 @@ extension ThemeExtension on ThemeData {
 
   TextStyle get text400OnSurface => textTheme.text.copyWith(
         color: colorScheme.onSurface,
+        fontWeight: FontWeight.w400,
+      );
+
+  TextStyle get text400OnDialog => textTheme.text.copyWith(
+        color: colorScheme.onDialog,
         fontWeight: FontWeight.w400,
       );
 
@@ -144,6 +150,8 @@ extension ColorSchemeExt on ColorScheme {
 
   Color get inactiveBlack =>
       isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+
+  Color get onDialog => isLight ? LightColors.secondary2 : DarkColors.white;
 }
 
 extension TextThemeExt on TextTheme {
@@ -174,5 +182,39 @@ extension ContextExt on BuildContext {
     Navigator.of(this).pushReplacementNamed(name, arguments: args);
   }
 
-  T? routeArgs<T>() => ModalRoute.of(this)?.settings.arguments as T?;
+  Future<T?> pushBottomSheet<T extends Object?>(
+    String name, {
+    Object? args,
+  }) async {
+    return showModalBottomSheet<T>(
+      context: this,
+      builder: AppRoutes.routes[name]!,
+      routeSettings: RouteSettings(
+        name: name,
+        arguments: {'args': args, 'bottomSheet': true},
+      ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
+      ),
+      clipBehavior: Clip.antiAlias,
+    );
+  }
+
+  T? routeArgs<T>() {
+    final args = ModalRoute.of(this)?.settings.arguments;
+
+    return args is Map && args.containsKey('args')
+        ? args['args'] as T?
+        : args as T?;
+  }
+
+  bool isBottomSheet() {
+    final args = ModalRoute.of(this)?.settings.arguments;
+
+    return args is Map &&
+        args.containsKey('bottomSheet') &&
+        (args['bottomSheet'] as bool);
+  }
 }

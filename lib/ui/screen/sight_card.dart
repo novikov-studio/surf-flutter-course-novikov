@@ -30,7 +30,7 @@ class SightCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       child: InkWell(
         onTap: () {
-          context.pushScreen(AppRoutes.details, args: sight.id);
+          context.pushBottomSheet(AppRoutes.details, args: sight.id);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
