@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:places/domain/favorites_provider.dart';
 import 'package:places/domain/location_provider.dart';
 import 'package:places/domain/sight_repository.dart';
@@ -36,6 +37,13 @@ class _AppState extends State<App> {
             builder: (_, value, __) => MaterialApp(
               title: AppStrings.appTitle,
               theme: value ? Themes.light : Themes.dark,
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en'),
+                Locale('ru'),
+              ],
               initialRoute: AppRoutes.splash,
               routes: AppRoutes.routes,
             ),

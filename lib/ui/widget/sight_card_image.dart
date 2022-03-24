@@ -107,11 +107,11 @@ class SightCardImage extends StatelessWidget {
     final now = DateTime.now();
     final plannedDate = await showDatePicker(
       context: context,
+      locale: const Locale('ru', 'RU'),
       initialDate: now,
       firstDate: now,
       lastDate: now.add(const Duration(days: 30)),
       helpText: AppStrings.chooseDate,
-      cancelText: AppStrings.cancel,
     );
 
     try {
