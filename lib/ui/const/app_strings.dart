@@ -134,10 +134,10 @@ abstract class AppStrings {
 extension DateTimeExt on DateTime {
   /// Перевод в строку вида: "dd MMM yyyy"
   String toDateOnlyString() {
-    final _day = day.toString().padLeft(2, '0');
-    final _month = AppStrings.months[month - 1];
+    final sDay = day.toString().padLeft(2, '0');
+    final sMonth = AppStrings.months[month - 1];
 
-    return '$_day $_month $year';
+    return '$sDay $sMonth $year';
   }
 }
 

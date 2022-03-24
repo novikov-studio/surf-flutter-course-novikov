@@ -117,7 +117,7 @@ class _Badge extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: theme.colorScheme.onBackground,
