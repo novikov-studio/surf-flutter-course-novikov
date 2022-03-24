@@ -12,8 +12,13 @@ import 'package:places/ui/widget/sight_details_text.dart';
 /// Экран "Детализация".
 class SightDetails extends StatefulWidget {
   final String id;
+  final ScrollController? scrollController;
 
-  const SightDetails({Key? key, required this.id}) : super(key: key);
+  const SightDetails({
+    Key? key,
+    required this.id,
+    this.scrollController,
+  }) : super(key: key);
 
   @override
   State<SightDetails> createState() => _SightDetailsState();
@@ -46,6 +51,7 @@ class _SightDetailsState extends State<SightDetails> {
             return _Details(
               sight: snapshot.data!,
               pageController: _controller,
+              scrollController: widget.scrollController,
             );
           }
 
@@ -68,22 +74,26 @@ class _SightDetailsState extends State<SightDetails> {
 class _Details extends StatelessWidget {
   final Sight sight;
   final PageController pageController;
+  final ScrollController? scrollController;
 
   const _Details({
     Key? key,
     required this.sight,
     required this.pageController,
+    this.scrollController,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: scrollController,
       slivers: [
         SliverPersistentHeader(
           delegate: _GalleryDelegate(
             photos: sight.urls,
             controller: pageController,
             maxHeight: MediaQuery.of(context).size.width,
+            backButton: scrollController == null,
           ),
         ),
         SliverToBoxAdapter(
@@ -132,6 +142,7 @@ class _GalleryDelegate extends SliverPersistentHeaderDelegate {
   final List<String> photos;
   final PageController controller;
   final double maxHeight;
+  final bool backButton;
 
   @override
   double get maxExtent => maxHeight;
@@ -143,6 +154,7 @@ class _GalleryDelegate extends SliverPersistentHeaderDelegate {
     required this.photos,
     required this.controller,
     required this.maxHeight,
+    required this.backButton,
   });
 
   @override
@@ -180,17 +192,18 @@ class _GalleryDelegate extends SliverPersistentHeaderDelegate {
               color: theme.colorScheme.onBackground,
             ),
           ),
-        Positioned(
-          left: 16.0,
-          top: statusHeight + 16.0,
-          height: 32.0,
-          width: 32.0,
-          child: ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Icon(Icons.chevron_left),
-            style: theme.btnBack,
+        if (backButton)
+          Positioned(
+            left: 16.0,
+            top: statusHeight + 16.0,
+            height: 32.0,
+            width: 32.0,
+            child: ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Icon(Icons.chevron_left),
+              style: theme.btnBack,
+            ),
           ),
-        ),
       ],
     );
   }

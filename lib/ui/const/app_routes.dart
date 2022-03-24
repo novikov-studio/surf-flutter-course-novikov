@@ -8,6 +8,7 @@ import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
 import 'package:places/ui/screen/splash_screen.dart';
+import 'package:places/ui/widget/bottom_sheet_wrapper.dart';
 
 /// Имена путей.
 abstract class AppRoutes {
@@ -19,7 +20,7 @@ abstract class AppRoutes {
   static const newSight = 'newSight';
   static const home = 'home';
 
-  static Map<String, WidgetBuilder> routes() => {
+  static Map<String, WidgetBuilder> routes = {
     /// Сплэш-скрин.
     AppRoutes.splash: (_) => const SplashScreen(),
 
@@ -31,8 +32,14 @@ abstract class AppRoutes {
     AppRoutes.home: (_) => const HomeScreen(),
 
     /// Детализация.
-    AppRoutes.details: (context) =>
-        SightDetails(id: context.routeArgs<String>()!),
+    AppRoutes.details: (context) => context.isBottomSheet()
+        ? BottomSheetWrapper(
+            builder: (context, scrollController) => SightDetails(
+              id: context.routeArgs<String>()!,
+              scrollController: scrollController,
+            ),
+          )
+        : SightDetails(id: context.routeArgs<String>()!),
 
     /// Фильтры.
     AppRoutes.filters: (context) =>
