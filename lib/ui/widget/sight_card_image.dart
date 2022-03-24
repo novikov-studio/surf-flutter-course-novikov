@@ -81,16 +81,28 @@ class SightCardImage extends StatelessWidget {
     BuildContext context,
     Sight sight,
   ) async {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
     final favoritesProvider = Favorites.of(context)!;
-    sight.isLiked
-        ? await favoritesProvider.remove(sight)
-        : await favoritesProvider.add(sight);
+    final sightHolder = SightCard.of(context)!;
+
+    try {
+      sight.isLiked
+          ? await favoritesProvider.remove(sight)
+          : await favoritesProvider.add(sight);
+      sightHolder.value = sight.copyWith(isLiked: !sight.isLiked);
+    } on Exception catch (e, stacktrace) {
+      debugPrint('$e, $stacktrace');
+      scaffoldMessenger.showSnackBar(const SnackBar(
+        content: Text(AppStrings.tryLater),
+      ));
+    }
   }
 
   /// Запланировать.
   static Future<void> planVisiting(BuildContext context, Sight sight) async {
     final sightRepository = Sights.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final sightHolder = SightCard.of(context)!;
 
     final now = DateTime.now();
     final plannedDate = await showDatePicker(
@@ -104,7 +116,9 @@ class SightCardImage extends StatelessWidget {
 
     try {
       await sightRepository.update(sight.copyWith(plannedDate: plannedDate));
-    } on Exception {
+      sightHolder.value = sight.copyWith(plannedDate: plannedDate);
+    } on Exception catch (e, stacktrace) {
+      debugPrint('$e, $stacktrace');
       scaffoldMessenger.showSnackBar(const SnackBar(
         content: Text(AppStrings.tryLater),
       ));

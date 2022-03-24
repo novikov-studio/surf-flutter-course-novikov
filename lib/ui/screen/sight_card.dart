@@ -6,15 +6,32 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:places/ui/widget/holders/sight_holder.dart';
+import 'package:places/ui/widget/holders/value_holder.dart';
 import 'package:places/ui/widget/sight_card_image.dart';
 import 'package:places/ui/widget/sight_card_text.dart';
 
 /// Виджет карточки места.
-class SightCard extends StatelessWidget {
+class SightCard extends SightHolder {
+  SightCard({
+    Key? key,
+    required Sight sight,
+    required CardMode mode,
+  }) : super(
+          key: key,
+          value: ValueNotifier(sight),
+          builder: (_, sight) => _SightCard(sight: sight, mode: mode),
+        );
+
+  static ValueNotifier<Sight>? of(BuildContext context) =>
+      ValueHolder.of<SightCard, ValueNotifier<Sight>>(context);
+}
+
+class _SightCard extends StatelessWidget {
   final Sight sight;
   final CardMode mode;
 
-  const SightCard({
+  const _SightCard({
     Key? key,
     required this.sight,
     required this.mode,
