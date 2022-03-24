@@ -25,7 +25,7 @@ abstract class AppIcons {
   static const clear = '$_others/clear.svg';
   static const close = '$_others/Close.svg';
   static const delete = '$_others/Delete.svg';
-  static const fail = '$_others/Fail.svg';
+  static const file = '$_others/Fail.svg';
   static const filter = '$_others/Filter.svg';
   static const geolocation = '$_others/Geolocation.svg';
   static const goRoute = '$_others/GO.svg';

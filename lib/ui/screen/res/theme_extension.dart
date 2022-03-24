@@ -43,6 +43,11 @@ extension ThemeExtension on ThemeData {
         fontWeight: FontWeight.w400,
       );
 
+  TextStyle get text400OnDialog => textTheme.text.copyWith(
+        color: colorScheme.onDialog,
+        fontWeight: FontWeight.w400,
+      );
+
   TextStyle get smallGreen => textTheme.small.copyWith(
         color: colorScheme.green,
       );
@@ -145,6 +150,8 @@ extension ColorSchemeExt on ColorScheme {
 
   Color get inactiveBlack =>
       isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+
+  Color get onDialog => isLight ? LightColors.secondary2 : DarkColors.white;
 }
 
 extension TextThemeExt on TextTheme {

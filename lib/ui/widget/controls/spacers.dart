@@ -14,4 +14,6 @@ const spacerW16 = SizedBox(width: 16.0);
 
 const spacerW14_5 = SizedBox(width: 14.5);
 
+const spacerW12 = SizedBox(width: 12.0);
+
 const spacerW8 = SizedBox(width: 8.0);
