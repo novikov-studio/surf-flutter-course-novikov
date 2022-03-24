@@ -34,6 +34,9 @@ abstract class AppStrings {
   static const delete = 'Удалить';
   static const skip = 'Пропустить';
   static const start = 'НА СТАРТ';
+  static const camera = 'Камера';
+  static const photo = 'Фото';
+  static const file = 'Файл';
 
   // Категории
   static const hotel = 'Отель';

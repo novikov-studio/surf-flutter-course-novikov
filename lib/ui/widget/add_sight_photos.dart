@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/add_sight_screen.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
@@ -50,7 +52,19 @@ class _AddSightPhotosState extends State<AddSightPhotos> {
     );
   }
 
-  void _addPhoto() {
+  Future<void> _addPhoto() async {
+    // await showDialog<void>(
+    //   context: context,
+    //   builder: (_) => const Align(
+    //     alignment: Alignment.bottomCenter,
+    //     child: _PhotoSourceWidget(),
+    //   ),
+    // );
+    await showCupertinoModalPopup<void>(
+      context: context,
+      builder: (_) => const _PhotoSourceWidget(),
+    );
+
     final fileName = mocks[items.length % mocks.length].urls.first;
     if (!items.contains(fileName)) {
       setState(() {
@@ -71,6 +85,78 @@ class _AddSightPhotosState extends State<AddSightPhotos> {
 
   void _notifyChanges() {
     widget.onChange(items);
+  }
+}
+
+/// Диалог выбора источника фото.
+class _PhotoSourceWidget extends StatelessWidget {
+  const _PhotoSourceWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final VoidCallback onPressed = Navigator.of(context).pop;
+
+    return CupertinoActionSheet(
+      cancelButton: GestureDetector(
+        onTap: Navigator.of(context).pop,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 48.0),
+          child: Center(
+            child: Text(
+              AppStrings.cancel.toUpperCase(),
+              style: Theme.of(context).buttonGreen,
+            ),
+          ),
+        ),
+      ),
+      actions: [
+        _ActionItem(
+          icon: AppIcons.camera,
+          text: AppStrings.clear,
+          onPressed: onPressed,
+        ),
+        _ActionItem(
+          icon: AppIcons.photo,
+          text: AppStrings.photo,
+          onPressed: onPressed,
+        ),
+        _ActionItem(
+          icon: AppIcons.file,
+          text: AppStrings.file,
+          onPressed: onPressed,
+        ),
+      ],
+    );
+  }
+}
+
+/// Пунккт меню диалога.
+class _ActionItem extends StatelessWidget {
+  final String icon;
+  final String text;
+  final VoidCallback onPressed;
+
+  const _ActionItem({
+    Key? key,
+    required this.icon,
+    required this.text,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return CupertinoActionSheetAction(
+      onPressed: onPressed,
+      child: Row(
+        children: [
+          SvgIcon(icon, color: theme.colorScheme.onDialog),
+          spacerW12,
+          Text(text, style: theme.text400OnDialog),
+        ],
+      ),
+    );
   }
 }
 
