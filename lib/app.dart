@@ -4,6 +4,7 @@ import 'package:places/domain/location_provider.dart';
 import 'package:places/domain/sight_repository.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_routes.dart';
+import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/themes.dart';
 import 'package:places/ui/widget/holders/favorites.dart';
 import 'package:places/ui/widget/holders/locations.dart';
@@ -33,7 +34,7 @@ class _AppState extends State<App> {
           child: ValueListenableBuilder<bool>(
             valueListenable: Utils.isLight,
             builder: (_, value, __) => MaterialApp(
-              title: 'Places',
+              title: AppStrings.appTitle,
               theme: value ? Themes.light : Themes.dark,
               initialRoute: AppRoutes.splash,
               routes: AppRoutes.routes,

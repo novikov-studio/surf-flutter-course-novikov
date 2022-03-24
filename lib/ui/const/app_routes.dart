@@ -32,14 +32,12 @@ abstract class AppRoutes {
     AppRoutes.home: (_) => const HomeScreen(),
 
     /// Детализация.
-    AppRoutes.details: (context) => context.isBottomSheet()
-        ? BottomSheetWrapper(
-            builder: (context, scrollController) => SightDetails(
-              id: context.routeArgs<String>()!,
-              scrollController: scrollController,
-            ),
-          )
-        : SightDetails(id: context.routeArgs<String>()!),
+    AppRoutes.details: (context) => BottomSheetWrapper(
+          builder: (context, scrollController) => SightDetails(
+            id: context.routeArgs<String>()!,
+            scrollController: scrollController,
+          ),
+        ),
 
     /// Фильтры.
     AppRoutes.filters: (context) =>

@@ -53,13 +53,6 @@ class _AddSightPhotosState extends State<AddSightPhotos> {
   }
 
   Future<void> _addPhoto() async {
-    // await showDialog<void>(
-    //   context: context,
-    //   builder: (_) => const Align(
-    //     alignment: Alignment.bottomCenter,
-    //     child: _PhotoSourceWidget(),
-    //   ),
-    // );
     await showCupertinoModalPopup<void>(
       context: context,
       builder: (_) => const _PhotoSourceWidget(),
