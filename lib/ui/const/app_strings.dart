@@ -62,7 +62,8 @@ abstract class AppStrings {
   static const tryAnotherSearch = 'Попробуйте изменить параметры поиска';
   static const errorOnInit  = 'Ошибка инициализации';
   static const errorOnInitDesc  = 'Попробуйте очистить кэш и перезапустить приложение';
-  static const chooseDate = 'Запланировать посещение';
+  static const scheduleDate = 'Запланировать посещение';
+  static const rescheduleDate = 'Перепланировать посещение';
 
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';
