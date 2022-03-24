@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/holders/favorites.dart';
+import 'package:places/ui/widget/holders/sights.dart';
 
 /// Верхняя часть карточки [SightCard].
 class SightCardImage extends StatelessWidget {
@@ -41,12 +43,10 @@ class SightCardImage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               /// Кнопка "Запланировать"
-              if (sight.isLiked && sight.isPlanned)
+              if (sight.isLiked && !sight.isVisited)
                 _SvgButton(
                   path: AppIcons.calendar,
-                  onPressed: () {
-                    Utils.logButtonPressed('card.plan');
-                  },
+                  onPressed: () => planVisiting(context, sight),
                 ),
 
               /// Кнопка "Поделиться"
@@ -76,11 +76,39 @@ class SightCardImage extends StatelessWidget {
     );
   }
 
-  static Future<void> toggleInFavorites(BuildContext context, Sight sight) async {
+  /// Удалние/добавление в Избранное.
+  static Future<void> toggleInFavorites(
+    BuildContext context,
+    Sight sight,
+  ) async {
     final favoritesProvider = Favorites.of(context)!;
     sight.isLiked
         ? await favoritesProvider.remove(sight)
         : await favoritesProvider.add(sight);
+  }
+
+  /// Запланировать.
+  static Future<void> planVisiting(BuildContext context, Sight sight) async {
+    final sightRepository = Sights.of(context)!;
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+    final now = DateTime.now();
+    final plannedDate = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 30)),
+      helpText: AppStrings.chooseDate,
+      cancelText: AppStrings.cancel,
+    );
+
+    try {
+      await sightRepository.update(sight.copyWith(plannedDate: plannedDate));
+    } on Exception {
+      scaffoldMessenger.showSnackBar(const SnackBar(
+        content: Text(AppStrings.tryLater),
+      ));
+    }
   }
 }
 

@@ -14,6 +14,6 @@ class Favorites extends ValueHolder<FavoritesProvider> {
           child: child,
         );
 
-  static FavoritesProvider? of(BuildContext context) =>
-      ValueHolder.of<Favorites, FavoritesProvider>(context);
+  static FavoritesProvider? of(BuildContext context, {bool listen = false}) =>
+      ValueHolder.of<Favorites, FavoritesProvider>(context, listen: listen);
 }

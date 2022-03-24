@@ -8,6 +8,7 @@ import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/controls/svg_text_button.dart';
+import 'package:places/ui/widget/sight_card_image.dart';
 
 /// Текстовая часть экрана [SightDetails].
 class SightDetailsText extends StatelessWidget {
@@ -137,9 +138,7 @@ class _CardMenu extends StatelessWidget {
               icon: AppIcons.calendar,
               label: AppStrings.schedule,
               onPressed: sight.isLiked
-                  ? () {
-                      Utils.logButtonPressed('details.schedule');
-                    }
+                  ? () => SightCardImage.planVisiting(context, sight)
                   : null,
             ),
           ),
@@ -149,9 +148,7 @@ class _CardMenu extends StatelessWidget {
           child: SvgTextButton(
             icon: sight.isLiked ? AppIcons.heartFilled : AppIcons.heart,
             label: AppStrings.addFavorites,
-            onPressed: () {
-              Utils.logButtonPressed('details.like');
-            },
+            onPressed: () => SightCardImage.toggleInFavorites(context, sight),
           ),
         ),
       ],

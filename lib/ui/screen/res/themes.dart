@@ -252,7 +252,7 @@ abstract class Themes {
         surface:
             isLight ? LightColors.cardBackground : DarkColors.cardBackground,
         error: isLight ? LightColors.error : DarkColors.error,
-        onPrimary: const Color(0xFFFF00FF),
+        onPrimary: isLight ? LightColors.white : DarkColors.white,
         onSecondary: const Color(0xFFFF00FF),
         onBackground: isLight ? LightColors.main : DarkColors.white,
         onSurface: isLight ? LightColors.secondary : DarkColors.white,

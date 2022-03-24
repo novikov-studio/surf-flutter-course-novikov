@@ -62,6 +62,7 @@ abstract class AppStrings {
   static const tryAnotherSearch = 'Попробуйте изменить параметры поиска';
   static const errorOnInit  = 'Ошибка инициализации';
   static const errorOnInitDesc  = 'Попробуйте очистить кэш и перезапустить приложение';
+  static const chooseDate = 'Запланировать посещение';
 
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';
@@ -127,6 +128,7 @@ abstract class AppStrings {
 
   static String _allowedRange(String start, String end) =>
       'Допустимо: $start .. $end';
+
 }
 
 extension DateTimeExt on DateTime {
