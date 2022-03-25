@@ -191,7 +191,7 @@ extension ContextExt on BuildContext {
       builder: AppRoutes.routes[name]!,
       routeSettings: RouteSettings(
         name: name,
-        arguments: {'args': args, 'bottomSheet': true},
+        arguments: args,
       ),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -202,19 +202,5 @@ extension ContextExt on BuildContext {
     );
   }
 
-  T? routeArgs<T>() {
-    final args = ModalRoute.of(this)?.settings.arguments;
-
-    return args is Map && args.containsKey('args')
-        ? args['args'] as T?
-        : args as T?;
-  }
-
-  bool isBottomSheet() {
-    final args = ModalRoute.of(this)?.settings.arguments;
-
-    return args is Map &&
-        args.containsKey('bottomSheet') &&
-        (args['bottomSheet'] as bool);
-  }
+  T? routeArgs<T>() => ModalRoute.of(this)?.settings.arguments as T?;
 }

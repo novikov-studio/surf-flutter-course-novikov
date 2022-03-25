@@ -79,7 +79,7 @@ class MockSightRepository implements SightRepository {
   Future<void> update(Sight value) async {
     final index = mocks.indexWhere((element) => element.id == value.id);
     if (index >= 0) {
-      mocks.replaceRange(index, index, [value]);
+      mocks.replaceRange(index, index+1, [value]);
     } else {
       throw Exception('not found');
     }

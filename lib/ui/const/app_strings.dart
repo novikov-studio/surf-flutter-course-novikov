@@ -1,6 +1,7 @@
 /// Строковые константы приложения
 abstract class AppStrings {
   // Заголовки
+  static const appTitle = 'Интересные места';
   static const listTitle = 'Список интересных\u00A0мест';
   static const favoritesTitle = 'Избранное';
   static const settingsTitle = 'Настройки';
@@ -61,6 +62,8 @@ abstract class AppStrings {
   static const tryAnotherSearch = 'Попробуйте изменить параметры поиска';
   static const errorOnInit  = 'Ошибка инициализации';
   static const errorOnInitDesc  = 'Попробуйте очистить кэш и перезапустить приложение';
+  static const scheduleDate = 'Запланировать посещение';
+  static const rescheduleDate = 'Перепланировать посещение';
 
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';
@@ -126,15 +129,16 @@ abstract class AppStrings {
 
   static String _allowedRange(String start, String end) =>
       'Допустимо: $start .. $end';
+
 }
 
 extension DateTimeExt on DateTime {
   /// Перевод в строку вида: "dd MMM yyyy"
   String toDateOnlyString() {
-    final _day = day.toString().padLeft(2, '0');
-    final _month = AppStrings.months[month - 1];
+    final sDay = day.toString().padLeft(2, '0');
+    final sMonth = AppStrings.months[month - 1];
 
-    return '$_day $_month $year';
+    return '$sDay $sMonth $year';
   }
 }
 

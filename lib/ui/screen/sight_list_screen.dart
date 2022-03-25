@@ -12,7 +12,6 @@ import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
-import 'package:places/ui/widget/holders/favorites.dart';
 import 'package:places/ui/widget/holders/sights.dart';
 import 'package:places/ui/widget/sliver_sight_list.dart';
 
@@ -48,69 +47,66 @@ class _SightListScreenState extends State<SightListScreen> {
 
         /// Список.
         return Scaffold(
-          body: AnimatedBuilder(
-            animation: Favorites.of(context)!,
-            builder: (_, __) => CustomScrollView(
-              slivers: [
-                /// AppBar
-                SliverAppBar(
-                  expandedHeight: 140.0,
-                  pinned: true,
-                  flexibleSpace: FlexibleSpaceBar(
-                    expandedTitleScale: 1.78,
-                    collapseMode: CollapseMode.pin,
-                    titlePadding: const EdgeInsets.all(16.0),
-                    centerTitle: true,
-                    title: Text(
-                      AppStrings.listTitle,
-                      style: theme.appBarTheme.titleTextStyle,
-                    ),
+          body: CustomScrollView(
+            slivers: [
+              /// AppBar
+              SliverAppBar(
+                expandedHeight: 140.0,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  expandedTitleScale: 1.78,
+                  collapseMode: CollapseMode.pin,
+                  titlePadding: const EdgeInsets.all(16.0),
+                  centerTitle: true,
+                  title: Text(
+                    AppStrings.listTitle,
+                    style: theme.appBarTheme.titleTextStyle,
                   ),
                 ),
+              ),
 
-                /// SearchBar
-                SliverToBoxAdapter(
-                  child: _InactiveSearchBar(
-                    searchBar: const SearchBar(enabled: false),
-                    filterIsEmpty: _filter.isEmpty,
-                    onFieldTap: isProgress ? null : _showSearchDialog,
-                    onIconTap: isProgress ? null : _showFilterDialog,
-                  ),
+              /// SearchBar
+              SliverToBoxAdapter(
+                child: _InactiveSearchBar(
+                  searchBar: const SearchBar(enabled: false),
+                  filterIsEmpty: _filter.isEmpty,
+                  onFieldTap: isProgress ? null : _showSearchDialog,
+                  onIconTap: isProgress ? null : _showFilterDialog,
                 ),
+              ),
 
-                /// Загрузка.
-                if (isProgress)
-                  const SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.all(48.0),
-                      child: Loader(),
-                    ),
-                  )
-
-                /// Ошибка.
-                else if (hasError)
-                  const SliverFillRemaining(
-                    child: Center(
-                      child: EmptyList(
-                        icon: AppIcons.error,
-                        title: AppStrings.error,
-                        details: AppStrings.tryLater,
-                      ),
-                    ),
-                  )
-
-                /// Sight List
-                else
-                  SliverSightList(
-                    sights: snapshot.data!.toList(growable: false),
-                    empty: const EmptyList(
-                      icon: AppIcons.list,
-                      title: AppStrings.empty,
-                    ),
-                    mode: CardMode.list,
+              /// Загрузка.
+              if (isProgress)
+                const SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.all(48.0),
+                    child: Loader(),
                   ),
-              ],
-            ),
+                )
+
+              /// Ошибка.
+              else if (hasError)
+                const SliverFillRemaining(
+                  child: Center(
+                    child: EmptyList(
+                      icon: AppIcons.error,
+                      title: AppStrings.error,
+                      details: AppStrings.tryLater,
+                    ),
+                  ),
+                )
+
+              /// Sight List
+              else
+                SliverSightList(
+                  sights: snapshot.data!.toList(growable: false),
+                  empty: const EmptyList(
+                    icon: AppIcons.list,
+                    title: AppStrings.empty,
+                  ),
+                  mode: CardMode.list,
+                ),
+            ],
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,

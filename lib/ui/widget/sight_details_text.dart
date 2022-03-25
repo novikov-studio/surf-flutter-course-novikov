@@ -137,9 +137,7 @@ class _CardMenu extends StatelessWidget {
               icon: AppIcons.calendar,
               label: AppStrings.schedule,
               onPressed: sight.isLiked
-                  ? () {
-                      Utils.logButtonPressed('details.schedule');
-                    }
+                  ? () => Utils.logButtonPressed('details.schedule')
                   : null,
             ),
           ),
@@ -149,9 +147,7 @@ class _CardMenu extends StatelessWidget {
           child: SvgTextButton(
             icon: sight.isLiked ? AppIcons.heartFilled : AppIcons.heart,
             label: AppStrings.addFavorites,
-            onPressed: () {
-              Utils.logButtonPressed('details.like');
-            },
+            onPressed: () => Utils.logButtonPressed('details.toggleFavorites'),
           ),
         ),
       ],
