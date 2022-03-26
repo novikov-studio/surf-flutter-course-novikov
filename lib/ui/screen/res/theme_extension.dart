@@ -203,4 +203,9 @@ extension ContextExt on BuildContext {
   }
 
   T? routeArgs<T>() => ModalRoute.of(this)?.settings.arguments as T?;
+
+  bool get isPortrait =>
+      MediaQuery.of(this).orientation == Orientation.portrait;
+
+  bool get isLandscape => !isPortrait;
 }
