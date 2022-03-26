@@ -39,11 +39,13 @@ class _AppState extends State<App> {
               theme: value ? Themes.light : Themes.dark,
               localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: const [
                 Locale('en'),
                 Locale('ru'),
               ],
+              locale: const Locale('ru'),
               initialRoute: AppRoutes.splash,
               routes: AppRoutes.routes,
             ),
