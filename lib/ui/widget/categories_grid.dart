@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/filters_screen.dart';
+import 'package:places/ui/screen/res/responsive.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
@@ -24,18 +25,41 @@ class CategoriesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 3,
-      shrinkWrap: true,
-      children: Categories.items.entries
-          .map(
-            (e) => _CategoryCell(
-              category: _Category(e.key, e.value),
-              isChecked: checked.contains(e.key),
-              onPressed: onCategoryPressed,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final size = constraints.maxWidth / 3;
+
+        final categories = Categories.items.entries
+            .expand(
+              (e) => [
+                _CategoryCell(
+                  category: _Category(e.key, e.value),
+                  isChecked: checked.contains(e.key),
+                  width: size,
+                  onPressed: onCategoryPressed,
+                ),
+              ],
+            )
+            .toList(growable: false);
+
+        return HandsetAdapter(
+          small: (_) => SizedBox(
+            height: size * 1.1,
+            child: GridView.count(
+              scrollDirection: Axis.horizontal,
+              crossAxisCount: 1,
+              childAspectRatio: (size * 1.1) / size,
+              children: categories,
             ),
-          )
-          .toList(growable: false),
+          ),
+          orElse: (_) => GridView.count(
+            crossAxisCount: 3,
+            shrinkWrap: true,
+            childAspectRatio: 0.8,
+            children: categories,
+          ),
+        );
+      },
     );
   }
 }
@@ -44,39 +68,65 @@ class CategoriesGrid extends StatelessWidget {
 class _CategoryCell extends StatelessWidget {
   final _Category category;
   final bool isChecked;
+  final double width;
   final CategoryPressedCallback onPressed;
 
   const _CategoryCell({
     Key? key,
     required this.category,
     required this.isChecked,
+    required this.width,
     required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    final size = width * 0.6;
+
     return Column(
       children: [
-        Stack(children: [
-          InkWell(
-            borderRadius: const BorderRadius.all(Radius.circular(64.0)),
-            onTap: () {
-              onPressed(category.title, !isChecked);
-            },
-            child: _CategoryIcon(
-              icon: category.icon,
-            ),
+        SizedBox(
+          width: size,
+          height: size,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(size)),
+                  onTap: () {
+                    onPressed(category.title, !isChecked);
+                  },
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: theme.colorScheme.green.withOpacity(0.16),
+                    ),
+                    child: Center(
+                      child: SvgIcon(
+                        category.icon,
+                        size: size * 0.5,
+                        color: theme.colorScheme.green,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              if (isChecked)
+                Positioned(
+                  bottom: 0.0,
+                  right: 0.0,
+                  child: _Badge(size: size * 0.25),
+                ),
+            ],
           ),
-          if (isChecked)
-            const Positioned(
-              bottom: 0.0,
-              right: 0.0,
-              child: _Badge(),
-            ),
-        ]),
+        ),
         spacerH12,
         Text(
           category.title,
+          textAlign: TextAlign.center,
+          maxLines: 1,
           style: Theme.of(context).textTheme.superSmall,
         ),
       ],
@@ -84,34 +134,11 @@ class _CategoryCell extends StatelessWidget {
   }
 }
 
-/// Иконка категории.
-class _CategoryIcon extends StatelessWidget {
-  final String icon;
-
-  const _CategoryIcon({Key? key, required this.icon}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: theme.colorScheme.green.withOpacity(0.16),
-      ),
-      child: SvgIcon(
-        icon,
-        size: 32.0,
-        color: theme.colorScheme.green,
-      ),
-    );
-  }
-}
-
 /// Чекбокс на иконке категории.
 class _Badge extends StatelessWidget {
-  const _Badge({Key? key}) : super(key: key);
+  final double size;
+
+  const _Badge({Key? key, required this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +152,7 @@ class _Badge extends StatelessWidget {
       child: SvgIcon(
         AppIcons.tick,
         color: theme.colorScheme.background,
-        size: 16.0,
+        size: size,
       ),
     );
   }
