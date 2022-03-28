@@ -6,6 +6,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
+import 'package:places/ui/screen/res/responsive.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/categories_grid.dart';
 import 'package:places/ui/widget/controls/loader.dart';
@@ -14,28 +15,48 @@ import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/holders/sights.dart';
 
 /// Экран "Фильтр".
-///
+class FiltersScreen extends StatelessWidget {
+  final Filter initialValue;
+
+  const FiltersScreen({Key? key, required this.initialValue}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Widget builder(BuildContext _) =>
+        _FiltersScreen(initialValue: initialValue);
+
+    return HandsetAdapter(
+      small: (_) => FontsSizeAdapter(
+        factor: 1.4,
+        builder: builder,
+      ),
+      orElse: builder,
+    );
+  }
+}
+
 /// Кнопка Очистить задает значение фильтра по-умолчанию.
 /// Однако оно используется только при нажатии кнопки ПОКАЗАТЬ.
 ///
 /// Если после нажатия Очистить вернуться на главный экран
 /// с помощью программной или аппаратной кнопки Назад
 /// филььр будет сброшен.
-class FiltersScreen extends StatefulWidget {
+class _FiltersScreen extends StatefulWidget {
   final Filter initialValue;
 
-  const FiltersScreen({
+  const _FiltersScreen({
     Key? key,
     required this.initialValue,
   }) : super(key: key);
 
   @override
-  State<FiltersScreen> createState() => _FiltersScreenState();
+  State<_FiltersScreen> createState() => _FiltersScreenState();
 }
 
-class _FiltersScreenState extends State<FiltersScreen> {
+class _FiltersScreenState extends State<_FiltersScreen> {
   late final _DelayedSearch _delayedSearch;
   late Filter _filter;
+  late double _loaderSize;
   late Future<Iterable<Sight>> _search;
 
   /// Фильтр по-умолчанию.
@@ -69,6 +90,21 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
     // Запуск поиска подходящих мест
     _search = _updateFilter();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final theme = Theme.of(context);
+
+    // Чтобы не ограничивать кнопки по высоте, приходится рассчитывать размера лоадера,
+    // чтобы высота кнопки не "плясала" при смене текст/лоадер.
+    _loaderSize = (theme.elevatedButtonTheme.style!.textStyle!
+                    .resolve({MaterialState.selected})!.fontSize! *
+                theme.elevatedButtonTheme.style!.textStyle!
+                    .resolve({MaterialState.selected})!.height!)
+            .floor() *
+        1.0;
+    super.didChangeDependencies();
   }
 
   @override
@@ -109,7 +145,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 ),
               ),
             ),
-            spacerH8,
+            spacerH24,
             _SliderBar(
               range: RangeValues(_filter.minRadius!, _filter.maxRadius!),
               onChanged: _onDistanceChange,
@@ -128,16 +164,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
               return ElevatedButton(
                 onPressed: count > 0 ? _onApplyFilter : null,
                 child: isProgress
-                    ? const AspectRatio(
-                        aspectRatio: 1.0,
-                        child: Loader(),
+                    ? ConstrainedBox(
+                        constraints:
+                            BoxConstraints.tight(Size.square(_loaderSize)),
+                        child: const Loader(),
                       )
                     : Text(
                         AppStrings.showFilterResults(count),
                       ),
-                style: ElevatedButton.styleFrom(
-                  maximumSize: const Size(double.infinity, 48.0),
-                ),
               );
             },
           ),

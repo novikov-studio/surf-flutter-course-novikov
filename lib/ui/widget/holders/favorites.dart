@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:places/domain/favorites_provider.dart';
 import 'package:places/ui/widget/holders/value_holder.dart';
 
