@@ -68,24 +68,6 @@ class _SightCard extends StatelessWidget {
       ),
     );
 
-    if (draggable) {
-      card = LongPressDraggable<String>(
-        child: card,
-        data: sight.id,
-        axis: Axis.vertical,
-        childWhenDragging: const SizedBox(),
-        feedback: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width - 16.0 * 2,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Opacity(opacity: 0.8, child: card),
-          ),
-        ),
-      );
-    }
-
     if (dismissible) {
       card = Stack(
         alignment: Alignment.centerRight,
@@ -94,7 +76,10 @@ class _SightCard extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: theme.colorScheme.error,
-                borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(16.0),
+                  bottom: Radius.circular(12.0),
+                ),
               ),
             ),
           ),
@@ -116,6 +101,30 @@ class _SightCard extends StatelessWidget {
                 SightCardImage.toggleInFavorites(context, sight),
           ),
         ],
+      );
+    }
+
+    if (draggable) {
+      final mediaQuery = MediaQuery.of(context);
+      final isPortrait = mediaQuery.orientation == Orientation.portrait;
+      final maxWidth = isPortrait
+          ? mediaQuery.size.width - 16.0 * 2
+          : (mediaQuery.size.width - 16.0 * 3) / 2;
+
+      card = LongPressDraggable<String>(
+        child: card,
+        data: sight.id,
+        axis: isPortrait ? Axis.vertical : null,
+        childWhenDragging: const SizedBox(),
+        feedback: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: maxWidth,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Opacity(opacity: 0.8, child: card),
+          ),
+        ),
       );
     }
 

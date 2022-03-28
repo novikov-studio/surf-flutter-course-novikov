@@ -6,6 +6,7 @@ import 'package:places/domain/sight_repository.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/screen/res/responsive.dart';
 import 'package:places/ui/screen/res/themes.dart';
 import 'package:places/ui/widget/holders/favorites.dart';
 import 'package:places/ui/widget/holders/locations.dart';
@@ -39,13 +40,16 @@ class _AppState extends State<App> {
               theme: value ? Themes.light : Themes.dark,
               localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: const [
                 Locale('en'),
                 Locale('ru'),
               ],
+              locale: const Locale('ru'),
               initialRoute: AppRoutes.splash,
               routes: AppRoutes.routes,
+              builder: (_, child) => Responsive(child: child!),
             ),
           ),
         ),

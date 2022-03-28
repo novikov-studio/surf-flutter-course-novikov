@@ -20,6 +20,7 @@ class GradientFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isPortrait = context.isPortrait;
 
     return Container(
       decoration: BoxDecoration(
@@ -38,17 +39,23 @@ class GradientFab extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: RawMaterialButton(
         onPressed: onPressed,
-        padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 15.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: isPortrait ? 22.0 : 15.0,
+          vertical: 15.0,
+        ),
+        constraints: const BoxConstraints(),
         elevation: elevation,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             const SvgIcon(AppIcons.plus),
-            spacerW8,
-            Text(
-              label,
-              style: theme.buttonWhite,
-            ),
+            if (isPortrait) ...[
+              spacerW8,
+              Text(
+                label,
+                style: theme.buttonWhite,
+              ),
+            ],
           ],
         ),
       ),
