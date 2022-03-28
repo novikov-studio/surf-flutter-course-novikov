@@ -6,6 +6,7 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
+import 'package:places/ui/widget/controls/date_time_picker.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/holders/favorites.dart';
@@ -105,7 +106,7 @@ class SightCardImage extends StatelessWidget {
     final sightHolder = SightCard.of(context)!;
 
     final plannedDate =
-        await _pickDateTime(context, initial: sight.plannedDate);
+        await DateTimePicker.show(context, initial: sight.plannedDate);
 
     try {
       await sightRepository.update(sight.copyWith(plannedDate: plannedDate));
@@ -116,66 +117,6 @@ class SightCardImage extends StatelessWidget {
         content: Text(AppStrings.tryLater),
       ));
     }
-  }
-
-  static Future<DateTime?> _pickDateTime(
-    BuildContext context, {
-    DateTime? initial,
-  }) async {
-    final theme = Theme.of(context);
-    final pickerTheme = theme.copyWith(
-      colorScheme: theme.colorScheme.copyWith(
-        primary: theme.colorScheme.green,
-      ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(primary: theme.colorScheme.green),
-      ),
-    );
-
-    final now = DateTime.now();
-    final date = await showDatePicker(
-      context: context,
-      locale: const Locale('ru', 'RU'),
-      initialDate: initial ?? now,
-      firstDate: now,
-      lastDate: now.add(const Duration(days: 30)),
-      helpText:
-          initial == null ? AppStrings.scheduleDate : AppStrings.rescheduleDate,
-      builder: (context, child) => Theme(
-        data: pickerTheme,
-        child: child!,
-      ),
-    );
-
-    if (date != null) {
-      final time = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.fromDateTime(initial ?? now),
-        builder: (context, child) => MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: Theme(
-            data: pickerTheme,
-            child: Localizations.override(
-              context: context,
-              locale: const Locale('ru', 'RU'),
-              child: child,
-            ),
-          ),
-        ),
-      );
-
-      if (time != null) {
-        return DateTime(
-          date.year,
-          date.month,
-          date.day,
-          time.hour,
-          time.minute,
-        );
-      }
-    }
-
-    return null;
   }
 }
 

@@ -2,91 +2,101 @@ import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_styles.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 
 abstract class Themes {
   /// Светлая тема.
-  static ThemeData get light => ThemeData.from(
-        colorScheme: _buildColorScheme(isLight: true),
-        textTheme: _buildTextTheme(),
-      ).copyWith(
-        appBarTheme: _buildAppBarTheme(
-          background: LightColors.background,
-          title: LightColors.main,
-          leading: LightColors.secondary2,
-          trailing: LightColors.green,
-        ),
-        tabBarTheme: _buildTabBarTheme(
-          tabBackground: LightColors.secondary,
-          labelColor: LightColors.white,
-          unselectedLabelColor: LightColors.inactiveBlack,
-        ),
-        cardTheme: _buildCardTheme(),
-        iconTheme: _buildIconTheme(color: LightColors.white),
-        elevatedButtonTheme: _buildElevatedButtonThemeData(isLight: true),
-        textButtonTheme: _buildTextButtonThemeData(
-          active: LightColors.secondary,
-          inactive: LightColors.inactiveBlack,
-        ),
-        sliderTheme: _buildSliderThemeData(
-          active: LightColors.green,
-          inactive: LightColors.inactiveBlack,
-          thumb: LightColors.white,
-        ),
-        inputDecorationTheme: _buildInputDecorationTheme(isLight: true),
-        textSelectionTheme:
-            _buildTextSelectionThemeData(color: LightColors.green),
-        listTileTheme: _buildListTileThemeData(color: LightColors.main),
-        dividerColor: LightColors.inactiveBlack.withOpacity(0.24),
-        dividerTheme: _buildDividerThemeData(
-          color: LightColors.inactiveBlack.withOpacity(0.24),
-        ),
-        bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
-          background: LightColors.background,
-          foreground: DarkColors.secondary,
-        ),
-      );
+  static ThemeData get light {
+    final theme = ThemeData.from(
+      colorScheme: _buildColorScheme(isLight: true),
+      textTheme: _buildTextTheme(),
+    );
+
+    // TODO(novikov): Оптимизировать по аналогии с _buildElevatedButtonThemeData
+
+    return theme.copyWith(
+      appBarTheme: _buildAppBarTheme(
+        background: LightColors.background,
+        title: LightColors.main,
+        leading: LightColors.secondary2,
+        trailing: LightColors.green,
+      ),
+      tabBarTheme: _buildTabBarTheme(
+        tabBackground: LightColors.secondary,
+        labelColor: LightColors.white,
+        unselectedLabelColor: LightColors.inactiveBlack,
+      ),
+      cardTheme: _buildCardTheme(),
+      iconTheme: _buildIconTheme(color: LightColors.white),
+      elevatedButtonTheme: _buildElevatedButtonThemeData(theme),
+      textButtonTheme: _buildTextButtonThemeData(
+        active: LightColors.secondary,
+        inactive: LightColors.inactiveBlack,
+      ),
+      sliderTheme: _buildSliderThemeData(
+        active: LightColors.green,
+        inactive: LightColors.inactiveBlack,
+        thumb: LightColors.white,
+      ),
+      inputDecorationTheme: _buildInputDecorationTheme(isLight: true),
+      textSelectionTheme:
+          _buildTextSelectionThemeData(color: LightColors.green),
+      listTileTheme: _buildListTileThemeData(color: LightColors.main),
+      dividerColor: LightColors.inactiveBlack.withOpacity(0.24),
+      dividerTheme: _buildDividerThemeData(
+        color: LightColors.inactiveBlack.withOpacity(0.24),
+      ),
+      bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
+        background: LightColors.background,
+        foreground: DarkColors.secondary,
+      ),
+    );
+  }
 
   /// Темная тема.
-  static ThemeData get dark => ThemeData.from(
-        colorScheme: _buildColorScheme(isLight: false),
-        textTheme: _buildTextTheme(),
-      ).copyWith(
-        appBarTheme: _buildAppBarTheme(
-          background: DarkColors.background,
-          title: DarkColors.white,
-          leading: DarkColors.secondary2,
-          trailing: DarkColors.green,
-        ),
-        tabBarTheme: _buildTabBarTheme(
-          tabBackground: DarkColors.white,
-          labelColor: DarkColors.secondary,
-          unselectedLabelColor: DarkColors.secondary2,
-        ),
-        cardTheme: _buildCardTheme(),
-        iconTheme: _buildIconTheme(color: DarkColors.white),
-        elevatedButtonTheme: _buildElevatedButtonThemeData(isLight: false),
-        textButtonTheme: _buildTextButtonThemeData(
-          active: DarkColors.white,
-          inactive: DarkColors.inactiveBlack,
-        ),
-        sliderTheme: _buildSliderThemeData(
-          active: DarkColors.green,
-          inactive: DarkColors.inactiveBlack,
-          thumb: DarkColors.white,
-        ),
-        inputDecorationTheme: _buildInputDecorationTheme(isLight: false),
-        textSelectionTheme:
-            _buildTextSelectionThemeData(color: DarkColors.green),
-        listTileTheme: _buildListTileThemeData(color: DarkColors.white),
-        dividerColor: DarkColors.inactiveBlack.withOpacity(0.24),
-        dividerTheme: _buildDividerThemeData(
-          color: DarkColors.inactiveBlack.withOpacity(0.24),
-        ),
-        bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
-          background: DarkColors.background,
-          foreground: DarkColors.white,
-        ),
-      );
+  static ThemeData get dark {
+    final theme = ThemeData.from(
+      colorScheme: _buildColorScheme(isLight: false),
+      textTheme: _buildTextTheme(),
+    );
+
+    return theme.copyWith(
+      appBarTheme: _buildAppBarTheme(
+        background: DarkColors.background,
+        title: DarkColors.white,
+        leading: DarkColors.secondary2,
+        trailing: DarkColors.green,
+      ),
+      tabBarTheme: _buildTabBarTheme(
+        tabBackground: DarkColors.white,
+        labelColor: DarkColors.secondary,
+        unselectedLabelColor: DarkColors.secondary2,
+      ),
+      cardTheme: _buildCardTheme(),
+      iconTheme: _buildIconTheme(color: DarkColors.white),
+      elevatedButtonTheme: _buildElevatedButtonThemeData(theme),
+      textButtonTheme: _buildTextButtonThemeData(
+        active: DarkColors.white,
+        inactive: DarkColors.inactiveBlack,
+      ),
+      sliderTheme: _buildSliderThemeData(
+        active: DarkColors.green,
+        inactive: DarkColors.inactiveBlack,
+        thumb: DarkColors.white,
+      ),
+      inputDecorationTheme: _buildInputDecorationTheme(isLight: false),
+      textSelectionTheme: _buildTextSelectionThemeData(color: DarkColors.green),
+      listTileTheme: _buildListTileThemeData(color: DarkColors.white),
+      dividerColor: DarkColors.inactiveBlack.withOpacity(0.24),
+      dividerTheme: _buildDividerThemeData(
+        color: DarkColors.inactiveBlack.withOpacity(0.24),
+      ),
+      bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
+        background: DarkColors.background,
+        foreground: DarkColors.white,
+      ),
+    );
+  }
 
   /// Тема для строки поиска SearchBar.
   static ThemeData searchBarTheme({required bool isLight}) {
@@ -175,21 +185,19 @@ abstract class Themes {
       );
 
   /// ElevatedButton.
-  static ElevatedButtonThemeData _buildElevatedButtonThemeData({
-    required bool isLight,
-  }) {
-    final background = isLight ? LightColors.green : DarkColors.green;
-    final foreground = isLight ? LightColors.white : DarkColors.white;
-    final disabledBackground =
-        isLight ? LightColors.cardBackground : DarkColors.cardBackground;
-    final disabledForeground =
-        isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
+  static ElevatedButtonThemeData _buildElevatedButtonThemeData(
+    ThemeData theme,
+  ) {
+    final background = theme.colorScheme.green;
+    final foreground = theme.colorScheme.white;
+    final disabledBackground = theme.colorScheme.surface;
+    final disabledForeground = theme.colorScheme.inactiveBlack;
 
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         primary: background,
         onPrimary: foreground,
-        textStyle: button,
+        textStyle: theme.textTheme.button,
         padding: const EdgeInsets.all(15.0),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(

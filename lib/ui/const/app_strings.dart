@@ -23,6 +23,7 @@ abstract class AppStrings {
   static const buildRoute = 'ПОСТРОИТЬ МАРШРУТ';
   static const doneRoute = 'ПРОЙДЕНО';
   static const schedule = 'Запланировать';
+  static const reschedule = 'Перепланировать';
   static const share = 'Поделиться';
   static const addFavorites = 'В Избранное';
   static const clear = 'Очистить';
