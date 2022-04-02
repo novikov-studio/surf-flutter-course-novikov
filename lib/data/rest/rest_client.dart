@@ -7,5 +7,34 @@ abstract class RestClient {
   /// HTTP GET-запрос.
   ///
   /// В [path] должен передаваться относительный путь.
-  Future<T> get<T>(String path, {Map<String, dynamic>? params});
+  Future<dynamic> get(
+    String path, {
+    Map<String, dynamic>? params,
+  });
+
+  /// HTTP POST-запрос.
+  ///
+  /// В [path] должен передаваться относительный путь.
+  Future<dynamic> post(
+    String path, {
+    Map<String, dynamic>? params,
+    Map<String, dynamic>? data,
+  });
+
+  /// HTTP PUT-запрос.
+  ///
+  /// В [path] должен передаваться относительный путь.
+  Future<dynamic> put(
+      String path, {
+        Map<String, dynamic>? params,
+        Map<String, dynamic>? data,
+      });
+
+  /// HTTP DELETE-запрос.
+  ///
+  /// В [path] должен передаваться относительный путь.
+  Future<void> delete(
+    String path, {
+    Map<String, dynamic>? params,
+  });
 }

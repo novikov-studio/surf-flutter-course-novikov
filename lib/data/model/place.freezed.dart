@@ -23,7 +23,7 @@ class _$PlaceTearOff {
   const _$PlaceTearOff();
 
   _Place call(
-      {required int id,
+      {int? id,
       required num lat,
       required num lng,
       required String name,
@@ -51,7 +51,7 @@ const $Place = _$PlaceTearOff();
 
 /// @nodoc
 mixin _$Place {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   num get lat => throw _privateConstructorUsedError;
   num get lng => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
@@ -69,7 +69,7 @@ abstract class $PlaceCopyWith<$Res> {
   factory $PlaceCopyWith(Place value, $Res Function(Place) then) =
       _$PlaceCopyWithImpl<$Res>;
   $Res call(
-      {int id,
+      {int? id,
       num lat,
       num lng,
       String name,
@@ -100,7 +100,7 @@ class _$PlaceCopyWithImpl<$Res> implements $PlaceCopyWith<$Res> {
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       lat: lat == freezed
           ? _value.lat
           : lat // ignore: cast_nullable_to_non_nullable
@@ -135,7 +135,7 @@ abstract class _$PlaceCopyWith<$Res> implements $PlaceCopyWith<$Res> {
       __$PlaceCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int id,
+      {int? id,
       num lat,
       num lng,
       String name,
@@ -167,7 +167,7 @@ class __$PlaceCopyWithImpl<$Res> extends _$PlaceCopyWithImpl<$Res>
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       lat: lat == freezed
           ? _value.lat
           : lat // ignore: cast_nullable_to_non_nullable
@@ -200,7 +200,7 @@ class __$PlaceCopyWithImpl<$Res> extends _$PlaceCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Place implements _Place {
   const _$_Place(
-      {required this.id,
+      {this.id,
       required this.lat,
       required this.lng,
       required this.name,
@@ -212,7 +212,7 @@ class _$_Place implements _Place {
       _$$_PlaceFromJson(json);
 
   @override
-  final int id;
+  final int? id;
   @override
   final num lat;
   @override
@@ -270,7 +270,7 @@ class _$_Place implements _Place {
 
 abstract class _Place implements Place {
   const factory _Place(
-      {required int id,
+      {int? id,
       required num lat,
       required num lng,
       required String name,
@@ -281,7 +281,7 @@ abstract class _Place implements Place {
   factory _Place.fromJson(Map<String, dynamic> json) = _$_Place.fromJson;
 
   @override
-  int get id;
+  int? get id;
   @override
   num get lat;
   @override

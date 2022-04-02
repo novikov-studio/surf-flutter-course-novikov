@@ -7,7 +7,7 @@ part of 'place.dart';
 // **************************************************************************
 
 _$_Place _$$_PlaceFromJson(Map<String, dynamic> json) => _$_Place(
-      id: json['id'] as int,
+      id: json['id'] as int?,
       lat: json['lat'] as num,
       lng: json['lng'] as num,
       name: json['name'] as String,
@@ -16,15 +16,24 @@ _$_Place _$$_PlaceFromJson(Map<String, dynamic> json) => _$_Place(
       description: json['description'] as String,
     );
 
-Map<String, dynamic> _$$_PlaceToJson(_$_Place instance) => <String, dynamic>{
-      'id': instance.id,
-      'lat': instance.lat,
-      'lng': instance.lng,
-      'name': instance.name,
-      'urls': instance.urls,
-      'placeType': _$PlaceTypeEnumMap[instance.placeType],
-      'description': instance.description,
-    };
+Map<String, dynamic> _$$_PlaceToJson(_$_Place instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  val['lat'] = instance.lat;
+  val['lng'] = instance.lng;
+  val['name'] = instance.name;
+  val['urls'] = instance.urls;
+  val['placeType'] = _$PlaceTypeEnumMap[instance.placeType];
+  val['description'] = instance.description;
+  return val;
+}
 
 const _$PlaceTypeEnumMap = {
   PlaceType.temple: 'temple',

@@ -124,7 +124,7 @@ class _Tabs extends StatelessWidget implements PreferredSizeWidget {
           height: 40.0,
           color: Theme.of(context).cardColor,
           child: TabBar(
-            tabs: items.map((title) => Text(title)).toList(growable: false),
+            tabs: items.map(Text.new).toList(growable: false),
             padding: EdgeInsets.zero,
           ),
         ),

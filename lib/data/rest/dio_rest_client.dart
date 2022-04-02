@@ -1,15 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:places/data/rest/dio_log_interceptor.dart';
 import 'package:places/data/rest/rest_client.dart';
 import 'package:places/data/rest/rest_exception.dart';
 
 /// Реализация [RestClient] с помощью библиотеки Dio.
+///
+/// Конвертация JSON из строки в Map производится с помощью compute.
 class DioRestClient implements RestClient {
   final Dio _dio;
 
-  DioRestClient({required String baseUrl})
+  Dio get dio => _dio;
+
+  DioRestClient({required String baseUrl, HttpClientAdapter? adapter})
       : _dio = Dio(
           BaseOptions(
             baseUrl: baseUrl,
@@ -20,15 +26,82 @@ class DioRestClient implements RestClient {
               'user-agent': 'Places 1.0 (${Platform.operatingSystem})',
             },
           ),
-        )..interceptors.add(
+        )
+          ..transformer = _ComputeTransformer()
+          ..interceptors.add(
             DioLogInterceptor(maxDataLines: 10),
-          );
+          ) {
+    if (adapter != null) {
+      _dio.httpClientAdapter = adapter;
+    }
+  }
 
   /// GET-запрос
   @override
-  Future<T> get<T>(String path, {Map<String, dynamic>? params}) async {
+  Future<dynamic> get(
+    String path, {
+    Map<String, dynamic>? params,
+  }) async =>
+      _request(
+        path,
+        method: 'GET',
+        params: params,
+      );
+
+  /// POST-запрос
+  @override
+  Future<dynamic> post(
+    String path, {
+    Map<String, dynamic>? params,
+    Map<String, dynamic>? data,
+  }) async =>
+      _request(
+        path,
+        method: 'POST',
+        params: params,
+        data: data,
+      );
+
+  /// POST-запрос
+  @override
+  Future<dynamic> put(
+    String path, {
+    Map<String, dynamic>? params,
+    Map<String, dynamic>? data,
+  }) async =>
+      _request(
+        path,
+        method: 'PUT',
+        params: params,
+        data: data,
+      );
+
+  /// DELETE-запрос
+  @override
+  Future<void> delete(
+    String path, {
+    Map<String, dynamic>? params,
+  }) async =>
+      _request(
+        path,
+        method: 'DELETE',
+        params: params,
+      );
+
+  /// HTTP-запрос
+  Future<dynamic> _request(
+    String path, {
+    required String method,
+    Map<String, dynamic>? params,
+    Map<String, dynamic>? data,
+  }) async {
     try {
-      final response = await _dio.get<T>(path, queryParameters: params);
+      final response = await _dio.request<dynamic>(
+        path,
+        queryParameters: params,
+        data: data,
+        options: Options(method: method),
+      );
 
       return response.data!;
     } on DioError catch (e) {
@@ -58,6 +131,10 @@ class DioRestClient implements RestClient {
         }
         break;
 
+      case DioErrorType.response:
+        _processServerError(err.response?.statusCode);
+        break;
+
       default:
         break;
     }
@@ -72,4 +149,23 @@ class DioRestClient implements RestClient {
       }
     }
   }
+
+  /// Обработчик ошибок сервера.
+  void _processServerError(int? statusCode) {
+    switch (statusCode) {
+      case 400:
+        throw SrvInvalidRequestException();
+      case 404:
+        throw SrvNotFoundException();
+      case 409:
+        throw SrvDuplicateException();
+    }
+  }
 }
+
+/// Преобразование json-строки в Map в отдельном пототоке.
+class _ComputeTransformer extends DefaultTransformer {
+  _ComputeTransformer() : super(jsonDecodeCallback: _parseJson);
+}
+
+dynamic _parseJson(String text) => compute<String, dynamic>(jsonDecode, text);

@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'place_query_params.g.dart';
+
+@JsonSerializable(includeIfNull: false, createFactory: false)
 class PlaceQueryParams {
   final int? count;
   final int? offset;
@@ -6,5 +11,14 @@ class PlaceQueryParams {
   final String? pagePrior;
   final List<String>? sortBy;
 
-  PlaceQueryParams(this.count, this.offset, this.pageBy, this.pageAfter, this.pagePrior, this.sortBy);
+  PlaceQueryParams({
+    this.count,
+    this.offset,
+    this.pageBy,
+    this.pageAfter,
+    this.pagePrior,
+    this.sortBy,
+  }) : assert(pageBy == null || pageAfter != null || pagePrior != null);
+
+  Map<String, dynamic> toJson() => _$PlaceQueryParamsToJson(this);
 }

@@ -7,7 +7,7 @@ part 'place.g.dart';
 @freezed
 class Place with _$Place {
   const factory Place({
-    required int id,
+    int? id,
     required num lat,
     required num lng,
     required String name,

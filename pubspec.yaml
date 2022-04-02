@@ -6,12 +6,12 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.15.0 <3.0.0"
 
 dependencies:
   cached_network_image: ^3.2.0
   cupertino_icons: ^1.0.4
-  dio: ^4.0.5
+  dio: ^4.0.6
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -28,6 +28,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^1.1.1
+  http_mock_adapter: ^0.3.2
   json_serializable: ^6.1.5
   surf_lint_rules: ^1.5.0
 
