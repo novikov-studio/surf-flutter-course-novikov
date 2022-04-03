@@ -6,9 +6,9 @@ part 'place_filter_request.g.dart';
 /// Модель данных с параметрами фильтра.
 @JsonSerializable(includeIfNull: false, createFactory: false)
 class PlaceFilterRequest {
-  final num? lat;
-  final num? lng;
-  final num? radius;
+  final double? lat;
+  final double? lng;
+  final double? radius;
   final List<PlaceType>? typeFilter;
   final String? nameFilter;
 

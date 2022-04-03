@@ -8,13 +8,13 @@ part 'place.g.dart';
 class Place with _$Place {
   const factory Place({
     int? id,
-    required num lat,
-    required num lng,
+    required double lat,
+    required double lng,
     required String name,
     required List<String> urls,
     required PlaceType placeType,
     required String description,
-    num? distance,
+    double? distance,
   }) = _Place;
 
   factory Place.fromJson(Map<String, dynamic> json) => _$PlaceFromJson(json);

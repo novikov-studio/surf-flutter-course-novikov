@@ -24,13 +24,13 @@ class _$PlaceTearOff {
 
   _Place call(
       {int? id,
-      required num lat,
-      required num lng,
+      required double lat,
+      required double lng,
       required String name,
       required List<String> urls,
       required PlaceType placeType,
       required String description,
-      num? distance}) {
+      double? distance}) {
     return _Place(
       id: id,
       lat: lat,
@@ -54,13 +54,13 @@ const $Place = _$PlaceTearOff();
 /// @nodoc
 mixin _$Place {
   int? get id => throw _privateConstructorUsedError;
-  num get lat => throw _privateConstructorUsedError;
-  num get lng => throw _privateConstructorUsedError;
+  double get lat => throw _privateConstructorUsedError;
+  double get lng => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   List<String> get urls => throw _privateConstructorUsedError;
   PlaceType get placeType => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  num? get distance => throw _privateConstructorUsedError;
+  double? get distance => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -73,13 +73,13 @@ abstract class $PlaceCopyWith<$Res> {
       _$PlaceCopyWithImpl<$Res>;
   $Res call(
       {int? id,
-      num lat,
-      num lng,
+      double lat,
+      double lng,
       String name,
       List<String> urls,
       PlaceType placeType,
       String description,
-      num? distance});
+      double? distance});
 }
 
 /// @nodoc
@@ -109,11 +109,11 @@ class _$PlaceCopyWithImpl<$Res> implements $PlaceCopyWith<$Res> {
       lat: lat == freezed
           ? _value.lat
           : lat // ignore: cast_nullable_to_non_nullable
-              as num,
+              as double,
       lng: lng == freezed
           ? _value.lng
           : lng // ignore: cast_nullable_to_non_nullable
-              as num,
+              as double,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -133,7 +133,7 @@ class _$PlaceCopyWithImpl<$Res> implements $PlaceCopyWith<$Res> {
       distance: distance == freezed
           ? _value.distance
           : distance // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as double?,
     ));
   }
 }
@@ -145,13 +145,13 @@ abstract class _$PlaceCopyWith<$Res> implements $PlaceCopyWith<$Res> {
   @override
   $Res call(
       {int? id,
-      num lat,
-      num lng,
+      double lat,
+      double lng,
       String name,
       List<String> urls,
       PlaceType placeType,
       String description,
-      num? distance});
+      double? distance});
 }
 
 /// @nodoc
@@ -182,11 +182,11 @@ class __$PlaceCopyWithImpl<$Res> extends _$PlaceCopyWithImpl<$Res>
       lat: lat == freezed
           ? _value.lat
           : lat // ignore: cast_nullable_to_non_nullable
-              as num,
+              as double,
       lng: lng == freezed
           ? _value.lng
           : lng // ignore: cast_nullable_to_non_nullable
-              as num,
+              as double,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -206,7 +206,7 @@ class __$PlaceCopyWithImpl<$Res> extends _$PlaceCopyWithImpl<$Res>
       distance: distance == freezed
           ? _value.distance
           : distance // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as double?,
     ));
   }
 }
@@ -230,9 +230,9 @@ class _$_Place implements _Place {
   @override
   final int? id;
   @override
-  final num lat;
+  final double lat;
   @override
-  final num lng;
+  final double lng;
   @override
   final String name;
   @override
@@ -242,7 +242,7 @@ class _$_Place implements _Place {
   @override
   final String description;
   @override
-  final num? distance;
+  final double? distance;
 
   @override
   String toString() {
@@ -291,22 +291,22 @@ class _$_Place implements _Place {
 abstract class _Place implements Place {
   const factory _Place(
       {int? id,
-      required num lat,
-      required num lng,
+      required double lat,
+      required double lng,
       required String name,
       required List<String> urls,
       required PlaceType placeType,
       required String description,
-      num? distance}) = _$_Place;
+      double? distance}) = _$_Place;
 
   factory _Place.fromJson(Map<String, dynamic> json) = _$_Place.fromJson;
 
   @override
   int? get id;
   @override
-  num get lat;
+  double get lat;
   @override
-  num get lng;
+  double get lng;
   @override
   String get name;
   @override
@@ -316,7 +316,7 @@ abstract class _Place implements Place {
   @override
   String get description;
   @override
-  num? get distance;
+  double? get distance;
   @override
   @JsonKey(ignore: true)
   _$PlaceCopyWith<_Place> get copyWith => throw _privateConstructorUsedError;
