@@ -3,6 +3,7 @@ import 'package:places/data/mapper/sight_mapper.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/model/place_filter_request.dart';
 import 'package:places/data/repository_interface/favorites_repository.dart';
+import 'package:places/data/repository_interface/filtered_place_repository.dart';
 import 'package:places/data/repository_interface/location_repository.dart';
 import 'package:places/data/repository_interface/place_repository.dart';
 import 'package:places/domain/sight.dart';
@@ -12,14 +13,17 @@ class PlaceInteractor {
   final PlaceRepository _placeRepository;
   final LocationRepository _locationRepository;
   final FavoritesRepository _favoritesRepository;
+  final FilteredPlaceRepository _filteredPlaceRepository;
 
   PlaceInteractor({
     required PlaceRepository placeRepository,
     required LocationRepository locationRepository,
     required FavoritesRepository favoritesRepository,
+    required FilteredPlaceRepository filteredPlaceRepository,
   })  : _placeRepository = placeRepository,
         _locationRepository = locationRepository,
-        _favoritesRepository = favoritesRepository;
+        _favoritesRepository = favoritesRepository,
+        _filteredPlaceRepository = filteredPlaceRepository;
 
   /// Запрос списка мест.
   Future<List<Sight>> getAll({
@@ -40,23 +44,11 @@ class PlaceInteractor {
         lat: location?.latitude,
         typeFilter: categories?.map(CategoryMapper.toModel).toSet(),
       );
-      result = await _placeRepository.getFiltered(filter: filter);
+      result = await _filteredPlaceRepository.getFiltered(filter: filter);
       if (minRadius != null) {
         result = result.where((place) => place.distance! >= maxRadius!);
       }
     }
-
-    // // Фильтруем по радиусу
-    // result = result.where(
-    //   (place) => LocationRepository.isPointInRingArea(
-    //     point: Location(
-    //       latitude: place.lat,
-    //       longitude: place.lng,
-    //     ),
-    //     center: location,
-    //     maxRadius: radius,
-    //   ),
-    // );
 
     return List<Sight>.unmodifiable(result.map<Sight>(SightMapper.fromModel));
   }
