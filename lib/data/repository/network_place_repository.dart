@@ -2,7 +2,7 @@ import 'package:places/data/model/place.dart';
 import 'package:places/data/model/place_filter_request.dart';
 import 'package:places/data/model/place_query_params.dart';
 import 'package:places/data/model/rest_deserializer.dart';
-import 'package:places/data/repository/place_repository.dart';
+import 'package:places/data/repository_interface/place_repository.dart';
 import 'package:places/data/rest/rest_client.dart';
 
 /// Сетевая реализаия интерфейса [PlaceRepository].

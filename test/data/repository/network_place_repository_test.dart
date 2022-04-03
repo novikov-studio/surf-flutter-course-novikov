@@ -67,7 +67,7 @@ void main() {
             lat: 10.1,
             lng: 10.1,
             radius: 1.1,
-            typeFilter: [PlaceType.hotel],
+            typeFilter: {PlaceType.hotel},
             nameFilter: 'test',
           ),
         );
