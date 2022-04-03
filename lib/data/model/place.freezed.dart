@@ -29,7 +29,8 @@ class _$PlaceTearOff {
       required String name,
       required List<String> urls,
       required PlaceType placeType,
-      required String description}) {
+      required String description,
+      num? distance}) {
     return _Place(
       id: id,
       lat: lat,
@@ -38,6 +39,7 @@ class _$PlaceTearOff {
       urls: urls,
       placeType: placeType,
       description: description,
+      distance: distance,
     );
   }
 
@@ -58,6 +60,7 @@ mixin _$Place {
   List<String> get urls => throw _privateConstructorUsedError;
   PlaceType get placeType => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  num? get distance => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -75,7 +78,8 @@ abstract class $PlaceCopyWith<$Res> {
       String name,
       List<String> urls,
       PlaceType placeType,
-      String description});
+      String description,
+      num? distance});
 }
 
 /// @nodoc
@@ -95,6 +99,7 @@ class _$PlaceCopyWithImpl<$Res> implements $PlaceCopyWith<$Res> {
     Object? urls = freezed,
     Object? placeType = freezed,
     Object? description = freezed,
+    Object? distance = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -125,6 +130,10 @@ class _$PlaceCopyWithImpl<$Res> implements $PlaceCopyWith<$Res> {
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      distance: distance == freezed
+          ? _value.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as num?,
     ));
   }
 }
@@ -141,7 +150,8 @@ abstract class _$PlaceCopyWith<$Res> implements $PlaceCopyWith<$Res> {
       String name,
       List<String> urls,
       PlaceType placeType,
-      String description});
+      String description,
+      num? distance});
 }
 
 /// @nodoc
@@ -162,6 +172,7 @@ class __$PlaceCopyWithImpl<$Res> extends _$PlaceCopyWithImpl<$Res>
     Object? urls = freezed,
     Object? placeType = freezed,
     Object? description = freezed,
+    Object? distance = freezed,
   }) {
     return _then(_Place(
       id: id == freezed
@@ -192,6 +203,10 @@ class __$PlaceCopyWithImpl<$Res> extends _$PlaceCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      distance: distance == freezed
+          ? _value.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as num?,
     ));
   }
 }
@@ -206,7 +221,8 @@ class _$_Place implements _Place {
       required this.name,
       required this.urls,
       required this.placeType,
-      required this.description});
+      required this.description,
+      this.distance});
 
   factory _$_Place.fromJson(Map<String, dynamic> json) =>
       _$$_PlaceFromJson(json);
@@ -225,10 +241,12 @@ class _$_Place implements _Place {
   final PlaceType placeType;
   @override
   final String description;
+  @override
+  final num? distance;
 
   @override
   String toString() {
-    return 'Place(id: $id, lat: $lat, lng: $lng, name: $name, urls: $urls, placeType: $placeType, description: $description)';
+    return 'Place(id: $id, lat: $lat, lng: $lng, name: $name, urls: $urls, placeType: $placeType, description: $description, distance: $distance)';
   }
 
   @override
@@ -243,7 +261,8 @@ class _$_Place implements _Place {
             const DeepCollectionEquality().equals(other.urls, urls) &&
             const DeepCollectionEquality().equals(other.placeType, placeType) &&
             const DeepCollectionEquality()
-                .equals(other.description, description));
+                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other.distance, distance));
   }
 
   @override
@@ -255,7 +274,8 @@ class _$_Place implements _Place {
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(urls),
       const DeepCollectionEquality().hash(placeType),
-      const DeepCollectionEquality().hash(description));
+      const DeepCollectionEquality().hash(description),
+      const DeepCollectionEquality().hash(distance));
 
   @JsonKey(ignore: true)
   @override
@@ -276,7 +296,8 @@ abstract class _Place implements Place {
       required String name,
       required List<String> urls,
       required PlaceType placeType,
-      required String description}) = _$_Place;
+      required String description,
+      num? distance}) = _$_Place;
 
   factory _Place.fromJson(Map<String, dynamic> json) = _$_Place.fromJson;
 
@@ -294,6 +315,8 @@ abstract class _Place implements Place {
   PlaceType get placeType;
   @override
   String get description;
+  @override
+  num? get distance;
   @override
   @JsonKey(ignore: true)
   _$PlaceCopyWith<_Place> get copyWith => throw _privateConstructorUsedError;

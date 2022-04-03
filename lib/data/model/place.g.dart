@@ -14,6 +14,7 @@ _$_Place _$$_PlaceFromJson(Map<String, dynamic> json) => _$_Place(
       urls: (json['urls'] as List<dynamic>).map((e) => e as String).toList(),
       placeType: $enumDecode(_$PlaceTypeEnumMap, json['placeType']),
       description: json['description'] as String,
+      distance: json['distance'] as num?,
     );
 
 Map<String, dynamic> _$$_PlaceToJson(_$_Place instance) {
@@ -32,6 +33,7 @@ Map<String, dynamic> _$$_PlaceToJson(_$_Place instance) {
   val['urls'] = instance.urls;
   val['placeType'] = _$PlaceTypeEnumMap[instance.placeType];
   val['description'] = instance.description;
+  writeNotNull('distance', instance.distance);
   return val;
 }
 

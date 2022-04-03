@@ -14,6 +14,7 @@ class Place with _$Place {
     required List<String> urls,
     required PlaceType placeType,
     required String description,
+    num? distance,
   }) = _Place;
 
   factory Place.fromJson(Map<String, dynamic> json) => _$PlaceFromJson(json);
