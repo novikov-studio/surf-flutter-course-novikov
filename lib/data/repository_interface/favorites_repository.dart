@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
+import 'package:places/data/repository/memory_favorites_repository.dart';
 import 'package:places/domain/sight.dart';
 
 /// Интерфейс для управления списком Избранное.
-///
-/// Позволяет подписаться на изменение списка.
-abstract class FavoritesRepository implements Listenable {
+abstract class FavoritesRepository {
+  factory FavoritesRepository.getInstance() = MemoryFavoritesRepository;
+
   Future<Iterable<Sight>> items();
 
   Future<void> add(Sight value);
