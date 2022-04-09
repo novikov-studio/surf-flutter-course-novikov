@@ -14,7 +14,6 @@ import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
-import 'package:places/ui/widget/holders/sights.dart';
 import 'package:places/ui/widget/search_history.dart';
 
 /// Экран "Поиск мест" по названию.
@@ -156,8 +155,6 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
   /// Поиск мест по подстроке.
   Future<void> _search(String text) async {
-    final sightsRepository = Sights.of(context)!;
-
     // Добавляем запрос в историю поиска
     await _historyProvider.add(text);
 
@@ -166,10 +163,12 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
     // Производим поиск
     try {
-      _filtered = (await sightsRepository.items(
-        filter: widget.filter.copyWith(pattern: _controller.text),
-      ))
-          .toList(growable: false);
+      _filtered = [];
+      // TODO(novikov): Реализовать
+      // _filtered = (await sightsRepository.items(
+      //   filter: widget.filter.copyWith(pattern: _controller.text),
+      // ))
+      //     .toList(growable: false);
 
       // Если за время поиска успели очистить поле ввода,
       // значит результат уже не интересен, отображаем историю

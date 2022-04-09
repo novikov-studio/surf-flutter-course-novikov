@@ -4,28 +4,33 @@ import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/screen/visiting_screen.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
-import 'package:places/ui/widget/holders/sight_holder.dart';
-import 'package:places/ui/widget/holders/value_holder.dart';
 import 'package:places/ui/widget/sight_card_image.dart';
 import 'package:places/ui/widget/sight_card_text.dart';
+import 'package:provider/provider.dart';
 
 /// Виджет карточки места.
-class SightCard extends SightHolder {
+class SightCard extends ChangeNotifierProvider<SightNotifier> {
   SightCard({
     Key? key,
     required Sight sight,
     required CardMode mode,
   }) : super(
           key: key,
-          value: ValueNotifier(sight),
-          builder: (_, sight) => _SightCard(sight: sight, mode: mode),
+          create: (_) => SightNotifier(sight),
+          child: Consumer<SightNotifier>(
+            builder: (_, notifier, __) =>
+                _SightCard(sight: notifier.value, mode: mode),
+          ),
         );
 
-  static ValueNotifier<Sight>? of(BuildContext context) =>
-      ValueHolder.of<SightCard, ValueNotifier<Sight>>(context);
+  static SightNotifier? of(BuildContext context) =>
+      context.read<SightNotifier>();
 }
+
+typedef SightNotifier = ValueNotifier<Sight>;
 
 class _SightCard extends StatelessWidget {
   final Sight sight;
@@ -46,9 +51,7 @@ class _SightCard extends StatelessWidget {
     Widget card = Card(
       margin: EdgeInsets.zero,
       child: InkWell(
-        onTap: () {
-          context.pushBottomSheet(AppRoutes.details, args: sight.id);
-        },
+        onTap: () => _showDetails(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -129,6 +132,27 @@ class _SightCard extends StatelessWidget {
     }
 
     return card;
+  }
+
+  Future<void> _showDetails(BuildContext context) async {
+    final placeInteractor = context.placeInteractor;
+    final sightNotifier = context.read<SightNotifier>();
+    final favoritesNotifier = context.read<FavoritesNotifier?>();
+
+    // Показываем экран детализации
+    await context.pushBottomSheet(AppRoutes.details, args: sight.id);
+
+    // Обновляем текуший экран, если требуется.
+    // Логичней было бы возвращать обновленный Sight из детализации,
+    // но и запрашивать Sight по id при входе, имея Sight на руках - тоже мало логики.
+    // Видимо, расчет на кэширование.
+    final newSight = await placeInteractor.getOne(id: int.parse(sight.id));
+    // TODO(novikov): Переопределить == в Sight
+    if (newSight != sight) {
+      favoritesNotifier != null && !newSight.isLiked
+          ? favoritesNotifier.trigger()
+          : sightNotifier.value = newSight;
+    }
   }
 }
 

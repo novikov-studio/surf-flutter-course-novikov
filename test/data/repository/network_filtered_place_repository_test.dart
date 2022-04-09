@@ -20,9 +20,9 @@ void main() {
         () async {
           final result = await repository.getFiltered(
             filter: PlaceFilterRequest(
-              lat: 10.1,
-              lng: 10.1,
-              radius: 1.1,
+              lat: 10,
+              lng: 10,
+              radius: 1,
               typeFilter: {PlaceType.hotel},
               nameFilter: 'test',
             ),

@@ -12,7 +12,6 @@ import 'package:places/ui/widget/categories_grid.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
-import 'package:places/ui/widget/holders/sights.dart';
 
 /// Экран "Фильтр".
 class FiltersScreen extends StatelessWidget {
@@ -213,9 +212,11 @@ class _FiltersScreenState extends State<_FiltersScreen> {
 
   /// Обновление фильтра.
   Future<Iterable<Sight>> _updateFilter() async {
-    final sightRepository = Sights.of(context)!;
-
-    return sightRepository.items(filter: _filter);
+    // final sightRepository = Sights.of(context)!;
+    //
+    // return sightRepository.items(filter: _filter);
+    // TODO(novikov): реализовать
+    return [];
   }
 
   void _back() {

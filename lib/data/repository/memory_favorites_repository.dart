@@ -1,5 +1,3 @@
-import 'dart:_internal';
-
 import 'package:places/data/repository_interface/favorites_repository.dart';
 import 'package:places/domain/sight.dart';
 
@@ -9,7 +7,10 @@ class MemoryFavoritesRepository implements FavoritesRepository {
 
   @override
   Future<void> add(Sight value) async {
-    _items.add(value);
+    final index = _items.indexWhere((element) => element.id == value.id);
+    if (index < 0) {
+      _items.add(value);
+    }
   }
 
   @override
@@ -49,7 +50,7 @@ class MemoryFavoritesRepository implements FavoritesRepository {
   Future<void> update(Sight value) async {
     final index = _items.indexWhere((element) => element.id == value.id);
     if (index < 0) {
-      throw IterableElementError.noElement();
+      throw Exception('Not Found');
     }
 
     _items

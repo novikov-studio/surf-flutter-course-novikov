@@ -50,14 +50,28 @@ class PlaceInteractor {
       }
     }
 
-    return List<Sight>.unmodifiable(result.map<Sight>(SightMapper.fromModel));
+    // Если место в Избранном, то берем сразу оттуда, иначе конвертируем Place
+    final liked = await getFavorites();
+    final favorites = {for (var e in liked) int.parse(e.id): e};
+
+    return List<Sight>.unmodifiable(
+      result.map<Sight>((e) => favorites[e.id] ?? SightMapper.fromModel(e)),
+    );
   }
 
   /// Запрос детализации.
   Future<Sight> getOne({required int id}) async {
     final place = await _placeRepository.getOne(id: id);
 
-    return SightMapper.fromModel(place);
+    try {
+      // TODO(novikov): Добавить метод getById в репозиторий
+      final favorites = await _favoritesRepository.items();
+      final sId = '$id';
+
+      return favorites.firstWhere((element) => element.id == sId);
+    } on Object {
+      return SightMapper.fromModel(place);
+    }
   }
 
   /// Запрос списка Избранное.
@@ -66,13 +80,38 @@ class PlaceInteractor {
   }
 
   /// Добавление в Избранное.
-  Future<void> addToFavorites({required Sight sight}) async {
-    return _favoritesRepository.add(sight);
+  Future<Sight> addToFavorites({required Sight sight}) async {
+    final newSight = sight.copyWith(isLiked: true);
+    await _favoritesRepository.add(newSight);
+
+    return newSight;
   }
 
   /// Удаление из списка Избранное.
-  Future<void> removeFromFavorites({required Sight sight}) async {
-    return _favoritesRepository.remove(sight);
+  Future<Sight> removeFromFavorites({required Sight sight}) async {
+    final newSight = sight.copyWith(isLiked: false);
+    await _favoritesRepository.remove(newSight);
+
+    return newSight;
+  }
+
+  /// Обновление в списке Избранное.
+  Future<Sight> schedule({required Sight sight, required DateTime planned,}) async {
+    final newSight = sight.copyWith(plannedDate: planned);
+    await _favoritesRepository.update(newSight);
+
+    return newSight;
+  }
+
+  /// Сортировка в списке Избранное.
+  Future<void> reorderInFavorites({
+    required int sourceId,
+    int? insertBeforeId,
+  }) async {
+    return _favoritesRepository.reorder(
+      sourceId: '$sourceId',
+      insertBeforeId: '$insertBeforeId',
+    );
   }
 
   /// Запрос списка посещенных.
@@ -83,8 +122,11 @@ class PlaceInteractor {
   }
 
   /// Добавление в список посещенных.
-  Future<void> addToVisited({required Sight sight}) async {
-    return _favoritesRepository.update(sight);
+  Future<Sight> addToVisited({required Sight sight}) async {
+    final newSight = sight.copyWith(visitedDate: DateTime.now());
+    await _favoritesRepository.update(newSight);
+
+    return newSight;
   }
 
   /// Добавление нового места.

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/widget/holders/value_holder.dart';
+import 'package:provider/provider.dart';
 
 // ignore_for_file: prefer-single-widget-per-file
 
@@ -26,15 +26,15 @@ class Responsive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(
-      builder: (context, orientation) => ScreenInfo(
-        value: _ScreenInfo.from(context, orientation),
+      builder: (context, orientation) => Provider<ScreenInfo>(
+        create: (context) => ScreenInfo.from(context, orientation),
         child: child,
       ),
     );
   }
 
-  static _ScreenInfo? of(BuildContext context) =>
-      ValueHolder.of<ScreenInfo, _ScreenInfo>(context);
+  static ScreenInfo? of(BuildContext context) =>
+      Provider.of<ScreenInfo>(context, listen: false);
 }
 
 /// [DeviceAdapter] предоставляет набор билдеров для построения поддерева
@@ -74,7 +74,7 @@ class DeviceAdapter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screen = ScreenInfo.of(context);
+    final screen = Responsive.of(context);
     if (screen == null) {
       return orElse!(context);
     }
@@ -118,7 +118,7 @@ class HandsetAdapter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screen = ScreenInfo.of(context);
+    final screen = Responsive.of(context);
     if (screen == null || screen.deviceType != DeviceType.handset) {
       return orElse!(context);
     }
@@ -163,7 +163,7 @@ class TabletAdapter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screen = ScreenInfo.of(context);
+    final screen = Responsive.of(context);
     if (screen == null || screen.deviceType != DeviceType.tablet) {
       return orElse!(context);
     }
@@ -263,35 +263,19 @@ extension on MaterialStateProperty<TextStyle?> {
       ));
 }
 
-/// Обеспечивает хранение экземпляра [_ScreenInfo] в дереве виджетов.
-class ScreenInfo extends ValueHolder<_ScreenInfo> {
-  const ScreenInfo({
-    Key? key,
-    required _ScreenInfo value,
-    required Widget child,
-  }) : super(
-          key: key,
-          value: value,
-          child: child,
-        );
-
-  static _ScreenInfo? of(BuildContext context) =>
-      ValueHolder.of<ScreenInfo, _ScreenInfo>(context);
-}
-
 /// Информация о размерах экрна усттройства.
-class _ScreenInfo {
+class ScreenInfo {
   final DeviceType deviceType;
   final ScreenType screenType;
   final bool isPortrait;
 
-  _ScreenInfo({
+  ScreenInfo({
     required this.deviceType,
     required this.screenType,
     required this.isPortrait,
   });
 
-  factory _ScreenInfo.from(BuildContext context, Orientation orientation) {
+  factory ScreenInfo.from(BuildContext context, Orientation orientation) {
     final mediaQuery = MediaQuery.of(context);
     final width = mediaQuery.size.shortestSide;
 
@@ -313,7 +297,7 @@ class _ScreenInfo {
       }
     }
 
-    return _ScreenInfo(
+    return ScreenInfo(
       deviceType: device,
       screenType: screen,
       isPortrait: orientation == Orientation.portrait,

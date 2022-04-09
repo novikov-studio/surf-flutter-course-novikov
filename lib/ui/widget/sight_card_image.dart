@@ -5,12 +5,12 @@ import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/screen/visiting_screen.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/date_time_picker.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
-import 'package:places/ui/widget/holders/favorites.dart';
-import 'package:places/ui/widget/holders/sights.dart';
+import 'package:provider/provider.dart';
 
 /// Верхняя часть карточки [SightCard].
 class SightCardImage extends StatelessWidget {
@@ -83,39 +83,50 @@ class SightCardImage extends StatelessWidget {
     Sight sight,
   ) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final favoritesProvider = Favorites.of(context)!;
+    final placeInteractor = context.placeInteractor;
     final sightHolder = SightCard.of(context)!;
+    final favoritesNotifier = context.read<FavoritesNotifier?>();
 
     try {
-      sight.isLiked
-          ? await favoritesProvider.remove(sight)
-          : await favoritesProvider.add(sight);
-      sightHolder.value = sight.copyWith(isLiked: !sight.isLiked);
+      final newSight = sight.isLiked
+          ? await placeInteractor.removeFromFavorites(sight: sight)
+          : await placeInteractor.addToFavorites(sight: sight);
+
+      favoritesNotifier != null && !newSight.isLiked
+          ? favoritesNotifier.trigger()
+          : sightHolder.value = newSight;
     } on Exception catch (e, stacktrace) {
       debugPrint('$e, $stacktrace');
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text(AppStrings.tryLater),
-      ));
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text(AppStrings.tryLater),
+        ),
+      );
     }
   }
 
   /// Запланировать.
   static Future<void> planVisiting(BuildContext context, Sight sight) async {
-    final sightRepository = Sights.of(context)!;
+    final placeInteractor = context.placeInteractor;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final sightHolder = SightCard.of(context)!;
+    final sightNotifier = SightCard.of(context)!;
 
     final plannedDate =
         await DateTimePicker.show(context, initial: sight.plannedDate);
+    if (plannedDate == null) {
+      return;
+    }
 
     try {
-      await sightRepository.update(sight.copyWith(plannedDate: plannedDate));
-      sightHolder.value = sight.copyWith(plannedDate: plannedDate);
+      await placeInteractor.schedule(sight: sight, planned: plannedDate);
+      sightNotifier.value = sight.copyWith(plannedDate: plannedDate);
     } on Exception catch (e, stacktrace) {
       debugPrint('$e, $stacktrace');
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text(AppStrings.tryLater),
-      ));
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text(AppStrings.tryLater),
+        ),
+      );
     }
   }
 }
