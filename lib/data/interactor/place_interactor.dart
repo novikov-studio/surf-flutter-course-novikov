@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:places/data/mapper/category_mapper.dart';
 import 'package:places/data/mapper/sight_mapper.dart';
 import 'package:places/data/model/place.dart';
@@ -5,6 +7,7 @@ import 'package:places/data/model/place_filter_request.dart';
 import 'package:places/data/repository_interface/favorites_repository.dart';
 import 'package:places/data/repository_interface/filtered_place_repository.dart';
 import 'package:places/data/repository_interface/location_repository.dart';
+import 'package:places/data/repository_interface/media_repository.dart';
 import 'package:places/data/repository_interface/place_repository.dart';
 import 'package:places/domain/sight.dart';
 
@@ -14,16 +17,19 @@ class PlaceInteractor {
   final LocationRepository _locationRepository;
   final FavoritesRepository _favoritesRepository;
   final FilteredPlaceRepository _filteredPlaceRepository;
+  final MediaRepository _mediaRepository;
 
   PlaceInteractor({
     required PlaceRepository placeRepository,
     required LocationRepository locationRepository,
     required FavoritesRepository favoritesRepository,
     required FilteredPlaceRepository filteredPlaceRepository,
+    required MediaRepository mediaRepository,
   })  : _placeRepository = placeRepository,
         _locationRepository = locationRepository,
         _favoritesRepository = favoritesRepository,
-        _filteredPlaceRepository = filteredPlaceRepository;
+        _filteredPlaceRepository = filteredPlaceRepository,
+        _mediaRepository = mediaRepository;
 
   /// Запрос списка мест.
   Future<List<Sight>> getAll({
@@ -96,7 +102,10 @@ class PlaceInteractor {
   }
 
   /// Обновление в списке Избранное.
-  Future<Sight> schedule({required Sight sight, required DateTime planned,}) async {
+  Future<Sight> schedule({
+    required Sight sight,
+    required DateTime planned,
+  }) async {
     final newSight = sight.copyWith(plannedDate: planned);
     await _favoritesRepository.update(newSight);
 
@@ -130,11 +139,33 @@ class PlaceInteractor {
   }
 
   /// Добавление нового места.
+  ///
+  /// В поле [Sight.urls] должны быть пути к файлом.
   Future<Sight> addNew({required Sight sight}) async {
-    // TODO(novikov): тут, видимо, надо выкладывать локальные файлы на сервер и подставлять ссылки
+    final paths = sight.urls;
+
+    // Загружаем файлы в память
+    final files = {
+      for (var path in paths) _basename(path): await File(path).readAsBytes(),
+    };
+
+    // Выгружаем файлы на сервер
+    final urls = await _mediaRepository.upload(files: files);
+
+    // Заменяем пути к файлам на ссылки
+    final newSight = sight.copyWith(urls: urls.values.toList(growable: false));
+
+    // Сохраняем новое место на сервере
     final place =
-        await _placeRepository.create(place: SightMapper.toModel(sight));
+        await _placeRepository.create(place: SightMapper.toModel(newSight));
 
     return SightMapper.fromModel(place);
+  }
+
+  /// Имя файла по пути (чтобы не подключать библиотеку path).
+  static String _basename(String path) {
+    final index = path.lastIndexOf('/');
+
+    return index < 0 ? path : path.substring(index + 1);
   }
 }

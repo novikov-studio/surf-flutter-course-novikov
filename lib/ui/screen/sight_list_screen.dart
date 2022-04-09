@@ -132,12 +132,8 @@ class _SightListScreenState extends State<SightListScreen> {
   }
 
   Future<void> _showAddDialog() async {
-    final result = await context.pushScreen<Sight>(AppRoutes.newSight);
-    if (result != null) {
-      // TODO(novikov): Обрабатывать возможные ошибки при создании.
-      // Вероятно, создавать надо будет на самом экране создания,
-      // а сюда просто возвращать результат true
-      await context.placeInteractor.addNew(sight: result);
+    final result = await context.pushScreen<bool>(AppRoutes.newSight);
+    if (result ?? false) {
       setState(_startReload);
     }
   }

@@ -93,16 +93,9 @@ class _FiltersScreenState extends State<_FiltersScreen> {
 
   @override
   void didChangeDependencies() {
-    final theme = Theme.of(context);
-
     // Чтобы не ограничивать кнопки по высоте, приходится рассчитывать размера лоадера,
     // чтобы высота кнопки не "плясала" при смене текст/лоадер.
-    _loaderSize = (theme.elevatedButtonTheme.style!.textStyle!
-                    .resolve({MaterialState.selected})!.fontSize! *
-                theme.elevatedButtonTheme.style!.textStyle!
-                    .resolve({MaterialState.selected})!.height!)
-            .floor() *
-        1.0;
+    _loaderSize = Loader.calcSizeForButton(context);
     super.didChangeDependencies();
   }
 
@@ -163,11 +156,7 @@ class _FiltersScreenState extends State<_FiltersScreen> {
               return ElevatedButton(
                 onPressed: count > 0 ? _onApplyFilter : null,
                 child: isProgress
-                    ? ConstrainedBox(
-                        constraints:
-                            BoxConstraints.tight(Size.square(_loaderSize)),
-                        child: const Loader(),
-                      )
+                    ? Loader(size: _loaderSize)
                     : Text(
                         AppStrings.showFilterResults(count),
                       ),
