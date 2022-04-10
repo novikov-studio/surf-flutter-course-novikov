@@ -35,7 +35,7 @@ class Sight with _$Sight {
     String? details,
 
     /// Категория объекта.
-    required String type,
+    required Category type,
 
     /// Дата запланированного посещения.
     DateTime? plannedDate,
@@ -53,7 +53,8 @@ class Sight with _$Sight {
   bool isMatch(String text) {
     final lowerText = text.toLowerCase();
 
-    return name.toLowerCase().contains(lowerText) ||
-        type.toLowerCase().contains(lowerText);
+    return name.toLowerCase().contains(lowerText);
   }
 }
+
+enum Category { hotel, restaurant, particularPlace, park, museum, cafe }

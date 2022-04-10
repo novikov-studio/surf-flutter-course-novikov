@@ -1,49 +1,48 @@
 import 'package:places/data/model/place.dart';
-import 'package:places/ui/const/app_strings.dart';
+import 'package:places/domain/sight.dart';
 
 /// Вспомогательный класс для преобразования категории в [PlaceType] и наоборот.
-// TODO(novikov): Перейти на enum в Sight.
 abstract class CategoryMapper {
-  static String fromModel(PlaceType model) {
+  static Category fromModel(PlaceType model) {
     switch (model) {
       case PlaceType.hotel:
-        return AppStrings.hotel;
+        return Category.hotel;
       case PlaceType.cafe:
-        return AppStrings.cafe;
+        return Category.cafe;
       case PlaceType.restaurant:
-        return AppStrings.restaurant;
+        return Category.restaurant;
       case PlaceType.park:
-        return AppStrings.park;
+        return Category.park;
       case PlaceType.museum:
-        return AppStrings.museum;
+        return Category.museum;
       case PlaceType.other:
-        return AppStrings.particularPlace;
+        return Category.particularPlace;
       // Неизвестные
       case PlaceType.theatre:
-        return AppStrings.particularPlace;
+        return Category.particularPlace;
       case PlaceType.temple:
-        return AppStrings.particularPlace;
+        return Category.particularPlace;
       case PlaceType.monument:
-        return AppStrings.particularPlace;
+        return Category.particularPlace;
 
       default:
-        return AppStrings.particularPlace;
+        return Category.particularPlace;
     }
   }
 
-  static PlaceType toModel(String category) {
+  static PlaceType toModel(Category category) {
     switch (category) {
-      case AppStrings.hotel:
+      case Category.hotel:
         return PlaceType.hotel;
-      case AppStrings.cafe:
+      case Category.cafe:
         return PlaceType.cafe;
-      case AppStrings.restaurant:
+      case Category.restaurant:
         return PlaceType.restaurant;
-      case AppStrings.park:
+      case Category.park:
         return PlaceType.park;
-      case AppStrings.museum:
+      case Category.museum:
         return PlaceType.museum;
-      case AppStrings.particularPlace:
+      case Category.particularPlace:
         return PlaceType.other;
 
       default:

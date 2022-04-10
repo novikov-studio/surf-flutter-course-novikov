@@ -25,7 +25,7 @@ class AddSightScreen extends StatefulWidget {
 
 class _AddSightScreenState extends State<AddSightScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _typeKey = GlobalKey<FormFieldState<String>>();
+  final _typeKey = GlobalKey<FormFieldState<Category>>();
   final _urlsKey = GlobalKey<FormFieldState<List<String>>>();
   final _focusNodes = List.generate(4, (index) => FocusNode());
   final _data = NewSight();
@@ -83,11 +83,11 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         _LabeledField(
                           label: AppStrings.category,
                           usePadding: false,
-                          child: FormField<String>(
+                          child: FormField<Category>(
                             key: _typeKey,
                             builder: (field) => ListTile(
                               title: Text(
-                                field.value ?? AppStrings.notChosen,
+                                field.value?.title ?? AppStrings.notChosen,
                                 style: field.isValid
                                     ? theme.textTheme.text400
                                     : theme.text400Secondary2,
@@ -97,7 +97,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                               onTap: _showCategoryPicker,
                             ),
                             initialValue: _data.type,
-                            validator: _Validators.checkNotEmpty,
+                            validator: _Validators.checkNotNull,
                             onSaved: (value) => _data.type = value,
                           ),
                         ),
@@ -244,11 +244,12 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   /// Вызов диалога выбора категории.
   Future<void> _showCategoryPicker() async {
-    final result = await Navigator.of(context).push<String>(
+    final result = await Navigator.of(context).push<Category>(
       MaterialPageRoute(
-        builder: (_) => ListPicker<String>(
+        builder: (_) => ListPicker<Category>(
           title: AppStrings.categoryTitle,
-          items: Categories.names,
+          items: Category.values,
+          names: Categories.titles,
           initialValue: _typeKey.currentState?.value,
         ),
       ),
@@ -309,6 +310,9 @@ abstract class _Validators {
   static String? checkListNotEmpty<T>(List<T>? list) =>
       (list?.isEmpty ?? true) ? AppStrings.requiredField : null;
 
+  static String? checkNotNull<T>(T? value) =>
+      value == null ? AppStrings.requiredField : null;
+
   static String? checkNotEmpty(String? text) =>
       (text?.isEmpty ?? true) ? AppStrings.requiredField : null;
 
@@ -345,7 +349,7 @@ class NewSight {
   double? latitude;
   double? longitude;
   String? details;
-  String? type;
+  Category? type;
   List<String> urls = <String>[];
 
   @override

@@ -25,7 +25,7 @@ class _$SightTearOff {
       required List<String> urls,
       String? info,
       String? details,
-      required String type,
+      required Category type,
       DateTime? plannedDate,
       DateTime? visitedDate,
       bool isLiked = false}) {
@@ -68,7 +68,7 @@ mixin _$Sight {
   String? get details => throw _privateConstructorUsedError;
 
   /// Категория объекта.
-  String get type => throw _privateConstructorUsedError;
+  Category get type => throw _privateConstructorUsedError;
 
   /// Дата запланированного посещения.
   DateTime? get plannedDate => throw _privateConstructorUsedError;
@@ -94,7 +94,7 @@ abstract class $SightCopyWith<$Res> {
       List<String> urls,
       String? info,
       String? details,
-      String type,
+      Category type,
       DateTime? plannedDate,
       DateTime? visitedDate,
       bool isLiked});
@@ -149,7 +149,7 @@ class _$SightCopyWithImpl<$Res> implements $SightCopyWith<$Res> {
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Category,
       plannedDate: plannedDate == freezed
           ? _value.plannedDate
           : plannedDate // ignore: cast_nullable_to_non_nullable
@@ -178,7 +178,7 @@ abstract class _$SightCopyWith<$Res> implements $SightCopyWith<$Res> {
       List<String> urls,
       String? info,
       String? details,
-      String type,
+      Category type,
       DateTime? plannedDate,
       DateTime? visitedDate,
       bool isLiked});
@@ -234,7 +234,7 @@ class __$SightCopyWithImpl<$Res> extends _$SightCopyWithImpl<$Res>
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Category,
       plannedDate: plannedDate == freezed
           ? _value.plannedDate
           : plannedDate // ignore: cast_nullable_to_non_nullable
@@ -294,7 +294,7 @@ class _$_Sight extends _Sight {
   @override
 
   /// Категория объекта.
-  final String type;
+  final Category type;
   @override
 
   /// Дата запланированного посещения.
@@ -361,7 +361,7 @@ abstract class _Sight extends Sight {
       required List<String> urls,
       String? info,
       String? details,
-      required String type,
+      required Category type,
       DateTime? plannedDate,
       DateTime? visitedDate,
       bool isLiked}) = _$_Sight;
@@ -394,7 +394,7 @@ abstract class _Sight extends Sight {
   @override
 
   /// Категория объекта.
-  String get type;
+  Category get type;
   @override
 
   /// Дата запланированного посещения.

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:places/domain/sight.dart';
 
 part 'filter.freezed.dart';
 
@@ -14,7 +15,7 @@ class Filter with _$Filter {
   @Assert('minRadius == null || maxRadius != null')
   const factory Filter({
     // Список категорий
-    Set<String>? categories,
+    Set<Category>? categories,
     // Минимальный радиус поиска
     double? minRadius,
     // Максимальный радиус поиска

@@ -19,7 +19,7 @@ class _$FilterTearOff {
   const _$FilterTearOff();
 
   _Filter call(
-      {Set<String>? categories,
+      {Set<Category>? categories,
       double? minRadius,
       double? maxRadius,
       String? pattern}) {
@@ -38,7 +38,7 @@ const $Filter = _$FilterTearOff();
 /// @nodoc
 mixin _$Filter {
 // Список категорий
-  Set<String>? get categories =>
+  Set<Category>? get categories =>
       throw _privateConstructorUsedError; // Минимальный радиус поиска
   double? get minRadius =>
       throw _privateConstructorUsedError; // Максимальный радиус поиска
@@ -55,7 +55,7 @@ abstract class $FilterCopyWith<$Res> {
   factory $FilterCopyWith(Filter value, $Res Function(Filter) then) =
       _$FilterCopyWithImpl<$Res>;
   $Res call(
-      {Set<String>? categories,
+      {Set<Category>? categories,
       double? minRadius,
       double? maxRadius,
       String? pattern});
@@ -80,7 +80,7 @@ class _$FilterCopyWithImpl<$Res> implements $FilterCopyWith<$Res> {
       categories: categories == freezed
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<Category>?,
       minRadius: minRadius == freezed
           ? _value.minRadius
           : minRadius // ignore: cast_nullable_to_non_nullable
@@ -103,7 +103,7 @@ abstract class _$FilterCopyWith<$Res> implements $FilterCopyWith<$Res> {
       __$FilterCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Set<String>? categories,
+      {Set<Category>? categories,
       double? minRadius,
       double? maxRadius,
       String? pattern});
@@ -129,7 +129,7 @@ class __$FilterCopyWithImpl<$Res> extends _$FilterCopyWithImpl<$Res>
       categories: categories == freezed
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<Category>?,
       minRadius: minRadius == freezed
           ? _value.minRadius
           : minRadius // ignore: cast_nullable_to_non_nullable
@@ -155,7 +155,7 @@ class _$_Filter extends _Filter {
         super._();
 
   @override // Список категорий
-  final Set<String>? categories;
+  final Set<Category>? categories;
   @override // Минимальный радиус поиска
   final double? minRadius;
   @override // Максимальный радиус поиска
@@ -191,14 +191,14 @@ class _$_Filter extends _Filter {
 
 abstract class _Filter extends Filter {
   const factory _Filter(
-      {Set<String>? categories,
+      {Set<Category>? categories,
       double? minRadius,
       double? maxRadius,
       String? pattern}) = _$_Filter;
   const _Filter._() : super._();
 
   @override // Список категорий
-  Set<String>? get categories;
+  Set<Category>? get categories;
   @override // Минимальный радиус поиска
   double? get minRadius;
   @override // Максимальный радиус поиска

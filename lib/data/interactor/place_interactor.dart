@@ -35,7 +35,7 @@ class PlaceInteractor {
   Future<List<Sight>> getAll({
     double? maxRadius,
     double? minRadius,
-    Set<String>? categories,
+    Set<Category>? categories,
   }) async {
     late Iterable<Place> result;
 

@@ -3,6 +3,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/sight_details.dart';
@@ -34,7 +35,7 @@ class SightDetailsText extends StatelessWidget {
           Wrap(
             children: [
               Text(
-                sight.type,
+                sight.type.title,
                 style: theme.smallBoldForDetailsType,
               ),
               if (sight.info != null)

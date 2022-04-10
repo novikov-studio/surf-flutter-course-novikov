@@ -8,6 +8,7 @@ import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/loader.dart';
@@ -204,7 +205,7 @@ class _SightListTile extends StatelessWidget {
         borderRadius: 12.0,
       ),
       title: Text(sight.name, style: theme.textOnBackground),
-      subtitle: Text(sight.type, style: theme.smallSecondary2),
+      subtitle: Text(sight.type.title, style: theme.smallSecondary2),
       onTap: () => _showDetails(context),
     );
   }

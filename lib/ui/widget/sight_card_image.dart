@@ -3,6 +3,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
@@ -33,7 +34,7 @@ class SightCardImage extends StatelessWidget {
           top: 16.0,
           left: 16.0,
           child: Text(
-            sight.type,
+            sight.type.title,
             style: Theme.of(context).smallBoldWhite,
           ),
         ),
