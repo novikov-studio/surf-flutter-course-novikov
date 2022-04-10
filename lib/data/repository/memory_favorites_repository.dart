@@ -25,8 +25,8 @@ class MemoryFavoritesRepository implements FavoritesRepository {
 
   @override
   Future<void> reorder({
-    required String sourceId,
-    String? insertBeforeId,
+    required int sourceId,
+    int? insertBeforeId,
   }) async {
     final sourceIndex = _items.indexWhere((element) => element.id == sourceId);
     final targetIndex = insertBeforeId != null

@@ -6,7 +6,7 @@ import 'package:places/service/location.dart';
 /// Вспомогательный класс для преобразования [Sight] в [Place] и наоборот.
 abstract class SightMapper {
   static Sight fromModel(Place model) => Sight(
-    id: '${model.id!}',
+    id: model.id!,
     name: model.name,
     location: Location(
       latitude: model.lat,

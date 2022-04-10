@@ -17,14 +17,14 @@ class MockSightRepository implements SightRepository {
       throw Exception('duplicate id');
     }
 
-    final item = value.copyWith(id: (_generatorId++).toString());
+    final item = value.copyWith(id: _generatorId++);
     mocks.add(item);
 
     return item;
   }
 
   @override
-  Future<void> delete(String id) async {
+  Future<void> delete(int id) async {
     mocks.removeWhere((element) => element.id == id);
   }
 
@@ -69,7 +69,7 @@ class MockSightRepository implements SightRepository {
   }
 
   @override
-  Future<Sight> read(String id) async {
+  Future<Sight> read(int id) async {
     await Future<void>.delayed(const Duration(seconds: 1));
 
     return mocks.firstWhere((element) => element.id == id);

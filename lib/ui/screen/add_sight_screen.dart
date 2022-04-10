@@ -357,7 +357,7 @@ class NewSight {
   }
 
   Sight toSight() => Sight(
-        id: '',
+        id: 0,
         name: name!,
         location: Location(
           latitude: latitude!,

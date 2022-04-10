@@ -23,7 +23,7 @@ class MemoryFavoritesProvider extends ChangeNotifier
   }
 
   @override
-  Future<void> reorder({required String sourceId, String? insertBeforeId}) async {
+  Future<void> reorder({required int sourceId, int? insertBeforeId}) async {
     final sourceIndex = mocks.indexWhere((element) => element.id == sourceId);
     final targetIndex = insertBeforeId != null
         ? mocks.indexWhere((element) => element.id == insertBeforeId)
@@ -44,7 +44,7 @@ class MemoryFavoritesProvider extends ChangeNotifier
     }
   }
 
-  void _manage(String id, bool isLiked) {
+  void _manage(int id, bool isLiked) {
     final index = mocks.indexWhere((element) => element.id == id);
     if (index >= 0 && mocks[index].isLiked != isLiked) {
       final clone = mocks[index].copyWith(isLiked: isLiked);

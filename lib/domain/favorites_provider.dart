@@ -16,5 +16,5 @@ abstract class FavoritesProvider implements Listenable {
 
   /// Перемещает элемент с id=[sourceId] в позицию перед элементом с id=[insertBeforeId].
   /// Если [insertBeforeId] не указан, перемещает в конец списка.
-  Future<void> reorder({required String sourceId, String? insertBeforeId});
+  Future<void> reorder({required int sourceId, int? insertBeforeId});
 }

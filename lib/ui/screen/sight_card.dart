@@ -114,7 +114,7 @@ class _SightCard extends StatelessWidget {
           ? mediaQuery.size.width - 16.0 * 2
           : (mediaQuery.size.width - 16.0 * 3) / 2;
 
-      card = LongPressDraggable<String>(
+      card = LongPressDraggable<int>(
         child: card,
         data: sight.id,
         axis: isPortrait ? Axis.vertical : null,
@@ -146,7 +146,7 @@ class _SightCard extends StatelessWidget {
     // Логичней было бы возвращать обновленный Sight из детализации,
     // но и запрашивать Sight по id при входе, имея Sight на руках - тоже мало логики.
     // Видимо, расчет на кэширование.
-    final newSight = await placeInteractor.getOne(id: int.parse(sight.id));
+    final newSight = await placeInteractor.getOne(id: sight.id);
     // TODO(novikov): Переопределить == в Sight
     if (newSight != sight) {
       favoritesNotifier != null && !newSight.isLiked

@@ -58,7 +58,7 @@ class PlaceInteractor {
 
     // Если место в Избранном, то берем сразу оттуда, иначе конвертируем Place
     final liked = await getFavorites();
-    final favorites = {for (var e in liked) int.parse(e.id): e};
+    final favorites = {for (var e in liked) e.id: e};
 
     return List<Sight>.unmodifiable(
       result.map<Sight>((e) => favorites[e.id] ?? SightMapper.fromModel(e)),
@@ -72,9 +72,8 @@ class PlaceInteractor {
     try {
       // TODO(novikov): Добавить метод getById в репозиторий
       final favorites = await _favoritesRepository.items();
-      final sId = '$id';
 
-      return favorites.firstWhere((element) => element.id == sId);
+      return favorites.firstWhere((element) => element.id == id);
     } on Object {
       return SightMapper.fromModel(place);
     }
@@ -122,8 +121,8 @@ class PlaceInteractor {
     int? insertBeforeId,
   }) async {
     return _favoritesRepository.reorder(
-      sourceId: '$sourceId',
-      insertBeforeId: '$insertBeforeId',
+      sourceId: sourceId,
+      insertBeforeId: insertBeforeId,
     );
   }
 

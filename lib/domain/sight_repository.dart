@@ -14,9 +14,9 @@ abstract class SightRepository {
 
   Future<Sight> create(Sight value);
 
-  Future<Sight> read(String id);
+  Future<Sight> read(int id);
 
   Future<void> update(Sight value);
 
-  Future<void> delete(String id);
+  Future<void> delete(int id);
 }

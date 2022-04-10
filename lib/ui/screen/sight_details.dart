@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 /// Экран "Детализация".
 class SightDetails extends StatefulWidget {
-  final String id;
+  final int id;
   final ScrollController? scrollController;
 
   const SightDetails({
@@ -32,7 +32,7 @@ class _SightDetailsState extends State<SightDetails> {
   @override
   void initState() {
     super.initState();
-    _load = context.placeInteractor.getOne(id: int.parse(widget.id));
+    _load = context.placeInteractor.getOne(id: widget.id);
   }
 
   @override

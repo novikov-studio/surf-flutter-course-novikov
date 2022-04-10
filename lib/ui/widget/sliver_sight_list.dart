@@ -126,7 +126,7 @@ class SliverSightListDelegate extends SliverChildListDelegate {
 
 /// Разделитель, выступающий в роли приемника карточек при ручной сортировке.
 class _DragTargetSpacer extends StatelessWidget {
-  final String? id;
+  final int? id;
   final bool enabled;
   final OnOrderChanged? onOrderChanged;
 
@@ -140,7 +140,7 @@ class _DragTargetSpacer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return enabled
-        ? DragTarget<String>(
+        ? DragTarget<int>(
             onWillAccept: (value) {
               return value != id;
             },
@@ -160,7 +160,7 @@ class _DragTargetSpacer extends StatelessWidget {
         : spacerH24;
   }
 
-  void _onDragComplete(String sourceId) {
+  void _onDragComplete(int sourceId) {
     if (onOrderChanged != null) {
       onOrderChanged!(sourceId, id);
     }
@@ -168,6 +168,6 @@ class _DragTargetSpacer extends StatelessWidget {
 }
 
 typedef OnOrderChanged = void Function(
-  String sourceId,
-  String? insertAfterId,
+  int sourceId,
+  int? insertAfterId,
 );

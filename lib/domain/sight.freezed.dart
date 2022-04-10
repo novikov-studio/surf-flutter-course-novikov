@@ -19,7 +19,7 @@ class _$SightTearOff {
   const _$SightTearOff();
 
   _Sight call(
-      {required String id,
+      {required int id,
       required String name,
       required Location location,
       required List<String> urls,
@@ -50,7 +50,7 @@ const $Sight = _$SightTearOff();
 /// @nodoc
 mixin _$Sight {
   /// Уникальный идентификатор.
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
 
   /// Название.
   String get name => throw _privateConstructorUsedError;
@@ -88,7 +88,7 @@ abstract class $SightCopyWith<$Res> {
   factory $SightCopyWith(Sight value, $Res Function(Sight) then) =
       _$SightCopyWithImpl<$Res>;
   $Res call(
-      {String id,
+      {int id,
       String name,
       Location location,
       List<String> urls,
@@ -125,7 +125,7 @@ class _$SightCopyWithImpl<$Res> implements $SightCopyWith<$Res> {
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -172,7 +172,7 @@ abstract class _$SightCopyWith<$Res> implements $SightCopyWith<$Res> {
       __$SightCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id,
+      {int id,
       String name,
       Location location,
       List<String> urls,
@@ -210,7 +210,7 @@ class __$SightCopyWithImpl<$Res> extends _$SightCopyWithImpl<$Res>
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -270,7 +270,7 @@ class _$_Sight extends _Sight {
   @override
 
   /// Уникальный идентификатор.
-  final String id;
+  final int id;
   @override
 
   /// Название.
@@ -355,7 +355,7 @@ class _$_Sight extends _Sight {
 
 abstract class _Sight extends Sight {
   const factory _Sight(
-      {required String id,
+      {required int id,
       required String name,
       required Location location,
       required List<String> urls,
@@ -370,7 +370,7 @@ abstract class _Sight extends Sight {
   @override
 
   /// Уникальный идентификатор.
-  String get id;
+  int get id;
   @override
 
   /// Название.

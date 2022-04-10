@@ -17,7 +17,7 @@ class Sight with _$Sight {
 
   const factory Sight({
     /// Уникальный идентификатор.
-    required String id,
+    required int id,
 
     /// Название.
     required String name,

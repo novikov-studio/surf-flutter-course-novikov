@@ -113,14 +113,14 @@ class _VisitingScreenState extends State<VisitingScreen> {
 
   Future<void> _onDragComplete(
     BuildContext context,
-    String sourceId,
-    String? insertAfterId,
+    int sourceId,
+    int? insertAfterId,
   ) async {
     final favoritesNotifier = FavoritesNotifier.of(context)!;
 
     await context.placeInteractor.reorderInFavorites(
-      sourceId: int.parse(sourceId),
-      insertBeforeId: insertAfterId != null ? int.parse(insertAfterId) : null,
+      sourceId: sourceId,
+      insertBeforeId: insertAfterId,
     );
 
     favoritesNotifier.trigger();

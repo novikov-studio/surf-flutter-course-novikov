@@ -5,7 +5,7 @@ const mockCurrentLocation = Location(latitude: 47.516898, longitude: 42.146062);
 
 final mocks = [
   Sight(
-    id: '1',
+    id: 1,
     name: 'Гостиница "Ковчег"',
     location: const Location(latitude: 47.513733, longitude: 42.185774),
     urls: [
@@ -23,7 +23,7 @@ final mocks = [
     type: 'Отель',
   ),
   const Sight(
-    id: '2',
+    id: 2,
     name: 'Пиццерия "Камин"',
     location: Location(latitude: 47.511431, longitude: 42.205328),
     urls: [
@@ -37,7 +37,7 @@ final mocks = [
     type: 'Ресторан',
   ),
   Sight(
-    id: '3',
+    id: 3,
     name: 'Батутный парк №1',
     location: const Location(latitude: 47.51111, longitude: 42.21621),
     urls: [
@@ -66,7 +66,7 @@ final mocks = [
     type: 'Особое место',
   ),
   const Sight(
-    id: '4',
+    id: 4,
     name: 'Чайный бутик',
     location: Location(latitude: 47.519225, longitude: 42.19468),
     urls: [
@@ -79,7 +79,7 @@ final mocks = [
     type: 'Кафе',
   ),
   Sight(
-    id: '5',
+    id: 5,
     name: 'КРК "Комсомолец"',
     location: const Location(latitude: 47.51665, longitude: 42.197011),
     urls: [
@@ -95,7 +95,7 @@ final mocks = [
     type: 'Особое место',
   ),
   const Sight(
-    id: '6',
+    id: 6,
     name: 'Сквер "Дружба"',
     location: Location(latitude: 47.513275, longitude: 42.200729),
     urls: [
@@ -109,7 +109,7 @@ final mocks = [
     type: 'Парк',
   ),
   const Sight(
-    id: '7',
+    id: 7,
     name: 'Волгодонский эколого-исторический музей',
     location: Location(latitude: 47.519083, longitude: 42.150124),
     urls: ['https://b1.culture.ru/c/342632.884x442.webp'],
@@ -120,7 +120,7 @@ final mocks = [
     type: 'Музей',
   ),
   const Sight(
-    id: '8',
+    id: 8,
     name: 'Мирный атом',
     location: Location(latitude: 47.519884, longitude: 42.204517),
     urls: [
@@ -133,7 +133,7 @@ final mocks = [
     type: 'Особое место',
   ),
   const Sight(
-    id: '9',
+    id: 9,
     name: 'Аквапарк "Аква-сити"',
     location: Location(latitude: 47.571418, longitude: 42.057845),
     urls: ['https://donskayavolna.com/wp-content/uploads/2020/05/openpool.jpg'],
@@ -144,7 +144,7 @@ final mocks = [
     type: 'Особое место',
   ),
   const Sight(
-    id: '10',
+    id: 10,
     name: 'Дендрарий',
     location: Location(latitude: 47.514525, longitude: 42.134428),
     urls: [
