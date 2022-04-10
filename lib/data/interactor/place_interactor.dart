@@ -95,7 +95,11 @@ class PlaceInteractor {
 
   /// Удаление из списка Избранное.
   Future<Sight> removeFromFavorites({required Sight sight}) async {
-    final newSight = sight.copyWith(isLiked: false);
+    final newSight = sight.copyWith(
+      isLiked: false,
+      plannedDate: null,
+      visitedDate: null,
+    );
     await _favoritesRepository.remove(newSight);
 
     return newSight;
@@ -140,7 +144,7 @@ class PlaceInteractor {
 
   /// Добавление нового места.
   ///
-  /// В поле [Sight.urls] должны быть пути к файлом.
+  /// В поле Sight.urls должны быть пути к файлом.
   Future<Sight> addNew({required Sight sight}) async {
     final paths = sight.urls;
 
