@@ -170,7 +170,7 @@ class FavoritesNotifier extends ValueNotifier<bool> {
   FavoritesNotifier(this._callback) : super(true);
 
   static FavoritesNotifier? of(BuildContext context) =>
-      Provider.of<FavoritesNotifier>(context, listen: false);
+      context.read<FavoritesNotifier>();
 
   void trigger() {
     _callback();

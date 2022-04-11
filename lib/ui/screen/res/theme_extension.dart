@@ -211,6 +211,5 @@ extension ContextExt on BuildContext {
 
   bool get isLandscape => !isPortrait;
 
-  PlaceInteractor get placeInteractor =>
-      Provider.of<PlaceInteractor>(this, listen: false);
+  PlaceInteractor get placeInteractor => read<PlaceInteractor>();
 }

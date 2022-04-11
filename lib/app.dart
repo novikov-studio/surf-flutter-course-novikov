@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/repository/network_media_repository.dart';
 import 'package:places/data/repository_interface/favorites_repository.dart';
 import 'package:places/data/repository_interface/filtered_place_repository.dart';
@@ -46,6 +47,12 @@ class _AppState extends State<App> {
             favoritesRepository: FavoritesRepository.getInstance(),
             filteredPlaceRepository: _filteredPlaceRepository,
             mediaRepository: NetworkMediaRepository(restClient: _restClient),
+          ),
+        ),
+        Provider<SearchInteractor>(
+          create: (_) => SearchInteractor(
+            locationRepository: _locationRepository,
+            filteredPlaceRepository: _filteredPlaceRepository,
           ),
         ),
       ],

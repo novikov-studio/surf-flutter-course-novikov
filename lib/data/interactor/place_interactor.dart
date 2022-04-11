@@ -45,14 +45,16 @@ class PlaceInteractor {
       final location =
           maxRadius != null ? await _locationRepository.current() : null;
       final filter = PlaceFilterRequest(
-        radius: maxRadius,
+        radius: maxRadius != null
+            ? maxRadius * 1000 // км -> м
+            : null,
         lng: location?.longitude,
         lat: location?.latitude,
         typeFilter: categories?.map(CategoryMapper.toModel).toSet(),
       );
       result = await _filteredPlaceRepository.getFiltered(filter: filter);
       if (minRadius != null) {
-        result = result.where((place) => place.distance! >= maxRadius!);
+        result = result.where((place) => (place.distance! / 1000) >= minRadius);
       }
     }
 

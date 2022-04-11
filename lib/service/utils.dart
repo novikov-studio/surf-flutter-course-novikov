@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:places/service/location.dart';
 
+// todo: Удалить
 abstract class Utils {
   static ValueNotifier<bool> isLight = ValueNotifier(true);
 
