@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:places/domain/filter.dart';
 import 'package:places/domain/location_provider.dart';
 import 'package:places/domain/sight.dart';
@@ -33,7 +35,7 @@ class MockSightRepository implements SightRepository {
     await Future<void>.delayed(const Duration(seconds: 1));
 
     if (filter == null || filter.isEmpty) {
-      return List.unmodifiable(mocks);
+      return UnmodifiableListView(mocks);
     }
 
     final result = List<Sight>.from(mocks);
@@ -65,7 +67,7 @@ class MockSightRepository implements SightRepository {
       );
     }
 
-    return List.unmodifiable(result);
+    return UnmodifiableListView(result);
   }
 
   @override

@@ -7,6 +7,7 @@ import 'package:places/data/repository_interface/favorites_repository.dart';
 import 'package:places/data/repository_interface/filtered_place_repository.dart';
 import 'package:places/data/repository_interface/location_repository.dart';
 import 'package:places/data/repository_interface/place_repository.dart';
+import 'package:places/data/repository_interface/search_history_repository.dart';
 import 'package:places/data/rest/rest_client.dart';
 import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_routes.dart';
@@ -53,6 +54,7 @@ class _AppState extends State<App> {
           create: (_) => SearchInteractor(
             locationRepository: _locationRepository,
             filteredPlaceRepository: _filteredPlaceRepository,
+            searchHistoryRepository: SearchHistoryRepository.getInstance(),
           ),
         ),
       ],

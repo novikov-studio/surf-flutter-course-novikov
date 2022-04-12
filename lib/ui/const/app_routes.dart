@@ -44,8 +44,7 @@ abstract class AppRoutes {
         FiltersScreen(initialValue: context.routeArgs<Filter>()!),
 
     /// Поиск.
-    AppRoutes.search: (context) =>
-        SightSearchScreen(filter: context.routeArgs<Filter>()!),
+    AppRoutes.search: (_) => const SightSearchScreen(),
 
     /// Новое место.
     AppRoutes.newSight: (_) => const AddSightScreen(),
