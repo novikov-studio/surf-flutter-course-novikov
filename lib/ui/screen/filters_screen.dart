@@ -86,7 +86,6 @@ class _FiltersScreenState extends State<_FiltersScreen> {
       categories: widget.initialValue.categories ?? def.categories,
       minRadius: widget.initialValue.minRadius ?? def.minRadius,
       maxRadius: widget.initialValue.maxRadius ?? def.maxRadius,
-      pattern: widget.initialValue.pattern ?? def.pattern,
     );
 
     // Запуск поиска подходящих мест
