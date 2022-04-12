@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
@@ -171,7 +170,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               ? SearchState.empty
               : SearchState.found;
     } on Exception catch (e) {
-      Utils.log(e.toString());
+      debugPrint('$e');
       _state.value = SearchState.error;
     }
   }

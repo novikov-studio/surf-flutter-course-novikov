@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:places/service/location.dart';
+import 'package:places/domain/location.dart';
 
 part 'sight.freezed.dart';
 
