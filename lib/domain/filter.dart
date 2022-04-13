@@ -20,9 +20,6 @@ class Filter with _$Filter {
     double? minRadius,
     // Максимальный радиус поиска
     double? maxRadius,
-    // todo: убрать pattern
-    // Фильтр по имени
-    String? pattern,
   }) = _Filter;
 
   const Filter._();
