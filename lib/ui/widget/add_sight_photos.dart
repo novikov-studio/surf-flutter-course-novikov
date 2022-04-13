@@ -1,6 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:places/mocks.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/add_sight_screen.dart';
@@ -53,20 +55,25 @@ class _AddSightPhotosState extends State<AddSightPhotos> {
   }
 
   Future<void> _addPhoto() async {
-    await showCupertinoModalPopup<void>(
+    final fileNames = await showCupertinoModalPopup<List<String>>(
       context: context,
       builder: (_) => const _PhotoSourceWidget(),
     );
 
-    final fileName = mocks[items.length % mocks.length].urls.first;
-    if (!items.contains(fileName)) {
-      setState(() {
-        items.add(fileName);
-      });
-      _notifyChanges();
-    } else {
-      // TODO(novikov): Всплывашка с сообщением, что такое фото уже есть
+    if (fileNames == null) {
+      return;
     }
+
+    setState(() {
+      // Трактуем пустой список, как команду очистить список фото
+      if (fileNames.isEmpty) {
+        items.clear();
+      } else {
+        items.addAll(fileNames);
+      }
+    });
+
+    _notifyChanges();
   }
 
   void _removePhoto(String fileName) {
@@ -87,8 +94,6 @@ class _PhotoSourceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final VoidCallback onPressed = Navigator.of(context).pop;
-
     return CupertinoActionSheet(
       cancelButton: GestureDetector(
         onTap: Navigator.of(context).pop,
@@ -106,20 +111,54 @@ class _PhotoSourceWidget extends StatelessWidget {
         _ActionItem(
           icon: AppIcons.camera,
           text: AppStrings.clear,
-          onPressed: onPressed,
+          onPressed: () => _clear(context),
         ),
         _ActionItem(
           icon: AppIcons.photo,
           text: AppStrings.photo,
-          onPressed: onPressed,
+          onPressed: () => _pickFromCamera(context),
         ),
         _ActionItem(
           icon: AppIcons.file,
           text: AppStrings.file,
-          onPressed: onPressed,
+          onPressed: () => _pickFromGallery(context),
         ),
       ],
     );
+  }
+
+  /// Очистка списка уже выбранных фото.
+  void _clear(BuildContext context) {
+    Navigator.of(context).pop(const <String>[]);
+  }
+
+  /// Выбор фото из галлереи.
+  Future<void> _pickFromGallery(BuildContext context) async {
+    final navigator = Navigator.of(context);
+
+    final picker = ImagePicker();
+    final images = await picker.pickMultiImage(
+      maxWidth: 1920,
+      maxHeight: 1920,
+      imageQuality: 75,
+    );
+
+    navigator.pop(images?.map<String>((e) => e.path).toList(growable: false));
+  }
+
+  /// Получение фото с камеры.
+  Future<void> _pickFromCamera(BuildContext context) async {
+    final navigator = Navigator.of(context);
+
+    final picker = ImagePicker();
+    final image = await picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 1920,
+      maxHeight: 1920,
+      imageQuality: 75,
+    );
+
+    image != null ? navigator.pop(<String>[image.path]) : navigator.pop();
   }
 }
 
@@ -213,8 +252,7 @@ class _PhotoCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(12.0)),
           image: DecorationImage(
-            // TODO(novikov): Заменить на FileImage
-            image: NetworkImage(fileName),
+            image: FileImage(File(fileName)),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               theme.colorScheme.main.withOpacity(0.24),

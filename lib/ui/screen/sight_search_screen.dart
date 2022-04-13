@@ -1,20 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:places/domain/filter.dart';
-import 'package:places/domain/search_history_provider.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
-import 'package:places/ui/widget/holders/sights.dart';
 import 'package:places/ui/widget/search_history.dart';
 
 /// Экран "Поиск мест" по названию.
@@ -24,9 +21,8 @@ import 'package:places/ui/widget/search_history.dart';
 /// она же отображается при очистке поля ввода.
 /// Для возврата на предыдущий экран необходимо нажать иконку "Очистить" при пустом поле ввода.
 class SightSearchScreen extends StatefulWidget {
-  final Filter filter;
 
-  const SightSearchScreen({Key? key, required this.filter}) : super(key: key);
+  const SightSearchScreen({Key? key}) : super(key: key);
 
   @override
   State<SightSearchScreen> createState() => _SightSearchScreenState();
@@ -35,7 +31,6 @@ class SightSearchScreen extends StatefulWidget {
 class _SightSearchScreenState extends State<SightSearchScreen> {
   late final _DelayedSearch _delayedSearch;
   final _controller = TextEditingController();
-  final _historyProvider = SearchHistoryProvider.createProvider();
   final _state = ValueNotifier<SearchState>(SearchState.initial);
   String? _lastSearch = '';
   List<Sight> _filtered = List.empty();
@@ -72,7 +67,6 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
             switch (state) {
               case SearchState.initial:
                 return SearchHistory(
-                  historyProvider: _historyProvider,
                   onItemTap: (text) {
                     _controller
                       ..text = text
@@ -156,20 +150,17 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
   /// Поиск мест по подстроке.
   Future<void> _search(String text) async {
-    final sightsRepository = Sights.of(context)!;
+    final searchInteractor = context.searchInteractor;
 
     // Добавляем запрос в историю поиска
-    await _historyProvider.add(text);
+    await searchInteractor.addToHistory(text);
 
     // Переходим в состояние поиска
     _state.value = SearchState.inProgress;
 
     // Производим поиск
     try {
-      _filtered = (await sightsRepository.items(
-        filter: widget.filter.copyWith(pattern: _controller.text),
-      ))
-          .toList(growable: false);
+      _filtered = await searchInteractor.searchPlaces(name: _controller.text);
 
       // Если за время поиска успели очистить поле ввода,
       // значит результат уже не интересен, отображаем историю
@@ -179,7 +170,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               ? SearchState.empty
               : SearchState.found;
     } on Exception catch (e) {
-      Utils.log(e.toString());
+      debugPrint('$e');
       _state.value = SearchState.error;
     }
   }
@@ -205,7 +196,7 @@ class _SightListTile extends StatelessWidget {
         borderRadius: 12.0,
       ),
       title: Text(sight.name, style: theme.textOnBackground),
-      subtitle: Text(sight.type, style: theme.smallSecondary2),
+      subtitle: Text(sight.type.title, style: theme.smallSecondary2),
       onTap: () => _showDetails(context),
     );
   }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
 import 'package:places/ui/screen/res/themes.dart';
+import 'package:provider/provider.dart';
 
 /// Доступ к текстовым стилям и цветам по названиям из дизайн-макета
 extension ThemeExtension on ThemeData {
@@ -208,4 +211,8 @@ extension ContextExt on BuildContext {
       MediaQuery.of(this).orientation == Orientation.portrait;
 
   bool get isLandscape => !isPortrait;
+
+  PlaceInteractor get placeInteractor => read<PlaceInteractor>();
+
+  SearchInteractor get searchInteractor => read<SearchInteractor>();
 }

@@ -8,7 +8,7 @@ class DioLogInterceptor extends Interceptor {
   /// Максимальное кол-во строк для отображения тела запроса/ответа.
   ///
   /// Если поле не задано, тело выводится полностью.
-  /// Если значение равно 0, не поле выводится в лог.
+  /// Если значение равно 0, поле не выводится в лог.
   final int? maxDataLines;
 
   DioLogInterceptor({
@@ -21,15 +21,11 @@ class DioLogInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    logPrint('>> ${options.method.toUpperCase()} ${options.path}');
+    logPrint('>> ${options.method.toUpperCase()} ${_url(options)}');
     if (options.responseType != ResponseType.json) {
       _printKV('responseType', options.responseType.toString());
     }
-    if (options.extra.isNotEmpty) {
-      _printKV('extra', options.extra);
-    }
     if (options.data != null) {
-      logPrint('data:');
       _printAll(options.data);
     }
 
@@ -62,6 +58,11 @@ class DioLogInterceptor extends Interceptor {
 
     handler.next(err);
   }
+
+  static String _url(RequestOptions options) => options
+          .queryParameters.isNotEmpty
+      ? '${options.path}?${options.queryParameters.entries.map((e) => '${e.key}=${e.value}').join('&')}'
+      : options.path;
 
   void _printResponse(Response response, {bool title = true}) {
     final request = response.requestOptions;
