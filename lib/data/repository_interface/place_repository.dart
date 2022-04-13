@@ -1,5 +1,4 @@
 import 'package:places/data/model/place.dart';
-import 'package:places/data/model/place_filter_request.dart';
 import 'package:places/data/model/place_query_params.dart';
 import 'package:places/data/repository/network_place_repository.dart';
 import 'package:places/data/rest/rest_client.dart';
@@ -11,8 +10,6 @@ abstract class PlaceRepository {
   }) = NetworkPlaceRepository;
 
   Future<Iterable<Place>> getAll({PlaceQueryParams? params});
-
-  Future<Iterable<Place>> getFiltered({required PlaceFilterRequest filter});
 
   Future<Place> create({required Place place});
 

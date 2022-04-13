@@ -9,7 +9,7 @@ class PlaceFilterRequest {
   final double? lat;
   final double? lng;
   final double? radius;
-  final List<PlaceType>? typeFilter;
+  final Set<PlaceType>? typeFilter;
   final String? nameFilter;
 
   PlaceFilterRequest({

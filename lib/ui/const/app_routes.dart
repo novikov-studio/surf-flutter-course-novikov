@@ -34,7 +34,7 @@ abstract class AppRoutes {
     /// Детализация.
     AppRoutes.details: (context) => BottomSheetWrapper(
           builder: (context, scrollController) => SightDetails(
-            id: context.routeArgs<String>()!,
+            id: context.routeArgs<int>()!,
             scrollController: scrollController,
           ),
         ),
@@ -44,8 +44,7 @@ abstract class AppRoutes {
         FiltersScreen(initialValue: context.routeArgs<Filter>()!),
 
     /// Поиск.
-    AppRoutes.search: (context) =>
-        SightSearchScreen(filter: context.routeArgs<Filter>()!),
+    AppRoutes.search: (_) => const SightSearchScreen(),
 
     /// Новое место.
     AppRoutes.newSight: (_) => const AddSightScreen(),

@@ -3,15 +3,16 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/empty_list.dart';
-import 'package:places/ui/widget/holders/sights.dart';
 import 'package:places/ui/widget/sight_details_text.dart';
+import 'package:provider/provider.dart';
 
 /// Экран "Детализация".
 class SightDetails extends StatefulWidget {
-  final String id;
+  final int id;
   final ScrollController? scrollController;
 
   const SightDetails({
@@ -31,7 +32,7 @@ class _SightDetailsState extends State<SightDetails> {
   @override
   void initState() {
     super.initState();
-    _load = Sights.of(context)!.read(widget.id);
+    _load = context.placeInteractor.getOne(id: widget.id);
   }
 
   @override
@@ -97,7 +98,10 @@ class _Details extends StatelessWidget {
           ),
         ),
         SliverToBoxAdapter(
-          child: SightDetailsText(sight: sight),
+          child: ChangeNotifierProvider<SightNotifier>(
+            create: (_) => SightNotifier(sight),
+            child: const SightDetailsText(),
+          ),
         ),
       ],
     );
