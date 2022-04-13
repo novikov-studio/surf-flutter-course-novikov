@@ -147,7 +147,6 @@ class _SightCard extends StatelessWidget {
     // но и запрашивать Sight по id при входе, имея Sight на руках - тоже мало логики.
     // Видимо, расчет на кэширование.
     final newSight = await placeInteractor.getOne(id: sight.id);
-    // TODO(novikov): Переопределить == в Sight
     if (newSight != sight) {
       favoritesNotifier != null && !newSight.isLiked
           ? favoritesNotifier.trigger()

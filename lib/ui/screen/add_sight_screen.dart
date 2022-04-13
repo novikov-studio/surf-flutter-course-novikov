@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:places/domain/location.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/service/location.dart';
-import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
@@ -267,7 +266,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   /// Обработчик нажатия на ссылку "Указать на карте".
   void _onPointOnMap() {
-    Utils.logButtonPressed('addSight.pointOnMap');
+    debugPrint('addSight.pointOnMap');
   }
 
   /// Callback на изменение данных формы.

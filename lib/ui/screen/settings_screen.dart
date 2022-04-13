@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:places/service/utils.dart';
+import 'package:places/data/interactor/settings_interactor.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:provider/provider.dart';
 
 /// Экран "Настройки".
 class SettingsScreen extends StatelessWidget {
@@ -29,9 +30,7 @@ class SettingsScreen extends StatelessWidget {
               title: const Text(AppStrings.darkTheme),
               trailing: CupertinoSwitch(
                 value: !isLight,
-                onChanged: (value) {
-                  Utils.isLight.value = !value;
-                },
+                onChanged: (value) => _changeTheme(context, isLight: !value),
               ),
             ),
             ListTile(
@@ -47,6 +46,13 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _changeTheme(
+    BuildContext context, {
+    required bool isLight,
+  }) async {
+    await context.read<SettingsInteractor>().saveTheme(isLight: isLight);
   }
 
   void _showTutorial(BuildContext context) {

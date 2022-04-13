@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
@@ -85,7 +84,7 @@ class _GoRouteButton extends StatelessWidget {
               spacerW16,
               ElevatedButton(
                 onPressed: () {
-                  Utils.logButtonPressed('details.goRoute.small');
+                  debugPrint('details.goRoute.small');
                 },
                 child: const SvgIcon(AppIcons.goRoute),
               ),
@@ -93,7 +92,7 @@ class _GoRouteButton extends StatelessWidget {
           )
         : ElevatedButton.icon(
             onPressed: () {
-              Utils.logButtonPressed('details.goRoute.big');
+              debugPrint('details.goRoute.big');
             },
             icon: const SvgIcon(AppIcons.goRoute),
             label: const Text(AppStrings.buildRoute),
@@ -128,7 +127,7 @@ class _CardMenu extends StatelessWidget {
               icon: AppIcons.share,
               label: AppStrings.share,
               onPressed: () {
-                Utils.logButtonPressed('details.share');
+                debugPrint('details.share');
               },
             ),
           ),

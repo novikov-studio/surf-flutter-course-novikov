@@ -26,15 +26,15 @@ class Responsive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(
-      builder: (context, orientation) => Provider<ScreenInfo>(
-        create: (context) => ScreenInfo.from(context, orientation),
+      builder: (context, orientation) => ProxyProvider0<ScreenInfo>(
+        update: (context, _) => ScreenInfo.from(context, orientation),
         child: child,
       ),
     );
   }
 
   static ScreenInfo? of(BuildContext context) =>
-      Provider.of<ScreenInfo>(context, listen: false);
+      context.read<ScreenInfo>();
 }
 
 /// [DeviceAdapter] предоставляет набор билдеров для построения поддерева

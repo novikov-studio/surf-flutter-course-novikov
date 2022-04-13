@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
@@ -56,7 +55,7 @@ class SightCardImage extends StatelessWidget {
                 _SvgButton(
                   path: AppIcons.share,
                   onPressed: () {
-                    Utils.logButtonPressed('card.share');
+                    debugPrint('card.share');
                   },
                 ),
 

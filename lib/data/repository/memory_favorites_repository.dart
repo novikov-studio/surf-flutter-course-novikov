@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:places/data/repository_interface/favorites_repository.dart';
 import 'package:places/domain/sight.dart';
 
@@ -15,7 +17,7 @@ class MemoryFavoritesRepository implements FavoritesRepository {
 
   @override
   Future<Iterable<Sight>> items() async {
-    return List.unmodifiable(_items);
+    return UnmodifiableListView(_items);
   }
 
   @override

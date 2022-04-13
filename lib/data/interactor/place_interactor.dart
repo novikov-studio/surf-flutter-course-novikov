@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:places/data/mapper/category_mapper.dart';
@@ -45,14 +46,16 @@ class PlaceInteractor {
       final location =
           maxRadius != null ? await _locationRepository.current() : null;
       final filter = PlaceFilterRequest(
-        radius: maxRadius,
+        radius: maxRadius != null
+            ? maxRadius * 1000 // км -> м
+            : null,
         lng: location?.longitude,
         lat: location?.latitude,
         typeFilter: categories?.map(CategoryMapper.toModel).toSet(),
       );
       result = await _filteredPlaceRepository.getFiltered(filter: filter);
       if (minRadius != null) {
-        result = result.where((place) => place.distance! >= maxRadius!);
+        result = result.where((place) => (place.distance! / 1000) >= minRadius);
       }
     }
 
@@ -60,7 +63,7 @@ class PlaceInteractor {
     final liked = await getFavorites();
     final favorites = {for (var e in liked) e.id: e};
 
-    return List<Sight>.unmodifiable(
+    return UnmodifiableListView(
       result.map<Sight>((e) => favorites[e.id] ?? SightMapper.fromModel(e)),
     );
   }
@@ -130,7 +133,7 @@ class PlaceInteractor {
   Future<List<Sight>> getVisited() async {
     final items = await _favoritesRepository.items();
 
-    return List.unmodifiable(items.where((sight) => sight.isVisited));
+    return UnmodifiableListView(items.where((sight) => sight.isVisited));
   }
 
   /// Добавление в список посещенных.

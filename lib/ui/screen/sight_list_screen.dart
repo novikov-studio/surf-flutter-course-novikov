@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/domain/filter.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
@@ -13,6 +14,7 @@ import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
 
 import 'package:places/ui/widget/sliver_sight_list.dart';
+import 'package:provider/provider.dart';
 
 /// Экран "Список мест".
 class SightListScreen extends StatefulWidget {
@@ -24,7 +26,12 @@ class SightListScreen extends StatefulWidget {
 
 class _SightListScreenState extends State<SightListScreen> {
   late Future<Iterable<Sight>> _reload;
-  Filter _filter = const Filter();
+
+  Filter get _filter => context.read<SearchInteractor>().filter;
+
+  set _filter(Filter value) {
+    context.read<SearchInteractor>().filter = value;
+  }
 
   @override
   void initState() {
@@ -140,7 +147,7 @@ class _SightListScreenState extends State<SightListScreen> {
 
   void _startReload() {
     _reload = context.placeInteractor.getAll(
-      minRadius: _filter.maxRadius,
+      minRadius: _filter.minRadius,
       maxRadius: _filter.maxRadius,
       categories: _filter.categories,
     );

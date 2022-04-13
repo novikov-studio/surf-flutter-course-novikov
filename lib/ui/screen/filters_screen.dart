@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/domain/filter.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
@@ -11,6 +12,7 @@ import 'package:places/ui/widget/categories_grid.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
+import 'package:provider/provider.dart';
 
 /// Экран "Фильтр".
 class FiltersScreen extends StatelessWidget {
@@ -55,7 +57,7 @@ class _FiltersScreenState extends State<_FiltersScreen> {
   late final _DelayedSearch _delayedSearch;
   late Filter _filter;
   late double _loaderSize;
-  late Future<Iterable<Sight>> _search;
+  late Future<int> _search;
 
   /// Фильтр по-умолчанию.
   Filter get _defaultFilter => Filter(
@@ -78,12 +80,12 @@ class _FiltersScreenState extends State<_FiltersScreen> {
       },
     );
 
-    // Инициализация фильтра
-    _filter = _defaultFilter.copyWith(
-      categories: widget.initialValue.categories,
-      minRadius: widget.initialValue.minRadius,
-      maxRadius: widget.initialValue.maxRadius,
-      pattern: widget.initialValue.pattern,
+    final def = _defaultFilter;
+
+    _filter = Filter(
+      categories: widget.initialValue.categories ?? def.categories,
+      minRadius: widget.initialValue.minRadius ?? def.minRadius,
+      maxRadius: widget.initialValue.maxRadius ?? def.maxRadius,
     );
 
     // Запуск поиска подходящих мест
@@ -145,12 +147,12 @@ class _FiltersScreenState extends State<_FiltersScreen> {
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: FutureBuilder<Iterable<Sight>>(
+          child: FutureBuilder<int>(
             future: _search,
             builder: (context, snapshot) {
               final isProgress =
                   snapshot.connectionState != ConnectionState.done;
-              final count = snapshot.hasData ? snapshot.data!.length : 0;
+              final count = snapshot.hasData ? snapshot.data! : 0;
 
               return ElevatedButton(
                 onPressed: count > 0 ? _onApplyFilter : null,
@@ -199,12 +201,15 @@ class _FiltersScreenState extends State<_FiltersScreen> {
   }
 
   /// Обновление фильтра.
-  Future<Iterable<Sight>> _updateFilter() async {
-    // final sightRepository = Sights.of(context)!;
-    //
-    // return sightRepository.items(filter: _filter);
-    // TODO(novikov): реализовать
-    return [];
+  Future<int> _updateFilter() async {
+    final placeInteractor = context.read<PlaceInteractor>();
+    final found = await placeInteractor.getAll(
+      categories: _filter.categories,
+      maxRadius: _filter.maxRadius,
+      minRadius: _filter.minRadius,
+    );
+
+    return found.length;
   }
 
   void _back() {
