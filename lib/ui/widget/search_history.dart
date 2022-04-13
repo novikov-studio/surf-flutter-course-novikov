@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/search_history_provider.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
@@ -12,16 +11,19 @@ import 'package:places/ui/widget/controls/svg_text_button.dart';
 /// Виджет для отображения истории поиска.
 ///
 /// Используется на экране [SightSearchScreen].
-class SearchHistory extends StatelessWidget {
-  final SearchHistoryProvider historyProvider;
+class SearchHistory extends StatefulWidget {
   final void Function(String) onItemTap;
 
   const SearchHistory({
     Key? key,
-    required this.historyProvider,
     required this.onItemTap,
   }) : super(key: key);
 
+  @override
+  State<SearchHistory> createState() => _SearchHistoryState();
+}
+
+class _SearchHistoryState extends State<SearchHistory> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -29,8 +31,20 @@ class SearchHistory extends StatelessWidget {
         ? theme.colorScheme.inactiveBlack
         : theme.colorScheme.secondary2;
 
-    return FutureBuilder<Iterable<String>>(
-      future: historyProvider.items(),
+    final searchInteractor = context.searchInteractor;
+
+    final clearLink = Transform.translate(
+      offset: const Offset(-8.0, 0.0),
+      child: SvgTextButton.link(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        label: AppStrings.clearHistory,
+        color: theme.colorScheme.green,
+        onPressed: () => _clearHistory(context),
+      ),
+    );
+
+    return FutureBuilder<List<String>>(
+      future: searchInteractor.getHistory(),
       builder: (_, snapshot) {
         // Прогресс
         if (snapshot.connectionState != ConnectionState.done) {
@@ -43,10 +57,9 @@ class SearchHistory extends StatelessWidget {
         }
 
         // Результат
-        return AnimatedBuilder(
-          animation: historyProvider,
-          builder: (context, child) {
-            final items = snapshot.data!.toList(growable: false);
+        return Builder(
+          builder: (context) {
+            final items = snapshot.data!;
             if (items.isEmpty) {
               return const SizedBox();
             }
@@ -83,31 +96,37 @@ class SearchHistory extends StatelessWidget {
                                 color: closeColor,
                               ),
                               onPressed: () =>
-                                  historyProvider.remove(items[index]),
+                                  _removeFromHistory(context, items[index]),
                             ),
-                            onTap: () => onItemTap(items[index]),
+                            onTap: () => widget.onItemTap(items[index]),
                           ),
                           separatorBuilder: (_, index) => const Divider(),
                         ),
                       ),
-                      child!,
+                      clearLink,
                     ],
                   );
                 },
               ),
             );
           },
-          child: Transform.translate(
-            offset: const Offset(-8.0, 0.0),
-            child: SvgTextButton.link(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              label: AppStrings.clearHistory,
-              color: theme.colorScheme.green,
-              onPressed: historyProvider.clear,
-            ),
-          ),
         );
       },
     );
+  }
+
+  Future<void> _removeFromHistory(BuildContext context, String value) async {
+    await context.searchInteractor.removeFromHistory(value);
+    _reload();
+  }
+
+  Future<void> _clearHistory(BuildContext context) async {
+    await context.searchInteractor.clearHistory();
+    _reload();
+  }
+
+  void _reload() {
+    // ignore: no-empty-block
+    setState((){});
   }
 }

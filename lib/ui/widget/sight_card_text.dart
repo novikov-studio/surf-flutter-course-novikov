@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/service/utils.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
@@ -70,7 +69,7 @@ class SightCardText extends StatelessWidget {
                 height: 40.0,
                 child: ElevatedButton(
                   onPressed: () {
-                    Utils.logButtonPressed('card.goRoute');
+                    debugPrint('card.goRoute');
                   },
                   child: const Text(AppIcons.goRoute),
                 ),
