@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/filters_screen.dart';
@@ -8,13 +9,13 @@ import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 
 typedef CategoryPressedCallback = void Function(
-  String category,
+  Category category,
   bool isChecked,
 );
 
 /// Виджет для отображения таблицы категорий на экране [FiltersScreen].
 class CategoriesGrid extends StatelessWidget {
-  final Set<String> checked;
+  final Set<Category> checked;
   final CategoryPressedCallback onCategoryPressed;
 
   const CategoriesGrid({
@@ -29,12 +30,12 @@ class CategoriesGrid extends StatelessWidget {
       builder: (context, constraints) {
         final size = constraints.maxWidth / 3;
 
-        final categories = Categories.items.entries
+        final categories = Category.values
             .expand(
               (e) => [
                 _CategoryCell(
-                  category: _Category(e.key, e.value),
-                  isChecked: checked.contains(e.key),
+                  category: e,
+                  isChecked: checked.contains(e),
                   width: size,
                   onPressed: onCategoryPressed,
                 ),
@@ -66,7 +67,7 @@ class CategoriesGrid extends StatelessWidget {
 
 /// Виджет для отображения ячейки категории.
 class _CategoryCell extends StatelessWidget {
-  final _Category category;
+  final Category category;
   final bool isChecked;
   final double width;
   final CategoryPressedCallback onPressed;
@@ -96,7 +97,7 @@ class _CategoryCell extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.all(Radius.circular(size)),
                   onTap: () {
-                    onPressed(category.title, !isChecked);
+                    onPressed(category, !isChecked);
                   },
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -156,12 +157,4 @@ class _Badge extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Служебный класс для хранения информации о категории.
-class _Category {
-  final String title;
-  final String icon;
-
-  const _Category(this.title, this.icon);
 }
