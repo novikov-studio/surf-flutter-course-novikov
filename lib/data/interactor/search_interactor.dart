@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:places/data/mapper/category_mapper.dart';
 import 'package:places/data/mapper/sight_mapper.dart';
@@ -13,7 +15,19 @@ class SearchInteractor {
   final LocationRepository _locationRepository;
   final FilteredPlaceRepository _filteredPlaceRepository;
   final SearchHistoryRepository _searchHistoryRepository;
-  Filter filter = const Filter();
+
+  final _filterController = StreamController<bool>.broadcast();
+
+  Filter get filter => _filter;
+
+  Stream<bool> get filterIsEmpty => _filterController.stream;
+
+  set filter(Filter value) {
+    _filter = value;
+    _filterController.add(_filter.isEmpty);
+  }
+
+  Filter _filter = const Filter();
 
   SearchInteractor({
     required LocationRepository locationRepository,
@@ -35,8 +49,7 @@ class SearchInteractor {
   }
 
   /// Возвращает историю поисковых запросов.
-  Future<List<String>> getHistory() async =>
-      _searchHistoryRepository.items();
+  Future<List<String>> getHistory() async => _searchHistoryRepository.items();
 
   /// Добавление в историю.
   Future<void> addToHistory(String value) async =>
@@ -48,6 +61,10 @@ class SearchInteractor {
 
   /// Очистка истории.
   Future<void> clearHistory() async => _searchHistoryRepository.clear();
+
+  void dispose() {
+    _filterController.close();
+  }
 
   /// Формирование запроса.
   Future<PlaceFilterRequest> _buildRequest({String? pattern}) async {

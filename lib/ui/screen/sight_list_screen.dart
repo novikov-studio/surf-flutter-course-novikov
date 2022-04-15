@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/domain/filter.dart';
@@ -10,6 +12,7 @@ import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/controls/gradient_fab.dart';
 import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
+import 'package:places/ui/widget/controls/stream_state_builder.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
 
@@ -24,8 +27,10 @@ class SightListScreen extends StatefulWidget {
   _SightListScreenState createState() => _SightListScreenState();
 }
 
+typedef SightList = Iterable<Sight>;
+
 class _SightListScreenState extends State<SightListScreen> {
-  late Future<Iterable<Sight>> _reload;
+  final _streamController = StreamController<dynamic>();
 
   Filter get _filter => context.read<SearchInteractor>().filter;
 
@@ -43,84 +48,82 @@ class _SightListScreenState extends State<SightListScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return FutureBuilder<Iterable<Sight>>(
-      future: _reload,
-      builder: (context, snapshot) {
-        final isProgress = snapshot.connectionState != ConnectionState.done;
-        final hasError = snapshot.hasError;
-
-        /// Список.
-        return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              /// AppBar
-              SliverAppBar(
-                expandedHeight: 140.0,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  expandedTitleScale: 1.78,
-                  collapseMode: CollapseMode.pin,
-                  titlePadding: const EdgeInsets.all(16.0),
-                  centerTitle: true,
-                  title: Text(
-                    AppStrings.listTitle,
-                    style: theme.appBarTheme.titleTextStyle,
-                  ),
-                ),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          /// AppBar
+          SliverAppBar(
+            expandedHeight: 140.0,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              expandedTitleScale: 1.78,
+              collapseMode: CollapseMode.pin,
+              titlePadding: const EdgeInsets.all(16.0),
+              centerTitle: true,
+              title: Text(
+                AppStrings.listTitle,
+                style: theme.appBarTheme.titleTextStyle,
               ),
+            ),
+          ),
 
-              /// SearchBar
-              SliverToBoxAdapter(
-                child: _InactiveSearchBar(
-                  searchBar: const SearchBar(enabled: false),
-                  filterIsEmpty: _filter.isEmpty,
-                  onFieldTap: isProgress ? null : _showSearchDialog,
-                  onIconTap: isProgress ? null : _showFilterDialog,
-                ),
+          /// SearchBar
+          SliverToBoxAdapter(
+            child: _InactiveSearchBar(
+              searchBar: const SearchBar(enabled: false),
+              onFieldTap: _showSearchDialog,
+              onIconTap: _showFilterDialog,
+            ),
+          ),
+
+          StreamStateBuilder<SightList>(
+            stream: _streamController.stream,
+
+            /// Список.
+            builder: (_, data) => SliverSightList(
+              sights: data.toList(growable: false),
+              empty: const EmptyList(
+                icon: AppIcons.list,
+                title: AppStrings.empty,
               ),
+              mode: CardMode.list,
+            ),
 
-              /// Загрузка.
-              if (isProgress)
-                const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.all(48.0),
-                    child: Loader(),
-                  ),
-                )
+            /// Прогресс.
+            loadingBuilder: (_) => const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(48.0),
+                child: Loader(),
+              ),
+            ),
 
-              /// Ошибка.
-              else if (hasError)
-                const SliverFillRemaining(
-                  child: Center(
-                    child: EmptyList(
-                      icon: AppIcons.error,
-                      title: AppStrings.error,
-                      details: AppStrings.tryLater,
-                    ),
+            /// Ошибка.
+            errorBuilder: (_, error, stacktrace) {
+              return const SliverFillRemaining(
+                child: Center(
+                  child: EmptyList(
+                    icon: AppIcons.error,
+                    title: AppStrings.error,
+                    details: AppStrings.tryLater,
                   ),
-                )
-
-              /// Sight List
-              else
-                SliverSightList(
-                  sights: snapshot.data!.toList(growable: false),
-                  empty: const EmptyList(
-                    icon: AppIcons.list,
-                    title: AppStrings.empty,
-                  ),
-                  mode: CardMode.list,
                 ),
-            ],
+              );
+            },
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: GradientFab(
-            label: AppStrings.newSight,
-            onPressed: isProgress ? null : _showAddDialog,
-          ),
-        );
-      },
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: GradientFab(
+        label: AppStrings.newSight,
+        onPressed: _showAddDialog,
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    _streamController.close();
+    super.dispose();
   }
 
   void _showSearchDialog() {
@@ -131,22 +134,28 @@ class _SightListScreenState extends State<SightListScreen> {
     final result =
         await context.pushScreen<Filter>(AppRoutes.filters, args: _filter);
     if (result != null) {
-      setState(() {
-        _filter = result;
-        _startReload();
-      });
+      _filter = result;
+      _startReload();
     }
   }
 
   Future<void> _showAddDialog() async {
     final result = await context.pushScreen<bool>(AppRoutes.newSight);
     if (result ?? false) {
-      setState(_startReload);
+      _startReload();
     }
   }
 
   void _startReload() {
-    _reload = context.placeInteractor.getAll(
+    _streamController
+      // loading
+      ..add(true)
+      // data
+      ..addStream(Stream<SightList>.fromFuture(_reload()), cancelOnError: true);
+  }
+
+  Future<SightList> _reload() async {
+    return context.placeInteractor.getAll(
       minRadius: _filter.minRadius,
       maxRadius: _filter.maxRadius,
       categories: _filter.categories,
@@ -160,7 +169,6 @@ class _InactiveSearchBar extends StatelessWidget
   final VoidCallback? onFieldTap;
   final VoidCallback? onIconTap;
   final SearchBar searchBar;
-  final bool filterIsEmpty;
 
   @override
   Size get preferredSize => searchBar.preferredSize;
@@ -168,7 +176,6 @@ class _InactiveSearchBar extends StatelessWidget
   const _InactiveSearchBar({
     Key? key,
     required this.searchBar,
-    required this.filterIsEmpty,
     this.onFieldTap,
     this.onIconTap,
   }) : super(key: key);
@@ -189,11 +196,17 @@ class _InactiveSearchBar extends StatelessWidget
           child: Material(
             type: MaterialType.transparency,
             child: IconButton(
-              icon: SvgIcon(
-                AppIcons.filter,
-                color: filterIsEmpty
-                    ? theme.colorScheme.onSurface
-                    : theme.colorScheme.green,
+              icon: StreamBuilder<bool>(
+                stream: context.searchInteractor.filterIsEmpty,
+                initialData: true,
+                builder: (context, snapshot) {
+                  return SvgIcon(
+                    AppIcons.filter,
+                    color: snapshot.data ?? true
+                        ? theme.colorScheme.onSurface
+                        : theme.colorScheme.green,
+                  );
+                },
               ),
               splashRadius: 20.0,
               onPressed: onIconTap,
