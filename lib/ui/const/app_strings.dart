@@ -57,14 +57,26 @@ abstract class AppStrings {
   static const enterNumber = 'Введите число';
   static const notChosen = 'Не выбрано';
   static const search = 'Поиск';
-  static const error = 'Ошибка';
-  static const tryLater = 'Что-то пошло не так,\nпопробуйте позже';
   static const nothingFound = 'Ничего не найдено';
   static const tryAnotherSearch = 'Попробуйте изменить параметры поиска';
   static const errorOnInit  = 'Ошибка инициализации';
   static const errorOnInitDesc  = 'Попробуйте очистить кэш и перезапустить приложение';
   static const scheduleDate = 'Запланировать посещение';
   static const rescheduleDate = 'Перепланировать посещение';
+
+  // Ошибки
+  static const error = 'Ошибка';
+  static const unknownError = 'Что-то пошло не так, $tryLater';
+  static const tryLater = 'попробуйте позже';
+  static const connectTimeout = 'Нет связи с сервером, $tryLater';
+  static const sendTimeout = 'Не удалось выполнить запрос, $tryLater';
+  static const receiveTimeout = 'Сервер не отвечает, $tryLater';
+  static const requestCanceled  = 'Запрос отменен';
+  static const connectionRefused = 'Сервер временно недоступен, $tryLater';
+  static const failedHostLookup = 'Проверьте подключение к Интернету';
+  static const srvInvalidRequest = 'Сервер сообщает об ошибке';
+  static const srvDuplicate = 'Объект уже сущестует';
+  static const srvNotFound = 'Объект не найден';
 
   // Экран Избранное
   static const alreadyVisited = 'Уже посетил';

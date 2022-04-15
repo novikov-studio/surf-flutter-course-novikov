@@ -7,6 +7,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/errors.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
 import 'package:places/ui/widget/controls/gradient_fab.dart';
@@ -99,13 +100,11 @@ class _SightListScreenState extends State<SightListScreen> {
 
             /// Ошибка.
             errorBuilder: (_, error, stacktrace) {
-              return const SliverFillRemaining(
-                child: Center(
-                  child: EmptyList(
-                    icon: AppIcons.error,
-                    title: AppStrings.error,
-                    details: AppStrings.tryLater,
-                  ),
+              return SliverFillRemaining(
+                child: EmptyList(
+                  icon: AppIcons.error,
+                  title: AppStrings.error,
+                  details: Errors.humanReadableText(error),
                 ),
               );
             },

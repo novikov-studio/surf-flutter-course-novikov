@@ -3,6 +3,9 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/errors.dart';
+import 'package:places/ui/screen/res/logger.dart';
+import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
@@ -138,6 +141,7 @@ class _SightCard extends StatelessWidget {
     final placeInteractor = context.placeInteractor;
     final sightNotifier = context.read<SightNotifier>();
     final favoritesNotifier = context.read<FavoritesNotifier?>();
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     // Показываем экран детализации
     await context.pushBottomSheet(AppRoutes.details, args: sight.id);
@@ -146,11 +150,16 @@ class _SightCard extends StatelessWidget {
     // Логичней было бы возвращать обновленный Sight из детализации,
     // но и запрашивать Sight по id при входе, имея Sight на руках - тоже мало логики.
     // Видимо, расчет на кэширование.
-    final newSight = await placeInteractor.getOne(id: sight.id);
-    if (newSight != sight) {
-      favoritesNotifier != null && !newSight.isLiked
-          ? favoritesNotifier.trigger()
-          : sightNotifier.value = newSight;
+    try {
+      final newSight = await placeInteractor.getOne(id: sight.id);
+      if (newSight != sight) {
+        favoritesNotifier != null && !newSight.isLiked
+            ? favoritesNotifier.trigger()
+            : sightNotifier.value = newSight;
+      }
+    } on Exception catch(e, stacktrace) {
+      logErrorIfUnknown(e, stacktrace);
+      scaffoldMessenger.showError(e.humanReadableText);
     }
   }
 }

@@ -154,7 +154,7 @@ class DioRestClient implements RestClient {
     dynamic data,
   }) async {
     try {
-      return _dio.request<dynamic>(
+      return await dio.request<dynamic>(
         path,
         queryParameters: params,
         data: data,
@@ -202,6 +202,9 @@ class DioRestClient implements RestClient {
     if (error is SocketException) {
       if (error.message.contains('Connection refused')) {
         throw ConnectionRefusedException();
+      }
+      if (error.message.contains('Failed host lookup')) {
+        throw FailedHostLookupException();
       }
     }
   }
