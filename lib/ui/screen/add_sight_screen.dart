@@ -4,7 +4,10 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
+import 'package:places/ui/const/errors.dart';
 import 'package:places/ui/screen/list_picker.dart';
+import 'package:places/ui/screen/res/logger.dart';
+import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/add_sight_photos.dart';
 import 'package:places/ui/widget/controls/loader.dart';
@@ -223,12 +226,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
         await context.placeInteractor.addNew(sight: _data.toSight());
         navigator.pop(true);
       } on Exception catch (e, stacktrace) {
-        debugPrint('$e, $stacktrace');
-        scaffoldMessenger.showSnackBar(
-          const SnackBar(
-            content: Text(AppStrings.tryLater),
-          ),
-        );
+        logErrorIfUnknown(e, stacktrace);
+        scaffoldMessenger.showError(e.humanReadableText);
       } finally {
         _inProcess(false);
       }

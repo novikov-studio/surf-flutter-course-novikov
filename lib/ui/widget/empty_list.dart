@@ -29,42 +29,37 @@ class EmptyList extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    Widget body = FractionallySizedBox(
-      widthFactor: 0.7,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            icon,
-            width: 64.0,
-            height: 64.0,
-            color: theme.colorScheme.inactiveBlack,
-          ),
-          spacerH24,
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: theme.subtitleInactiveBlack,
-          ),
-          if (details != null) ...[
-            spacerH8,
-            Text(
-              details!,
-              textAlign: TextAlign.center,
-              style: theme.smallInactiveBlack,
+    return Container(
+      width: double.infinity,
+      padding: padding,
+      child: FractionallySizedBox(
+        widthFactor: 0.7,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              icon,
+              width: 64.0,
+              height: 64.0,
+              color: theme.colorScheme.inactiveBlack,
             ),
+            spacerH24,
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: theme.subtitleInactiveBlack,
+            ),
+            if (details != null) ...[
+              spacerH8,
+              Text(
+                details!,
+                textAlign: TextAlign.center,
+                style: theme.smallInactiveBlack,
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
-
-    if (padding != null) {
-      body = Padding(
-        padding: padding!,
-        child: body,
-      );
-    }
-
-    return body;
   }
 }

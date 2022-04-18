@@ -23,6 +23,8 @@ class RequestCanceledException extends RestException {}
 
 class ConnectionRefusedException extends RestException {}
 
+class FailedHostLookupException extends RestException {}
+
 /// Ошибки сервера.
 class ServerException extends RestException {}
 

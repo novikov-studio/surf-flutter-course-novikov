@@ -6,6 +6,8 @@ import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
+import 'package:places/ui/const/errors.dart';
+import 'package:places/ui/screen/res/logger.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/loader.dart';
@@ -21,7 +23,6 @@ import 'package:places/ui/widget/search_history.dart';
 /// она же отображается при очистке поля ввода.
 /// Для возврата на предыдущий экран необходимо нажать иконку "Очистить" при пустом поле ввода.
 class SightSearchScreen extends StatefulWidget {
-
   const SightSearchScreen({Key? key}) : super(key: key);
 
   @override
@@ -33,6 +34,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   final _controller = TextEditingController();
   final _state = ValueNotifier<SearchState>(SearchState.initial);
   String? _lastSearch = '';
+  String? _lastError;
   List<Sight> _filtered = List.empty();
 
   @override
@@ -105,7 +107,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                 return EmptyList(
                   icon: AppIcons.error,
                   title: AppStrings.error,
-                  details: AppStrings.tryLater,
+                  details: _lastError ?? AppStrings.unknownError,
                   padding: shift(),
                 );
             }
@@ -157,6 +159,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
     // Переходим в состояние поиска
     _state.value = SearchState.inProgress;
+    _lastError = null;
 
     // Производим поиск
     try {
@@ -169,8 +172,9 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           : _filtered.isEmpty
               ? SearchState.empty
               : SearchState.found;
-    } on Exception catch (e) {
-      debugPrint('$e');
+    } on Exception catch (e, stacktrace) {
+      logErrorIfUnknown(e, stacktrace);
+      _lastError = e.humanReadableText;
       _state.value = SearchState.error;
     }
   }
