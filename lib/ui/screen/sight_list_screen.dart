@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/domain/filter.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/errors.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/store/sight_list_store.dart';
 import 'package:places/ui/widget/controls/gradient_fab.dart';
 import 'package:places/ui/widget/controls/loader.dart';
+import 'package:places/ui/widget/controls/observable_future_builder.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
-import 'package:places/ui/widget/controls/stream_state_builder.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
 
@@ -28,10 +28,8 @@ class SightListScreen extends StatefulWidget {
   _SightListScreenState createState() => _SightListScreenState();
 }
 
-typedef SightList = Iterable<Sight>;
-
 class _SightListScreenState extends State<SightListScreen> {
-  final _streamController = StreamController<dynamic>();
+  late final SightListStore _store;
 
   Filter get _filter => context.read<SearchInteractor>().filter;
 
@@ -42,6 +40,7 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   void initState() {
     super.initState();
+    _store = SightListStore(context.placeInteractor);
     _startReload();
   }
 
@@ -77,8 +76,8 @@ class _SightListScreenState extends State<SightListScreen> {
             ),
           ),
 
-          StreamStateBuilder<SightList>(
-            stream: _streamController.stream,
+          ObservableFutureBuilder<SightList>(
+            future: _store.getAllFuture,
 
             /// Список.
             builder: (_, data) => SliverSightList(
@@ -119,12 +118,6 @@ class _SightListScreenState extends State<SightListScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    _streamController.close();
-    super.dispose();
-  }
-
   void _showSearchDialog() {
     context.pushScreen(AppRoutes.search, args: _filter);
   }
@@ -146,15 +139,7 @@ class _SightListScreenState extends State<SightListScreen> {
   }
 
   void _startReload() {
-    _streamController
-      // loading
-      ..add(true)
-      // data
-      ..addStream(Stream<SightList>.fromFuture(_reload()), cancelOnError: true);
-  }
-
-  Future<SightList> _reload() async {
-    return context.placeInteractor.getAll(
+    _store.getAll(
       minRadius: _filter.minRadius,
       maxRadius: _filter.maxRadius,
       categories: _filter.categories,
