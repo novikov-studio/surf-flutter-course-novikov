@@ -13,17 +13,19 @@ abstract class RestException implements Exception {
 }
 
 /// Ошибки связи.
-class ConnectTimeoutException extends RestException {}
+class ConnectException extends RestException {}
 
-class SendTimeoutException extends RestException {}
+class ConnectTimeoutException extends ConnectException {}
 
-class ReceiveTimeoutException extends RestException {}
+class SendTimeoutException extends ConnectException {}
 
-class RequestCanceledException extends RestException {}
+class ReceiveTimeoutException extends ConnectException {}
 
-class ConnectionRefusedException extends RestException {}
+class RequestCanceledException extends ConnectException {}
 
-class FailedHostLookupException extends RestException {}
+class ConnectionRefusedException extends ConnectException {}
+
+class FailedHostLookupException extends ConnectException {}
 
 /// Ошибки сервера.
 class ServerException extends RestException {}
