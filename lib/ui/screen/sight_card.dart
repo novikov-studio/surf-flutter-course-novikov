@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/bloc/visiting_bloc.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/logger.dart';
 import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/screen/visiting_screen.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/sight_card_image.dart';
@@ -139,7 +139,7 @@ class _SightCard extends StatelessWidget {
   Future<void> _showDetails(BuildContext context) async {
     final placeInteractor = context.placeInteractor;
     final sightNotifier = context.read<SightNotifier>();
-    final favoritesNotifier = context.read<FavoritesNotifier?>();
+    final visitingBloc = context.read<VisitingBloc?>();
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     // Показываем экран детализации
@@ -152,11 +152,11 @@ class _SightCard extends StatelessWidget {
     try {
       final newSight = await placeInteractor.getOne(id: sight.id);
       if (newSight != sight) {
-        favoritesNotifier != null && !newSight.isLiked
-            ? favoritesNotifier.trigger()
+        visitingBloc != null && !newSight.isLiked
+            ? visitingBloc.add(const VisitingBlocEvent.load())
             : sightNotifier.value = newSight;
       }
-    } on Exception catch(e, stacktrace) {
+    } on Exception catch (e, stacktrace) {
       logErrorIfUnknown(e, stacktrace);
       scaffoldMessenger.showExpError(e);
     }

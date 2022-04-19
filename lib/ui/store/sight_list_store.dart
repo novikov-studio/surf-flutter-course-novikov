@@ -9,8 +9,6 @@ part 'sight_list_store.g.dart';
 /// Состояние экрана SightListScreen.
 class SightListStore = SightListBase with _$SightListStore;
 
-typedef SightList = Iterable<Sight>;
-
 /// Базовое состояние экрана SightListScreen.
 //ignore: prefer-match-file-name
 abstract class SightListBase with Store {

@@ -14,6 +14,9 @@ abstract class Errors {
 
     return AppStrings.unknownError;
   }
+
+  static bool isCritical(Object error) =>
+      !(error is Exception && !error.isCritical);
 }
 
 extension ExceptionExt on Exception {

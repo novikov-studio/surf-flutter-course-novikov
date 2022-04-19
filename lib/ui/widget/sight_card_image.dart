@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/bloc/visiting_bloc.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/res/logger.dart';
 import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
-import 'package:places/ui/screen/visiting_screen.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/date_time_picker.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
@@ -86,15 +86,15 @@ class SightCardImage extends StatelessWidget {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final placeInteractor = context.placeInteractor;
     final sightHolder = SightCard.of(context)!;
-    final favoritesNotifier = context.read<FavoritesNotifier?>();
+    final visitingBloc = context.read<VisitingBloc?>();
 
     try {
       final newSight = sight.isLiked
           ? await placeInteractor.removeFromFavorites(sight: sight)
           : await placeInteractor.addToFavorites(sight: sight);
 
-      favoritesNotifier != null && !newSight.isLiked
-          ? favoritesNotifier.trigger()
+      visitingBloc != null && !newSight.isLiked
+          ? visitingBloc.add(const VisitingBlocEvent.load())
           : sightHolder.value = newSight;
     } on Exception catch (e, stacktrace) {
       logErrorIfUnknown(e, stacktrace);
