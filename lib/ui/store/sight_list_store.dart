@@ -26,7 +26,8 @@ abstract class SightListBase with Store {
 
   Filter get filter => _searchInteractor.filter;
 
-  late ObservableFuture<SightList> _getSightsFuture;
+  @observable
+  ObservableFuture<SightList> _getSightsFuture = ObservableFuture.value([]);
 
   SightListBase({
     required PlaceInteractor placeInteractor,
@@ -37,7 +38,7 @@ abstract class SightListBase with Store {
   /// Изменение фильтра.
   @action
   void setFilter(Filter value) {
-    _searchInteractor.filter = filter;
+    _searchInteractor.filter = value;
     _filterIsEmpty.value = value.isEmpty;
     getSights();
   }
@@ -53,8 +54,8 @@ abstract class SightListBase with Store {
 
     if (hidden) {
       try {
-        final sights = await future;
-        _getSightsFuture = ObservableFuture.value(sights);
+        final res = await future;
+        _getSightsFuture = ObservableFuture.value(res);
       } on Object catch (e) {
         _getSightsFuture = ObservableFuture.error(e);
       }

@@ -77,7 +77,7 @@ class _SightListScreenState extends State<SightListScreen> {
             ),
 
             ObservableFutureBuilder<SightList>(
-              future: _store.getSightsFuture,
+              source: () => _store.getSightsFuture,
 
               /// Список.
               builder: (_, data) =>

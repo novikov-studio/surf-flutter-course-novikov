@@ -4,23 +4,26 @@ import 'package:mobx/mobx.dart';
 
 /// Виджет для отображения данных из [ObservableFuture] с индикацией загрузки и ошибок.
 class ObservableFutureBuilder<T> extends StatelessWidget {
-  final ObservableFuture<T> future;
+  final ObservableFuture<T> Function() source;
   final Widget Function(BuildContext, T) builder;
   final WidgetBuilder loadingBuilder;
   final Widget Function(BuildContext, Object, StackTrace?) errorBuilder;
 
   const ObservableFutureBuilder({
     Key? key,
-    required this.future,
+    required this.source,
     required this.builder,
     required this.loadingBuilder,
     required this.errorBuilder,
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
+        final future = source();
+
         if (future.isLoading) {
           return loadingBuilder(context);
         }
