@@ -3,6 +3,7 @@ import 'package:places/ui/const/app_strings.dart';
 
 /// Человекочитаемые описания ошибок.
 abstract class Errors {
+  /// Текст ошибки для отображения пользователю.
   static String humanReadableText(Object error) {
     if (error is String) {
       return error;
@@ -16,7 +17,8 @@ abstract class Errors {
 }
 
 extension ExceptionExt on Exception {
-  static const _errors = <Type, String>{
+  /// Некритичные ошибки, отображаются желтым.
+  static const _warnings = <Type, String>{
     // Ошибки связи
     ConnectTimeoutException: AppStrings.connectTimeout,
     SendTimeoutException: AppStrings.sendTimeout,
@@ -24,16 +26,29 @@ extension ExceptionExt on Exception {
     RequestCanceledException: AppStrings.requestCanceled,
     ConnectionRefusedException: AppStrings.connectionRefused,
     FailedHostLookupException: AppStrings.failedHostLookup,
+  };
+
+  /// Критичные ошибки, отображаются красным.
+  ///
+  /// Неизвестные ошибки также считаются критичными.
+  static const _errors = <Type, String>{
     // Ошибки сервера
     SrvInvalidRequestException: AppStrings.srvInvalidRequest,
     SrvDuplicateException: AppStrings.srvDuplicate,
     SrvNotFoundException: AppStrings.srvNotFound,
   };
 
+  /// Текст ошибки для отображения пользователю.
   String get humanReadableText =>
-      _errors[runtimeType] ?? AppStrings.unknownError;
+      _errors[runtimeType] ?? _warnings[runtimeType] ?? AppStrings.unknownError;
 
-  bool get isKnown => this is RestException;
+  /// Признак известной ошибки.
+  bool get isKnown =>
+      _errors.containsKey(runtimeType) || _warnings.containsKey(runtimeType);
 
+  /// Признак неизвестной ошибки.
   bool get isUnknown => !isKnown;
+
+  /// Признак критической ошибки.
+  bool get isCritical => !_warnings.containsKey(runtimeType);
 }

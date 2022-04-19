@@ -105,10 +105,10 @@ class SliverSightListDelegate extends SliverChildListDelegate {
                   // Карточка
                   if (isGrid)
                     Expanded(
-                      child: SightCard(sight: sight, mode: mode),
+                      child: SightCard(key: ValueKey(sight.id), sight: sight, mode: mode),
                     )
                   else
-                    SightCard(sight: sight, mode: mode),
+                    SightCard(key: ValueKey(sight.id), sight: sight, mode: mode),
                 ],
               ),
             ),

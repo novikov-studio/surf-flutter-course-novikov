@@ -10,7 +10,7 @@ class Filter with _$Filter {
   static const double maxDistance = 10.0; // км
 
   bool get isEmpty =>
-      categories == null && maxRadius == null && pattern == null;
+      categories == null && maxRadius == null;
 
   @Assert('minRadius == null || maxRadius != null')
   const factory Filter({
@@ -28,6 +28,5 @@ class Filter with _$Filter {
   String toString() => 'Filter('
       'categories: ${categories?.length}, '
       'minRadius: $minRadius, '
-      'maxRadius: $maxRadius, '
-      'pattern: $pattern)';
+      'maxRadius: $maxRadius)';
 }

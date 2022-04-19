@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 /// Если в поток приходит T, вызывается builder.
 /// Если в поток приходит ошибка, вызывается errorBuilder.
 /// Если в поток приходит любой другой тип, вызывается loadingBuilder.
+@Deprecated('Заменен на [ObservableFutureBuilder]')
 class StreamStateBuilder<T> extends StatelessWidget {
   final Stream<dynamic> stream;
   final Widget Function(BuildContext, T) builder;
   final WidgetBuilder loadingBuilder;
-  final Widget Function(BuildContext, Object, StackTrace?)
-  errorBuilder;
+  final Widget Function(BuildContext, Object, StackTrace?) errorBuilder;
 
+  @Deprecated('Заменен на [ObservableFutureBuilder]')
   const StreamStateBuilder({
     Key? key,
     required this.stream,

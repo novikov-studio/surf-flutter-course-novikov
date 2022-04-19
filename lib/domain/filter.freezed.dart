@@ -19,15 +19,11 @@ class _$FilterTearOff {
   const _$FilterTearOff();
 
   _Filter call(
-      {Set<Category>? categories,
-      double? minRadius,
-      double? maxRadius,
-      String? pattern}) {
+      {Set<Category>? categories, double? minRadius, double? maxRadius}) {
     return _Filter(
       categories: categories,
       minRadius: minRadius,
       maxRadius: maxRadius,
-      pattern: pattern,
     );
   }
 }
@@ -42,9 +38,7 @@ mixin _$Filter {
       throw _privateConstructorUsedError; // Минимальный радиус поиска
   double? get minRadius =>
       throw _privateConstructorUsedError; // Максимальный радиус поиска
-  double? get maxRadius =>
-      throw _privateConstructorUsedError; // Фильтр по имени
-  String? get pattern => throw _privateConstructorUsedError;
+  double? get maxRadius => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FilterCopyWith<Filter> get copyWith => throw _privateConstructorUsedError;
@@ -54,11 +48,7 @@ mixin _$Filter {
 abstract class $FilterCopyWith<$Res> {
   factory $FilterCopyWith(Filter value, $Res Function(Filter) then) =
       _$FilterCopyWithImpl<$Res>;
-  $Res call(
-      {Set<Category>? categories,
-      double? minRadius,
-      double? maxRadius,
-      String? pattern});
+  $Res call({Set<Category>? categories, double? minRadius, double? maxRadius});
 }
 
 /// @nodoc
@@ -74,7 +64,6 @@ class _$FilterCopyWithImpl<$Res> implements $FilterCopyWith<$Res> {
     Object? categories = freezed,
     Object? minRadius = freezed,
     Object? maxRadius = freezed,
-    Object? pattern = freezed,
   }) {
     return _then(_value.copyWith(
       categories: categories == freezed
@@ -89,10 +78,6 @@ class _$FilterCopyWithImpl<$Res> implements $FilterCopyWith<$Res> {
           ? _value.maxRadius
           : maxRadius // ignore: cast_nullable_to_non_nullable
               as double?,
-      pattern: pattern == freezed
-          ? _value.pattern
-          : pattern // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -102,11 +87,7 @@ abstract class _$FilterCopyWith<$Res> implements $FilterCopyWith<$Res> {
   factory _$FilterCopyWith(_Filter value, $Res Function(_Filter) then) =
       __$FilterCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {Set<Category>? categories,
-      double? minRadius,
-      double? maxRadius,
-      String? pattern});
+  $Res call({Set<Category>? categories, double? minRadius, double? maxRadius});
 }
 
 /// @nodoc
@@ -123,7 +104,6 @@ class __$FilterCopyWithImpl<$Res> extends _$FilterCopyWithImpl<$Res>
     Object? categories = freezed,
     Object? minRadius = freezed,
     Object? maxRadius = freezed,
-    Object? pattern = freezed,
   }) {
     return _then(_Filter(
       categories: categories == freezed
@@ -138,10 +118,6 @@ class __$FilterCopyWithImpl<$Res> extends _$FilterCopyWithImpl<$Res>
           ? _value.maxRadius
           : maxRadius // ignore: cast_nullable_to_non_nullable
               as double?,
-      pattern: pattern == freezed
-          ? _value.pattern
-          : pattern // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -149,8 +125,7 @@ class __$FilterCopyWithImpl<$Res> extends _$FilterCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Filter extends _Filter {
-  const _$_Filter(
-      {this.categories, this.minRadius, this.maxRadius, this.pattern})
+  const _$_Filter({this.categories, this.minRadius, this.maxRadius})
       : assert(minRadius == null || maxRadius != null),
         super._();
 
@@ -160,8 +135,6 @@ class _$_Filter extends _Filter {
   final double? minRadius;
   @override // Максимальный радиус поиска
   final double? maxRadius;
-  @override // Фильтр по имени
-  final String? pattern;
 
   @override
   bool operator ==(dynamic other) {
@@ -171,8 +144,7 @@ class _$_Filter extends _Filter {
             const DeepCollectionEquality()
                 .equals(other.categories, categories) &&
             const DeepCollectionEquality().equals(other.minRadius, minRadius) &&
-            const DeepCollectionEquality().equals(other.maxRadius, maxRadius) &&
-            const DeepCollectionEquality().equals(other.pattern, pattern));
+            const DeepCollectionEquality().equals(other.maxRadius, maxRadius));
   }
 
   @override
@@ -180,8 +152,7 @@ class _$_Filter extends _Filter {
       runtimeType,
       const DeepCollectionEquality().hash(categories),
       const DeepCollectionEquality().hash(minRadius),
-      const DeepCollectionEquality().hash(maxRadius),
-      const DeepCollectionEquality().hash(pattern));
+      const DeepCollectionEquality().hash(maxRadius));
 
   @JsonKey(ignore: true)
   @override
@@ -193,8 +164,7 @@ abstract class _Filter extends Filter {
   const factory _Filter(
       {Set<Category>? categories,
       double? minRadius,
-      double? maxRadius,
-      String? pattern}) = _$_Filter;
+      double? maxRadius}) = _$_Filter;
   const _Filter._() : super._();
 
   @override // Список категорий
@@ -203,8 +173,6 @@ abstract class _Filter extends Filter {
   double? get minRadius;
   @override // Максимальный радиус поиска
   double? get maxRadius;
-  @override // Фильтр по имени
-  String? get pattern;
   @override
   @JsonKey(ignore: true)
   _$FilterCopyWith<_Filter> get copyWith => throw _privateConstructorUsedError;

@@ -1,19 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:places/data/interactor/search_interactor.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:places/domain/filter.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/errors.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/store/sight_list_store.dart';
 import 'package:places/ui/widget/controls/gradient_fab.dart';
 import 'package:places/ui/widget/controls/loader.dart';
+import 'package:places/ui/widget/controls/observable_future_builder.dart';
 import 'package:places/ui/widget/controls/search_bar.dart';
-import 'package:places/ui/widget/controls/stream_state_builder.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
 
@@ -28,137 +28,118 @@ class SightListScreen extends StatefulWidget {
   _SightListScreenState createState() => _SightListScreenState();
 }
 
-typedef SightList = Iterable<Sight>;
-
 class _SightListScreenState extends State<SightListScreen> {
-  final _streamController = StreamController<dynamic>();
-
-  Filter get _filter => context.read<SearchInteractor>().filter;
-
-  set _filter(Filter value) {
-    context.read<SearchInteractor>().filter = value;
-  }
+  late final SightListStore _store;
 
   @override
   void initState() {
     super.initState();
-    _startReload();
+    _store = SightListStore(
+      placeInteractor: context.placeInteractor,
+      searchInteractor: context.searchInteractor,
+    );
+    _store.getSights(hidden: false);
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          /// AppBar
-          SliverAppBar(
-            expandedHeight: 140.0,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              expandedTitleScale: 1.78,
-              collapseMode: CollapseMode.pin,
-              titlePadding: const EdgeInsets.all(16.0),
-              centerTitle: true,
-              title: Text(
-                AppStrings.listTitle,
-                style: theme.appBarTheme.titleTextStyle,
-              ),
-            ),
-          ),
+    return Provider<SightListStore>.value(
+      value: _store,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
 
-          /// SearchBar
-          SliverToBoxAdapter(
-            child: _InactiveSearchBar(
-              searchBar: const SearchBar(enabled: false),
-              onFieldTap: _showSearchDialog,
-              onIconTap: _showFilterDialog,
-            ),
-          ),
-
-          StreamStateBuilder<SightList>(
-            stream: _streamController.stream,
-
-            /// Список.
-            builder: (_, data) => SliverSightList(
-              sights: data.toList(growable: false),
-              empty: const EmptyList(
-                icon: AppIcons.list,
-                title: AppStrings.empty,
-              ),
-              mode: CardMode.list,
-            ),
-
-            /// Прогресс.
-            loadingBuilder: (_) => const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.all(48.0),
-                child: Loader(),
-              ),
-            ),
-
-            /// Ошибка.
-            errorBuilder: (_, error, stacktrace) {
-              return SliverFillRemaining(
-                child: EmptyList(
-                  icon: AppIcons.error,
-                  title: AppStrings.error,
-                  details: Errors.humanReadableText(error),
+            /// AppBar
+            SliverAppBar(
+              expandedHeight: 140.0,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                expandedTitleScale: 1.78,
+                collapseMode: CollapseMode.pin,
+                titlePadding: const EdgeInsets.all(16.0),
+                centerTitle: true,
+                title: Text(
+                  AppStrings.listTitle,
+                  style: theme.appBarTheme.titleTextStyle,
                 ),
-              );
-            },
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: GradientFab(
-        label: AppStrings.newSight,
-        onPressed: _showAddDialog,
+              ),
+            ),
+
+            /// SearchBar
+            SliverToBoxAdapter(
+              child: _InactiveSearchBar(
+                searchBar: const SearchBar(enabled: false),
+                onFieldTap: _showSearchDialog,
+                onIconTap: _showFilterDialog,
+              ),
+            ),
+
+            ObservableFutureBuilder<SightList>(
+              source: () => _store.getSightsFuture,
+
+              /// Список.
+              builder: (_, data) =>
+                  SliverSightList(
+                    sights: data.toList(growable: false),
+                    empty: const EmptyList(
+                      icon: AppIcons.list,
+                      title: AppStrings.empty,
+                    ),
+                    mode: CardMode.list,
+                  ),
+
+              /// Прогресс.
+              loadingBuilder: (_) =>
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.all(48.0),
+                  child: Loader(),
+                ),
+              ),
+
+              /// Ошибка.
+              errorBuilder: (_, error, stacktrace) {
+                return SliverFillRemaining(
+                  child: EmptyList(
+                    icon: AppIcons.error,
+                    title: AppStrings.error,
+                    details: Errors.humanReadableText(error),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: GradientFab(
+          label: AppStrings.newSight,
+          onPressed: _showAddDialog,
+        ),
       ),
     );
   }
 
-  @override
-  void dispose() {
-    _streamController.close();
-    super.dispose();
-  }
-
   void _showSearchDialog() {
-    context.pushScreen(AppRoutes.search, args: _filter);
+    context.pushScreen(AppRoutes.search, args: _store.filter);
   }
 
   Future<void> _showFilterDialog() async {
-    final result =
-        await context.pushScreen<Filter>(AppRoutes.filters, args: _filter);
+    final result = await context.pushScreen<Filter>(
+      AppRoutes.filters,
+      args: _store.filter,
+    );
     if (result != null) {
-      _filter = result;
-      _startReload();
-    }
+      _store.setFilter(result);
+     }
   }
 
   Future<void> _showAddDialog() async {
     final result = await context.pushScreen<bool>(AppRoutes.newSight);
     if (result ?? false) {
-      _startReload();
+      await _store.getSights();
     }
-  }
-
-  void _startReload() {
-    _streamController
-      // loading
-      ..add(true)
-      // data
-      ..addStream(Stream<SightList>.fromFuture(_reload()), cancelOnError: true);
-  }
-
-  Future<SightList> _reload() async {
-    return context.placeInteractor.getAll(
-      minRadius: _filter.minRadius,
-      maxRadius: _filter.maxRadius,
-      categories: _filter.categories,
-    );
   }
 }
 
@@ -195,13 +176,13 @@ class _InactiveSearchBar extends StatelessWidget
           child: Material(
             type: MaterialType.transparency,
             child: IconButton(
-              icon: StreamBuilder<bool>(
-                stream: context.searchInteractor.filterIsEmpty,
-                initialData: true,
-                builder: (context, snapshot) {
+              icon: Observer(
+                builder: (context) {
+                  final store = Provider.of<SightListStore>(context);
+
                   return SvgIcon(
                     AppIcons.filter,
-                    color: snapshot.data ?? true
+                    color: store.filterIsEmpty
                         ? theme.colorScheme.onSurface
                         : theme.colorScheme.green,
                   );

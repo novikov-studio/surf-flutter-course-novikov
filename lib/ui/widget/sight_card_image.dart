@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/categories.dart';
-import 'package:places/ui/const/errors.dart';
 import 'package:places/ui/screen/res/logger.dart';
 import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
@@ -99,7 +98,7 @@ class SightCardImage extends StatelessWidget {
           : sightHolder.value = newSight;
     } on Exception catch (e, stacktrace) {
       logErrorIfUnknown(e, stacktrace);
-      scaffoldMessenger.showError(e.humanReadableText);
+      scaffoldMessenger.showExpError(e);
     }
   }
 
@@ -120,7 +119,7 @@ class SightCardImage extends StatelessWidget {
       sightNotifier.value = sight.copyWith(plannedDate: plannedDate);
     } on Exception catch (e, stacktrace) {
       logErrorIfUnknown(e, stacktrace);
-      scaffoldMessenger.showError(e.humanReadableText);
+      scaffoldMessenger.showExpError(e);
     }
   }
 }

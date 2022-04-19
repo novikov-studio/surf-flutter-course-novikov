@@ -3,7 +3,6 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/const/errors.dart';
 import 'package:places/ui/screen/res/logger.dart';
 import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
@@ -159,7 +158,7 @@ class _SightCard extends StatelessWidget {
       }
     } on Exception catch(e, stacktrace) {
       logErrorIfUnknown(e, stacktrace);
-      scaffoldMessenger.showError(e.humanReadableText);
+      scaffoldMessenger.showExpError(e);
     }
   }
 }
