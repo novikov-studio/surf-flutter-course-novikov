@@ -1,5 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/interactor/search_interactor.dart';
+import 'package:places/domain/filter.dart';
 import 'package:places/domain/sight.dart';
 
 part 'sight_list_store.g.dart';
@@ -9,28 +11,55 @@ class SightListStore = SightListBase with _$SightListStore;
 
 typedef SightList = Iterable<Sight>;
 
+/// Базовое состояние экрана SightListScreen.
 //ignore: prefer-match-file-name
 abstract class SightListBase with Store {
   final PlaceInteractor _placeInteractor;
+  final SearchInteractor _searchInteractor;
+  final Observable<bool> _filterIsEmpty = Observable(true);
 
-  ObservableFuture<SightList> get getAllFuture => _getAllFuture;
+  /// Отслеживаемый результат зароса списка достопримечательностей.
+  ObservableFuture<SightList> get getSightsFuture => _getSightsFuture;
 
-  late ObservableFuture<SightList> _getAllFuture;
+  /// Отслеживаемый признак наличия фильтра.
+  bool get filterIsEmpty => _filterIsEmpty.value;
 
-  SightListBase(this._placeInteractor);
+  Filter get filter => _searchInteractor.filter;
 
+  late ObservableFuture<SightList> _getSightsFuture;
+
+  SightListBase({
+    required PlaceInteractor placeInteractor,
+    required SearchInteractor searchInteractor,
+  })  : _placeInteractor = placeInteractor,
+        _searchInteractor = searchInteractor;
+
+  /// Изменение фильтра.
   @action
-  void getAll({
-    double? maxRadius,
-    double? minRadius,
-    Set<Category>? categories,
-  }) {
+  void setFilter(Filter value) {
+    _searchInteractor.filter = filter;
+    _filterIsEmpty.value = value.isEmpty;
+    getSights();
+  }
+
+  /// Запрос списка достопримечательностей.
+  @action
+  Future<void> getSights({bool hidden = true}) async {
     final future = _placeInteractor.getAll(
-      minRadius: minRadius,
-      maxRadius: maxRadius,
-      categories: categories,
+      minRadius: filter.minRadius,
+      maxRadius: filter.maxRadius,
+      categories: filter.categories,
     );
 
-    _getAllFuture = ObservableFuture(future);
+    if (hidden) {
+      try {
+        final sights = await future;
+        _getSightsFuture = ObservableFuture.value(sights);
+      } on Object catch (e) {
+        _getSightsFuture = ObservableFuture.error(e);
+      }
+    } else {
+      _getSightsFuture = ObservableFuture(future);
+    }
   }
 }

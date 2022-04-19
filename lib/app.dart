@@ -43,10 +43,7 @@ class _AppState extends State<App> {
     return MultiProvider(
       providers: [
         Provider<PlaceInteractor>(create: _placeInteractorbuilder),
-        Provider<SearchInteractor>(
-          create: _searchInteractorbuilder,
-          dispose: (_, value) => value.dispose(),
-        ),
+        Provider<SearchInteractor>(create: _searchInteractorbuilder),
         ChangeNotifierProvider<SettingsInteractor>(
           create: _settingsInteractorbuilder,
         ),
