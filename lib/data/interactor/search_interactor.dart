@@ -29,6 +29,8 @@ class SearchInteractor {
 
   /// Запрос списка мест, удовлетворяющих фильтру.
   Future<List<Sight>> searchPlaces({required String name}) async {
+    await addToHistory(name);
+
     final request = await _buildRequest(pattern: name);
 
     final places = await _filteredPlaceRepository.getFiltered(
