@@ -12,29 +12,7 @@ part of 'visiting_bloc.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$VisitingBlocEventTearOff {
-  const _$VisitingBlocEventTearOff();
-
-  LoadVisitingBlocEvent load({bool hidden = true}) {
-    return LoadVisitingBlocEvent(
-      hidden: hidden,
-    );
-  }
-
-  ReorderVisitingBlocEvent reorder(
-      {required int sourceId, int? insertBeforeId}) {
-    return ReorderVisitingBlocEvent(
-      sourceId: sourceId,
-      insertBeforeId: insertBeforeId,
-    );
-  }
-}
-
-/// @nodoc
-const $VisitingBlocEvent = _$VisitingBlocEventTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$VisitingBlocEvent {
@@ -132,8 +110,8 @@ class _$LoadVisitingBlocEventCopyWithImpl<$Res>
 class _$LoadVisitingBlocEvent extends LoadVisitingBlocEvent {
   const _$LoadVisitingBlocEvent({this.hidden = true}) : super._();
 
-  @JsonKey()
   @override
+  @JsonKey()
   final bool hidden;
 
   @override
@@ -223,10 +201,11 @@ class _$LoadVisitingBlocEvent extends LoadVisitingBlocEvent {
 }
 
 abstract class LoadVisitingBlocEvent extends VisitingBlocEvent {
-  const factory LoadVisitingBlocEvent({bool hidden}) = _$LoadVisitingBlocEvent;
+  const factory LoadVisitingBlocEvent({final bool hidden}) =
+      _$LoadVisitingBlocEvent;
   const LoadVisitingBlocEvent._() : super._();
 
-  bool get hidden;
+  bool get hidden => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $LoadVisitingBlocEventCopyWith<LoadVisitingBlocEvent> get copyWith =>
       throw _privateConstructorUsedError;
@@ -374,45 +353,16 @@ class _$ReorderVisitingBlocEvent extends ReorderVisitingBlocEvent {
 
 abstract class ReorderVisitingBlocEvent extends VisitingBlocEvent {
   const factory ReorderVisitingBlocEvent(
-      {required int sourceId,
-      int? insertBeforeId}) = _$ReorderVisitingBlocEvent;
+      {required final int sourceId,
+      final int? insertBeforeId}) = _$ReorderVisitingBlocEvent;
   const ReorderVisitingBlocEvent._() : super._();
 
-  int get sourceId;
-  int? get insertBeforeId;
+  int get sourceId => throw _privateConstructorUsedError;
+  int? get insertBeforeId => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ReorderVisitingBlocEventCopyWith<ReorderVisitingBlocEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
-
-/// @nodoc
-class _$VisitingBlocStateTearOff {
-  const _$VisitingBlocStateTearOff();
-
-  LoadingVisitingBlocState loading() {
-    return const LoadingVisitingBlocState();
-  }
-
-  DoneVisitingBlocState done(Iterable<Sight> sights) {
-    return DoneVisitingBlocState(
-      sights,
-    );
-  }
-
-  ErrorVisitingBlocState error(
-      {required String message,
-      required ErrorSource source,
-      required bool critical}) {
-    return ErrorVisitingBlocState(
-      message: message,
-      source: source,
-      critical: critical,
-    );
-  }
-}
-
-/// @nodoc
-const $VisitingBlocState = _$VisitingBlocStateTearOff();
 
 /// @nodoc
 mixin _$VisitingBlocState {
@@ -728,11 +678,11 @@ class _$DoneVisitingBlocState extends DoneVisitingBlocState {
 }
 
 abstract class DoneVisitingBlocState extends VisitingBlocState {
-  const factory DoneVisitingBlocState(Iterable<Sight> sights) =
+  const factory DoneVisitingBlocState(final Iterable<Sight> sights) =
       _$DoneVisitingBlocState;
   const DoneVisitingBlocState._() : super._();
 
-  Iterable<Sight> get sights;
+  Iterable<Sight> get sights => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DoneVisitingBlocStateCopyWith<DoneVisitingBlocState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -894,14 +844,14 @@ class _$ErrorVisitingBlocState extends ErrorVisitingBlocState {
 
 abstract class ErrorVisitingBlocState extends VisitingBlocState {
   const factory ErrorVisitingBlocState(
-      {required String message,
-      required ErrorSource source,
-      required bool critical}) = _$ErrorVisitingBlocState;
+      {required final String message,
+      required final ErrorSource source,
+      required final bool critical}) = _$ErrorVisitingBlocState;
   const ErrorVisitingBlocState._() : super._();
 
-  String get message;
-  ErrorSource get source;
-  bool get critical;
+  String get message => throw _privateConstructorUsedError;
+  ErrorSource get source => throw _privateConstructorUsedError;
+  bool get critical => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ErrorVisitingBlocStateCopyWith<ErrorVisitingBlocState> get copyWith =>
       throw _privateConstructorUsedError;

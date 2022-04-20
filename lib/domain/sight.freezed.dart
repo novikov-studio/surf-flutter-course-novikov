@@ -12,40 +12,8 @@ part of 'sight.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$SightTearOff {
-  const _$SightTearOff();
-
-  _Sight call(
-      {required int id,
-      required String name,
-      required Location location,
-      required List<String> urls,
-      String? info,
-      String? details,
-      required Category type,
-      DateTime? plannedDate,
-      DateTime? visitedDate,
-      bool isLiked = false}) {
-    return _Sight(
-      id: id,
-      name: name,
-      location: location,
-      urls: urls,
-      info: info,
-      details: details,
-      type: type,
-      plannedDate: plannedDate,
-      visitedDate: visitedDate,
-      isLiked: isLiked,
-    );
-  }
-}
-
-/// @nodoc
-const $Sight = _$SightTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informa'
+        'tion: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$Sight {
@@ -258,55 +226,61 @@ class _$_Sight extends _Sight {
       {required this.id,
       required this.name,
       required this.location,
-      required this.urls,
+      required final List<String> urls,
       this.info,
       this.details,
       required this.type,
       this.plannedDate,
       this.visitedDate,
       this.isLiked = false})
-      : super._();
-
-  @override
+      : _urls = urls,
+        super._();
 
   /// Уникальный идентификатор.
-  final int id;
   @override
+  final int id;
 
   /// Название.
-  final String name;
   @override
+  final String name;
 
   /// Координаты.
-  final Location location;
   @override
+  final Location location;
 
   /// Ссылки на фотографии.
-  final List<String> urls;
+  final List<String> _urls;
+
+  /// Ссылки на фотографии.
   @override
+  List<String> get urls {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_urls);
+  }
 
   /// Краткое описание.
-  final String? info;
   @override
+  final String? info;
 
   /// Полное описание.
-  final String? details;
   @override
+  final String? details;
 
   /// Категория объекта.
-  final Category type;
   @override
+  final Category type;
 
   /// Дата запланированного посещения.
-  final DateTime? plannedDate;
   @override
+  final DateTime? plannedDate;
 
   /// Дата достижения цели.
-  final DateTime? visitedDate;
-  @JsonKey()
   @override
+  final DateTime? visitedDate;
 
   /// Добавлено ли в Избранное.
+  @override
+  @JsonKey()
   final bool isLiked;
 
   @override
@@ -355,58 +329,58 @@ class _$_Sight extends _Sight {
 
 abstract class _Sight extends Sight {
   const factory _Sight(
-      {required int id,
-      required String name,
-      required Location location,
-      required List<String> urls,
-      String? info,
-      String? details,
-      required Category type,
-      DateTime? plannedDate,
-      DateTime? visitedDate,
-      bool isLiked}) = _$_Sight;
+      {required final int id,
+      required final String name,
+      required final Location location,
+      required final List<String> urls,
+      final String? info,
+      final String? details,
+      required final Category type,
+      final DateTime? plannedDate,
+      final DateTime? visitedDate,
+      final bool isLiked}) = _$_Sight;
   const _Sight._() : super._();
 
   @override
 
   /// Уникальный идентификатор.
-  int get id;
+  int get id => throw _privateConstructorUsedError;
   @override
 
   /// Название.
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
 
   /// Координаты.
-  Location get location;
+  Location get location => throw _privateConstructorUsedError;
   @override
 
   /// Ссылки на фотографии.
-  List<String> get urls;
+  List<String> get urls => throw _privateConstructorUsedError;
   @override
 
   /// Краткое описание.
-  String? get info;
+  String? get info => throw _privateConstructorUsedError;
   @override
 
   /// Полное описание.
-  String? get details;
+  String? get details => throw _privateConstructorUsedError;
   @override
 
   /// Категория объекта.
-  Category get type;
+  Category get type => throw _privateConstructorUsedError;
   @override
 
   /// Дата запланированного посещения.
-  DateTime? get plannedDate;
+  DateTime? get plannedDate => throw _privateConstructorUsedError;
   @override
 
   /// Дата достижения цели.
-  DateTime? get visitedDate;
+  DateTime? get visitedDate => throw _privateConstructorUsedError;
   @override
 
   /// Добавлено ли в Избранное.
-  bool get isLiked;
+  bool get isLiked => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SightCopyWith<_Sight> get copyWith => throw _privateConstructorUsedError;
