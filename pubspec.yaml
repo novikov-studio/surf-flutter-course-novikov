@@ -9,11 +9,13 @@ environment:
   sdk: ">=2.15.0 <3.0.0"
 
 dependencies:
+  bloc: ^8.0.3
   cached_network_image: ^3.2.0
   cupertino_icons: ^1.0.4
   dio: ^4.0.6
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
   flutter_mobx: ^2.0.4

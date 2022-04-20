@@ -3,6 +3,8 @@ import 'package:places/domain/location.dart';
 
 part 'sight.freezed.dart';
 
+typedef SightList = Iterable<Sight>;
+
 /// Модель достопримечательности.
 @freezed
 class Sight with _$Sight {
