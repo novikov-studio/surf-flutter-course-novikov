@@ -1,13 +1,13 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
-import 'package:places/ui/const/errors.dart';
-import 'package:places/ui/screen/res/logger.dart';
+import 'package:places/ui/redux/action/search_action.dart';
+import 'package:places/ui/redux/state/app_state.dart';
+import 'package:places/ui/redux/state/search_state.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/darken_image.dart';
 import 'package:places/ui/widget/controls/loader.dart';
@@ -15,10 +15,12 @@ import 'package:places/ui/widget/controls/search_bar.dart';
 import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/search_history.dart';
+import 'package:redux/redux.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// Экран "Поиск мест" по названию.
 ///
-/// Содержимое зависит от состояния [_SightSearchScreenState._state] типа [SearchState].
+/// Содержимое зависит от состояния [SearchState].
 /// При входе на экран отображается история поиска [SearchHistory],
 /// она же отображается при очистке поля ввода.
 /// Для возврата на предыдущий экран необходимо нажать иконку "Очистить" при пустом поле ввода.
@@ -30,18 +32,29 @@ class SightSearchScreen extends StatefulWidget {
 }
 
 class _SightSearchScreenState extends State<SightSearchScreen> {
-  late final _DelayedSearch _delayedSearch;
+  late final Store<AppState> _store;
   final _controller = TextEditingController();
-  final _state = ValueNotifier<SearchState>(SearchState.initial);
-  String? _lastSearch = '';
-  String? _lastError;
-  List<Sight> _filtered = List.empty();
+  final _debounce = PublishSubject<String>();
 
   @override
   void initState() {
     super.initState();
-    _delayedSearch = _DelayedSearch(milliseconds: 500, callback: _search);
-    _controller.addListener(_onTextChange);
+    _store = StoreProvider.of<AppState>(context, listen: false);
+    _debounce.stream
+        .debounce(
+          (value) => TimerStream<String>(
+            value,
+            Duration(
+              milliseconds:
+                  value.trim().isEmpty || value.endsWith(' ') ? 0 : 500,
+            ),
+          ),
+        )
+        .map((value) => value.trim())
+        .distinct()
+        .where((value) => value.isEmpty || value.length > 2)
+        .listen(_search);
+    _controller.addListener(_onTextChanged);
   }
 
   @override
@@ -63,56 +76,57 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
       appBar: appBar,
       body: SizedBox(
         width: double.infinity,
-        child: ValueListenableBuilder(
-          valueListenable: _state,
-          builder: (context, state, _) {
-            switch (state) {
-              case SearchState.initial:
-                return SearchHistory(
-                  onItemTap: (text) {
-                    _controller
-                      ..text = text
-                      ..selection = TextSelection(
-                        baseOffset: text.length,
-                        extentOffset: text.length,
-                      );
-                  },
-                );
+        child: StoreConnector<AppState, SearchState>(
+          converter: (store) => store.state.searchState,
+          builder: (context, state) {
+            // Если за время поиска успели очистить поле ввода,
+            // значит результат уже не интересен, отображаем историю
+            final effectiveState =
+                _controller.text.isEmpty ? const SearchState.initial() : state;
 
-              case SearchState.inProgress:
-                return const Loader();
+            return effectiveState.when(
+              /// Начальное состояние
+              initial: () => SearchHistory(
+                onItemTap: (text) {
+                  _controller
+                    ..text = text
+                    ..selection = TextSelection(
+                      baseOffset: text.length,
+                      extentOffset: text.length,
+                    );
+                },
+              ),
 
-              case SearchState.found:
-                return ListView.separated(
-                  itemCount: _filtered.length,
-                  itemBuilder: (_, index) => _SightListTile(
-                    sight: _filtered[index],
-                  ),
-                  separatorBuilder: (_, index) => const Divider(
-                    height: 0.8,
-                    indent: 88,
-                    endIndent: 16.0,
-                  ),
-                );
+              /// Поиск
+              loading: () => const Loader(),
 
-              case SearchState.empty:
-                return EmptyList(
-                  icon: AppIcons.searchBig,
-                  title: AppStrings.nothingFound,
-                  details: AppStrings.tryAnotherSearch,
-                  padding: shift(),
-                );
+              /// Поиск завершен.
+              found: (sights) => ListView.separated(
+                itemCount: sights.length,
+                itemBuilder: (_, index) => _SightListTile(sight: sights[index]),
+                separatorBuilder: (_, index) => const Divider(
+                  height: 0.8,
+                  indent: 88,
+                  endIndent: 16.0,
+                ),
+              ),
 
-              case SearchState.error:
-                return EmptyList(
-                  icon: AppIcons.error,
-                  title: AppStrings.error,
-                  details: _lastError ?? AppStrings.unknownError,
-                  padding: shift(),
-                );
-            }
+              /// Ничего не найдено.
+              empty: () => EmptyList(
+                icon: AppIcons.searchBig,
+                title: AppStrings.nothingFound,
+                details: AppStrings.tryAnotherSearch,
+                padding: shift(),
+              ),
 
-            return Container();
+              /// Ошибка поиска.
+              error: (error, _) => EmptyList(
+                icon: AppIcons.error,
+                title: AppStrings.error,
+                details: error,
+                padding: shift(),
+              ),
+            );
           },
         ),
       ),
@@ -121,62 +135,23 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
-    _delayedSearch.dispose();
+    _controller
+      ..removeListener(_onTextChanged)
+      ..dispose();
+    _debounce.close();
     super.dispose();
   }
 
-  /// Callback на изменение содержимого поля ввода.
-  void _onTextChange() {
-    final text = _controller.text;
-
-    //Если ввели только 1-2 символа или текст не изменился, ничего не делаем
-    if (text.isNotEmpty && text.length < 3 || text == _lastSearch) {
-      return;
-    }
-    _lastSearch = text;
-
-    // Если поле пустое, показыаем историю
-    if (text.trim().isEmpty) {
-      _delayedSearch.cancel();
-      _state.value = SearchState.initial;
-    } // Если ввели целое слово, сразу начинаем поиск
-    else if (text.endsWith(' ')) {
-      _delayedSearch.cancel();
-      _search(text.trimRight());
-    } // Отложенный поиск
-    else {
-      _delayedSearch(text);
-    }
+  /// Поиск мест по подстроке.
+  void _search(String text) {
+    _store.dispatch(
+      text.isNotEmpty ? SearchAction.start(text) : const SearchState.initial(),
+    );
   }
 
-  /// Поиск мест по подстроке.
-  Future<void> _search(String text) async {
-    final searchInteractor = context.searchInteractor;
-
-    // Добавляем запрос в историю поиска
-    await searchInteractor.addToHistory(text);
-
-    // Переходим в состояние поиска
-    _state.value = SearchState.inProgress;
-    _lastError = null;
-
-    // Производим поиск
-    try {
-      _filtered = await searchInteractor.searchPlaces(name: _controller.text);
-
-      // Если за время поиска успели очистить поле ввода,
-      // значит результат уже не интересен, отображаем историю
-      _state.value = _controller.text.isEmpty
-          ? SearchState.initial
-          : _filtered.isEmpty
-              ? SearchState.empty
-              : SearchState.found;
-    } on Exception catch (e, stacktrace) {
-      logErrorIfUnknown(e, stacktrace);
-      _lastError = e.humanReadableText;
-      _state.value = SearchState.error;
-    }
+  /// Callback на изменения текста в поле ввода.
+  void _onTextChanged() {
+    _debounce.add(_controller.text);
   }
 }
 
@@ -195,7 +170,7 @@ class _SightListTile extends StatelessWidget {
 
     return ListTile(
       leading: DarkenImage(
-        url: sight.urls.first,
+        url: sight.urls.isNotEmpty ? sight.urls.first : '',
         size: const Size.square(56.0),
         borderRadius: 12.0,
       ),
@@ -210,33 +185,3 @@ class _SightListTile extends StatelessWidget {
     context.pushBottomSheet(AppRoutes.details, args: sight.id);
   }
 }
-
-/// Класс для задержки реакции на изменение.
-class _DelayedSearch {
-  final void Function(String) callback;
-  final Duration _delay;
-  Timer? _timer;
-
-  _DelayedSearch({
-    required int milliseconds,
-    required this.callback,
-  }) : _delay = Duration(milliseconds: milliseconds);
-
-  void call(String text) {
-    _timer?.cancel();
-    _timer = Timer(_delay, () {
-      callback(text);
-    });
-  }
-
-  void cancel() {
-    _timer?.cancel();
-  }
-
-  void dispose() {
-    cancel();
-  }
-}
-
-/// Состояния экрана поиска.
-enum SearchState { initial, inProgress, found, empty, error }

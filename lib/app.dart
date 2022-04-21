@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/interactor/settings_interactor.dart';
@@ -13,9 +14,13 @@ import 'package:places/data/repository_interface/settings_repository.dart';
 import 'package:places/data/rest/rest_client.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/redux/middleware/search_middleware.dart';
+import 'package:places/ui/redux/reducer/reducer.dart';
+import 'package:places/ui/redux/state/app_state.dart';
 import 'package:places/ui/screen/res/responsive.dart';
 import 'package:places/ui/screen/res/themes.dart';
 import 'package:provider/provider.dart';
+import 'package:redux/redux.dart';
 
 /// Корневой виджет приложения.
 class App extends StatefulWidget {
@@ -30,29 +35,37 @@ class _AppState extends State<App> {
   final _locationRepository = const LocationRepository.getInstance();
   final _restClient = RestClient.getInstance(baseUrl: baseUrl);
   late final FilteredPlaceRepository _filteredPlaceRepository;
+  late final Store<AppState> _reduxStore;
+  late final SearchInteractor _searchInteractor;
 
   @override
   void initState() {
     super.initState();
     _filteredPlaceRepository =
         FilteredPlaceRepository.network(restClient: _restClient);
+
+    _searchInteractor = _searchInteractorBuilder();
+    _reduxStore = _reduxStoreBuilder(_searchInteractor);
   }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<PlaceInteractor>(create: _placeInteractorbuilder),
-        Provider<SearchInteractor>(create: _searchInteractorbuilder),
+        Provider<PlaceInteractor>(create: _placeInteractorBuilder),
+        Provider<SearchInteractor>.value(value: _searchInteractor),
         ChangeNotifierProvider<SettingsInteractor>(
-          create: _settingsInteractorbuilder,
+          create: _settingsInteractorBuilder,
         ),
       ],
-      child: const _MaterialApp(),
+      child: StoreProvider<AppState>(
+        store: _reduxStore,
+        child: const _MaterialApp(),
+      ),
     );
   }
 
-  PlaceInteractor _placeInteractorbuilder(BuildContext _) => PlaceInteractor(
+  PlaceInteractor _placeInteractorBuilder(BuildContext _) => PlaceInteractor(
         placeRepository: PlaceRepository.network(restClient: _restClient),
         locationRepository: _locationRepository,
         favoritesRepository: FavoritesRepository.getInstance(),
@@ -60,15 +73,24 @@ class _AppState extends State<App> {
         mediaRepository: NetworkMediaRepository(restClient: _restClient),
       );
 
-  SearchInteractor _searchInteractorbuilder(BuildContext _) => SearchInteractor(
+  SearchInteractor _searchInteractorBuilder() => SearchInteractor(
         locationRepository: _locationRepository,
         filteredPlaceRepository: _filteredPlaceRepository,
         searchHistoryRepository: SearchHistoryRepository.getInstance(),
       );
 
-  SettingsInteractor _settingsInteractorbuilder(BuildContext _) =>
+  SettingsInteractor _settingsInteractorBuilder(BuildContext _) =>
       SettingsInteractor(
         settingsRepository: SettingsRepository.getInstance(),
+      );
+
+  Store<AppState> _reduxStoreBuilder(SearchInteractor searchInteractor) =>
+      Store<AppState>(
+        reducer,
+        initialState: const AppState(),
+        middleware: [
+          SearchMiddleware(searchInteractor: searchInteractor),
+        ],
       );
 }
 

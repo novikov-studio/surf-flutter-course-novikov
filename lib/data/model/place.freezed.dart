@@ -12,44 +12,11 @@ part of 'place.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Place _$PlaceFromJson(Map<String, dynamic> json) {
   return _Place.fromJson(json);
 }
-
-/// @nodoc
-class _$PlaceTearOff {
-  const _$PlaceTearOff();
-
-  _Place call(
-      {int? id,
-      required double lat,
-      required double lng,
-      required String name,
-      required List<String> urls,
-      required PlaceType placeType,
-      required String description,
-      double? distance}) {
-    return _Place(
-      id: id,
-      lat: lat,
-      lng: lng,
-      name: name,
-      urls: urls,
-      placeType: placeType,
-      description: description,
-      distance: distance,
-    );
-  }
-
-  Place fromJson(Map<String, Object?> json) {
-    return Place.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Place = _$PlaceTearOff();
 
 /// @nodoc
 mixin _$Place {
@@ -219,10 +186,11 @@ class _$_Place implements _Place {
       required this.lat,
       required this.lng,
       required this.name,
-      required this.urls,
+      required final List<String> urls,
       required this.placeType,
       required this.description,
-      this.distance});
+      this.distance})
+      : _urls = urls;
 
   factory _$_Place.fromJson(Map<String, dynamic> json) =>
       _$$_PlaceFromJson(json);
@@ -235,8 +203,13 @@ class _$_Place implements _Place {
   final double lng;
   @override
   final String name;
+  final List<String> _urls;
   @override
-  final List<String> urls;
+  List<String> get urls {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_urls);
+  }
+
   @override
   final PlaceType placeType;
   @override
@@ -265,6 +238,7 @@ class _$_Place implements _Place {
             const DeepCollectionEquality().equals(other.distance, distance));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -290,33 +264,33 @@ class _$_Place implements _Place {
 
 abstract class _Place implements Place {
   const factory _Place(
-      {int? id,
-      required double lat,
-      required double lng,
-      required String name,
-      required List<String> urls,
-      required PlaceType placeType,
-      required String description,
-      double? distance}) = _$_Place;
+      {final int? id,
+      required final double lat,
+      required final double lng,
+      required final String name,
+      required final List<String> urls,
+      required final PlaceType placeType,
+      required final String description,
+      final double? distance}) = _$_Place;
 
   factory _Place.fromJson(Map<String, dynamic> json) = _$_Place.fromJson;
 
   @override
-  int? get id;
+  int? get id => throw _privateConstructorUsedError;
   @override
-  double get lat;
+  double get lat => throw _privateConstructorUsedError;
   @override
-  double get lng;
+  double get lng => throw _privateConstructorUsedError;
   @override
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
-  List<String> get urls;
+  List<String> get urls => throw _privateConstructorUsedError;
   @override
-  PlaceType get placeType;
+  PlaceType get placeType => throw _privateConstructorUsedError;
   @override
-  String get description;
+  String get description => throw _privateConstructorUsedError;
   @override
-  double? get distance;
+  double? get distance => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PlaceCopyWith<_Place> get copyWith => throw _privateConstructorUsedError;

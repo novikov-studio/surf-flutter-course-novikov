@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:places/data/mapper/category_mapper.dart';
@@ -28,6 +29,8 @@ class SearchInteractor {
 
   /// Запрос списка мест, удовлетворяющих фильтру.
   Future<List<Sight>> searchPlaces({required String name}) async {
+    await addToHistory(name);
+
     final request = await _buildRequest(pattern: name);
 
     final places = await _filteredPlaceRepository.getFiltered(

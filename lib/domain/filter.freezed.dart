@@ -12,24 +12,7 @@ part of 'filter.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$FilterTearOff {
-  const _$FilterTearOff();
-
-  _Filter call(
-      {Set<Category>? categories, double? minRadius, double? maxRadius}) {
-    return _Filter(
-      categories: categories,
-      minRadius: minRadius,
-      maxRadius: maxRadius,
-    );
-  }
-}
-
-/// @nodoc
-const $Filter = _$FilterTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$Filter {
@@ -125,15 +108,28 @@ class __$FilterCopyWithImpl<$Res> extends _$FilterCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Filter extends _Filter {
-  const _$_Filter({this.categories, this.minRadius, this.maxRadius})
+  const _$_Filter(
+      {final Set<Category>? categories, this.minRadius, this.maxRadius})
       : assert(minRadius == null || maxRadius != null),
+        _categories = categories,
         super._();
 
-  @override // Список категорий
-  final Set<Category>? categories;
-  @override // Минимальный радиус поиска
+// Список категорий
+  final Set<Category>? _categories;
+// Список категорий
+  @override
+  Set<Category>? get categories {
+    final value = _categories;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(value);
+  }
+
+// Минимальный радиус поиска
+  @override
   final double? minRadius;
-  @override // Максимальный радиус поиска
+// Максимальный радиус поиска
+  @override
   final double? maxRadius;
 
   @override
@@ -162,17 +158,17 @@ class _$_Filter extends _Filter {
 
 abstract class _Filter extends Filter {
   const factory _Filter(
-      {Set<Category>? categories,
-      double? minRadius,
-      double? maxRadius}) = _$_Filter;
+      {final Set<Category>? categories,
+      final double? minRadius,
+      final double? maxRadius}) = _$_Filter;
   const _Filter._() : super._();
 
   @override // Список категорий
-  Set<Category>? get categories;
+  Set<Category>? get categories => throw _privateConstructorUsedError;
   @override // Минимальный радиус поиска
-  double? get minRadius;
+  double? get minRadius => throw _privateConstructorUsedError;
   @override // Максимальный радиус поиска
-  double? get maxRadius;
+  double? get maxRadius => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$FilterCopyWith<_Filter> get copyWith => throw _privateConstructorUsedError;
