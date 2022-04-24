@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/filter.dart';
-import 'package:places/ui/screen/add_sight_screen.dart';
+import 'package:places/domain/sight.dart';
+import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/const/categories.dart';
+import 'package:places/ui/screen/add_sight_screen/add_sight_screen.dart';
 import 'package:places/ui/screen/filters_screen.dart';
 import 'package:places/ui/screen/home_screen.dart';
+import 'package:places/ui/screen/list_picker.dart';
 import 'package:places/ui/screen/onboarding_screen.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_details.dart';
@@ -18,6 +22,7 @@ abstract class AppRoutes {
   static const search = 'search';
   static const filters = 'filters';
   static const newSight = 'newSight';
+  static const categories = 'categories';
   static const home = 'home';
 
   static Map<String, WidgetBuilder> routes = {
@@ -48,5 +53,13 @@ abstract class AppRoutes {
 
     /// Новое место.
     AppRoutes.newSight: (_) => const AddSightScreen(),
+
+    /// Выбор категории.
+    AppRoutes.categories: (context) => ListPicker<Category>(
+          title: AppStrings.categoryTitle,
+          items: Category.values,
+          names: Categories.titles,
+          initialValue: context.routeArgs<Category>(),
+        ),
   };
 }

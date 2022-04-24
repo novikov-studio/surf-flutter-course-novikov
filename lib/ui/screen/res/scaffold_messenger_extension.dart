@@ -27,4 +27,7 @@ extension ScaffoldMessengerExtension on ScaffoldMessengerState {
 
   void showExpError(Exception e) =>
       showError(e.humanReadableText, critical: e.isCritical);
+
+  void showObjError(Object e) =>
+      showError(Errors.humanReadableText(e), critical: Errors.isCritical(e));
 }

@@ -17,7 +17,9 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/redux/middleware/search_middleware.dart';
 import 'package:places/ui/redux/reducer/reducer.dart';
 import 'package:places/ui/redux/state/app_state.dart';
+import 'package:places/ui/screen/res/app_scope.dart';
 import 'package:places/ui/screen/res/responsive.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/res/themes.dart';
 import 'package:provider/provider.dart';
 import 'package:redux/redux.dart';
@@ -56,6 +58,12 @@ class _AppState extends State<App> {
         Provider<SearchInteractor>.value(value: _searchInteractor),
         ChangeNotifierProvider<SettingsInteractor>(
           create: _settingsInteractorBuilder,
+        ),
+        Provider<IAppScope>(
+          create: (context) => AppScope(
+            placeInteractor: context.placeInteractor,
+            errorHandler: const AppErrorHandler(),
+          ),
         ),
       ],
       child: StoreProvider<AppState>(
