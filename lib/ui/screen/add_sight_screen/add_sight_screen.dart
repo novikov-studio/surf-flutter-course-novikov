@@ -40,146 +40,139 @@ class AddSightScreen extends ElementaryWidget<IAddSightScreenWidgetModel> {
                 key: wm.formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 onChanged: wm.onFormChanged,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            spacerH24,
-                            FormField<List<String>>(
-                              key: wm.urlsKey,
-                              builder: (field) => AddSightPhotos(
-                                initialValue: field.value,
-                                onChange: wm.onUrlsChanged,
-                              ),
-                              initialValue: wm.data.urls,
-                              validator: Validators.checkListNotEmpty,
-                              onSaved: (value) =>
-                                  wm.data.urls = value ?? <String>[],
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      spacerH24,
+                      FormField<List<String>>(
+                        key: wm.urlsKey,
+                        builder: (field) => AddSightPhotos(
+                          initialValue: field.value,
+                          onChange: wm.onUrlsChanged,
+                        ),
+                        initialValue: wm.data.urls,
+                        validator: Validators.checkListNotEmpty,
+                        onSaved: (value) =>
+                            wm.data.urls = value ?? <String>[],
+                      ),
+                      spacerH24,
+                      _LabeledField(
+                        label: AppStrings.category,
+                        usePadding: false,
+                        child: FormField<Category>(
+                          key: wm.categoryKey,
+                          builder: (field) => ListTile(
+                            title: Text(
+                              field.value?.title ?? AppStrings.notChosen,
+                              style: field.isValid
+                                  ? wm.theme.textTheme.text400
+                                  : wm.theme.text400Secondary2,
                             ),
-                            spacerH24,
-                            _LabeledField(
-                              label: AppStrings.category,
-                              usePadding: false,
-                              child: FormField<Category>(
-                                key: wm.categoryKey,
-                                builder: (field) => ListTile(
-                                  title: Text(
-                                    field.value?.title ?? AppStrings.notChosen,
-                                    style: field.isValid
-                                        ? wm.theme.textTheme.text400
-                                        : wm.theme.text400Secondary2,
-                                  ),
-                                  trailing: const SvgIcon(AppIcons.view),
-                                  contentPadding: EdgeInsets.zero,
-                                  onTap: wm.showCategoryPicker,
-                                ),
-                                initialValue: wm.data.type,
-                                validator: Validators.checkNotNull,
-                                onSaved: (value) => wm.data.type = value,
-                              ),
-                            ),
-                            spacerH12,
-                            _LabeledField(
-                              label: AppStrings.name,
-                              child: TextFormFieldEx(
-                                hintText: AppStrings.enterString,
-                                validator: Validators.checkNotEmpty,
-                                onSaved: (value) => wm.data.name = value,
-                                focusNode: wm.focusNode(0),
-                                nextFocusNode: wm.focusNode(1),
-                              ),
-                            ),
-                            spacerH12,
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: _LabeledField(
-                                    label: AppStrings.latitude,
-                                    child: TextFormFieldEx(
-                                      hintText: AppStrings.enterNumber,
-                                      validator: Validators.checkLatitude,
-                                      onSaved: (value) => wm.data.latitude =
-                                          double.parse(value!),
-                                      focusNode: wm.focusNode(1),
-                                      nextFocusNode: wm.focusNode(2),
-                                      keyboardType:
-                                          const TextInputType.numberWithOptions(
-                                        signed: true,
-                                        decimal: true,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                spacerW16,
-                                Expanded(
-                                  child: _LabeledField(
-                                    label: AppStrings.longitude,
-                                    child: TextFormFieldEx(
-                                      hintText: AppStrings.enterNumber,
-                                      validator: Validators.checkLongitude,
-                                      onSaved: (value) => wm.data.longitude =
-                                          double.parse(value!),
-                                      focusNode: wm.focusNode(2),
-                                      nextFocusNode: wm.focusNode(3),
-                                      keyboardType:
-                                          const TextInputType.numberWithOptions(
-                                        signed: true,
-                                        decimal: true,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Transform.translate(
-                                offset: const Offset(-8.0, 0),
-                                child: SvgTextButton.link(
-                                  label: AppStrings.pointOnMap,
-                                  color: wm.theme.colorScheme.green,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0,
-                                  ),
-                                  onPressed: wm.pointOnMap,
-                                ),
-                              ),
-                            ),
-                            spacerH12,
-                            _LabeledField(
-                              label: AppStrings.description,
-                              child: TextFormFieldEx(
-                                hintText: AppStrings.enterText,
-                                onSaved: (value) => wm.data.details =
-                                    (value?.isNotEmpty ?? false) ? value : null,
-                                focusNode: wm.focusNode(3),
-                                minLines: 3,
-                              ),
-                            ),
-                          ],
+                            trailing: const SvgIcon(AppIcons.view),
+                            contentPadding: EdgeInsets.zero,
+                            onTap: wm.showCategoryPicker,
+                          ),
+                          initialValue: wm.data.type,
+                          validator: Validators.checkNotNull,
+                          onSaved: (value) => wm.data.type = value,
                         ),
                       ),
-                    ),
-                    spacerH12,
-                    ValueListenableBuilder<bool>(
-                      valueListenable: wm.dataIsValid,
-                      builder: (_, isValid, child) => ElevatedButton(
-                        onPressed: isValid ? wm.addNewSight : null,
-                        child: child,
+                      spacerH12,
+                      _LabeledField(
+                        label: AppStrings.name,
+                        child: TextFormFieldEx(
+                          hintText: AppStrings.enterString,
+                          validator: Validators.checkNotEmpty,
+                          onSaved: (value) => wm.data.name = value,
+                          focusNode: wm.focusNode(0),
+                          nextFocusNode: wm.focusNode(1),
+                        ),
                       ),
-                      child: isSending
-                          ? Loader(size: wm.loaderSize)
-                          : const Text(AppStrings.create),
-                    ),
-                    spacerH8,
-                  ],
+                      spacerH12,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: _LabeledField(
+                              label: AppStrings.latitude,
+                              child: TextFormFieldEx(
+                                hintText: AppStrings.enterNumber,
+                                validator: Validators.checkLatitude,
+                                onSaved: (value) => wm.data.latitude =
+                                    double.parse(value!),
+                                focusNode: wm.focusNode(1),
+                                nextFocusNode: wm.focusNode(2),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                  signed: true,
+                                  decimal: true,
+                                ),
+                              ),
+                            ),
+                          ),
+                          spacerW16,
+                          Expanded(
+                            child: _LabeledField(
+                              label: AppStrings.longitude,
+                              child: TextFormFieldEx(
+                                hintText: AppStrings.enterNumber,
+                                validator: Validators.checkLongitude,
+                                onSaved: (value) => wm.data.longitude =
+                                    double.parse(value!),
+                                focusNode: wm.focusNode(2),
+                                nextFocusNode: wm.focusNode(3),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                  signed: true,
+                                  decimal: true,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Transform.translate(
+                          offset: const Offset(-8.0, 0),
+                          child: SvgTextButton.link(
+                            label: AppStrings.pointOnMap,
+                            color: wm.theme.colorScheme.green,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            onPressed: wm.pointOnMap,
+                          ),
+                        ),
+                      ),
+                      spacerH12,
+                      _LabeledField(
+                        label: AppStrings.description,
+                        child: TextFormFieldEx(
+                          hintText: AppStrings.enterText,
+                          onSaved: (value) => wm.data.details =
+                              (value?.isNotEmpty ?? false) ? value : null,
+                          focusNode: wm.focusNode(3),
+                          minLines: 3,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              ),
+            ),
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ValueListenableBuilder<bool>(
+                valueListenable: wm.dataIsValid,
+                builder: (_, isValid, child) => ElevatedButton(
+                  onPressed: isValid ? wm.addNewSight : null,
+                  child: child,
+                ),
+                child: isSending
+                    ? Loader(size: wm.loaderSize)
+                    : const Text(AppStrings.create),
               ),
             ),
           ),
