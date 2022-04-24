@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'place_query_params.dart';
+part of '../../../data/model/place_query_params.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

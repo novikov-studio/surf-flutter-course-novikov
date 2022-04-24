@@ -4,7 +4,7 @@ import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/domain/filter.dart';
 import 'package:places/domain/sight.dart';
 
-part 'sight_list_store.g.dart';
+part '../../gen/ui/store/sight_list_store.g.dart';
 
 /// Состояние экрана SightListScreen.
 class SightListStore = SightListBase with _$SightListStore;

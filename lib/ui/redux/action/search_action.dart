@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:places/domain/sight.dart';
 
-part 'search_action.freezed.dart';
+part '../../../gen/ui/redux/action/search_action.freezed.dart';
 
 /// Действия для поиска достопримечательностей.
 @freezed

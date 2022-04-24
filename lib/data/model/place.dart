@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'place.freezed.dart';
+part '../../gen/data/model/place.freezed.dart';
 
-part 'place.g.dart';
+part '../../gen/data/model/place.g.dart';
 
 @freezed
 class Place with _$Place {

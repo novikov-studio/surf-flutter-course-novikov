@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:places/ui/redux/state/search_state.dart';
 
-part 'app_state.freezed.dart';
+part '../../../gen/ui/redux/state/app_state.freezed.dart';
 
 /// Общее состояние приложения.
 @freezed

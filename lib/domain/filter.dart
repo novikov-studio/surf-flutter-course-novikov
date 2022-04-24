@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:places/domain/sight.dart';
 
-part 'filter.freezed.dart';
+part '../gen/domain/filter.freezed.dart';
 
 /// Класс для хранения настроек фильтра.
 @freezed
