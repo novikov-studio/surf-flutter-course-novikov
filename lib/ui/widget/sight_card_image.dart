@@ -97,7 +97,7 @@ class SightCardImage extends StatelessWidget {
           ? visitingBloc.add(const VisitingBlocEvent.load())
           : sightHolder.value = newSight;
     } on Exception catch (e, stacktrace) {
-      logErrorIfUnknown(e, stacktrace);
+      logError(e, stacktrace);
       scaffoldMessenger.showExpError(e);
     }
   }
@@ -118,7 +118,7 @@ class SightCardImage extends StatelessWidget {
       await placeInteractor.schedule(sight: sight, planned: plannedDate);
       sightNotifier.value = sight.copyWith(plannedDate: plannedDate);
     } on Exception catch (e, stacktrace) {
-      logErrorIfUnknown(e, stacktrace);
+      logError(e, stacktrace);
       scaffoldMessenger.showExpError(e);
     }
   }

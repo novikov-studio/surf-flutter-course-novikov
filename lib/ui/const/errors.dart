@@ -17,6 +17,10 @@ abstract class Errors {
 
   static bool isCritical(Object error) =>
       !(error is Exception && !error.isCritical);
+
+  static bool isKnown(Object error) => error is Exception && error.isKnown;
+
+  static bool isUnknown(Object error) => !isUnknown(error);
 }
 
 extension ExceptionExt on Exception {

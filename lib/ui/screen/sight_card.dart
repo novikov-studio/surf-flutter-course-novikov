@@ -157,7 +157,7 @@ class _SightCard extends StatelessWidget {
             : sightNotifier.value = newSight;
       }
     } on Exception catch (e, stacktrace) {
-      logErrorIfUnknown(e, stacktrace);
+      logError(e, stacktrace);
       scaffoldMessenger.showExpError(e);
     }
   }

@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'place_query_params.g.dart';
+part '../../gen/data/model/place_query_params.g.dart';
 
 @JsonSerializable(includeIfNull: false, createFactory: false)
 class PlaceQueryParams {

@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:places/data/model/place.dart';
 
-part 'place_filter_request.g.dart';
+part '../../gen/data/model/place_filter_request.g.dart';
 
 /// Модель данных с параметрами фильтра.
 @JsonSerializable(includeIfNull: false, createFactory: false)

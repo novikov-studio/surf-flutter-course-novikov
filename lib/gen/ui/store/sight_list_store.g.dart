@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sight_list_store.dart';
+part of '../../../ui/store/sight_list_store.dart';
 
 // **************************************************************************
 // StoreGenerator

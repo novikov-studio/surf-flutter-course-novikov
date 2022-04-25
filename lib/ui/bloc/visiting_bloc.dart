@@ -4,7 +4,7 @@ import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/errors.dart';
 
-part 'visiting_bloc.freezed.dart';
+part '../../gen/ui/bloc/visiting_bloc.freezed.dart';
 
 /// Менеджер состояния экрана "Избранное".
 class VisitingBloc extends Bloc<VisitingBlocEvent, VisitingBlocState> {
