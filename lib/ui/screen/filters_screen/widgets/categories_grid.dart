@@ -1,27 +1,19 @@
+import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/categories.dart';
-import 'package:places/ui/screen/filters_screen.dart';
+import 'package:places/ui/screen/filters_screen/filters_screen_widget_model.dart';
 import 'package:places/ui/screen/res/responsive.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:provider/provider.dart';
 
-typedef CategoryPressedCallback = void Function(
-  Category category,
-  bool isChecked,
-);
-
-/// Виджет для отображения таблицы категорий на экране [FiltersScreen].
+/// Виджет для отображения таблицы категорий на экране "Фильтры".
 class CategoriesGrid extends StatelessWidget {
-  final Set<Category> checked;
-  final CategoryPressedCallback onCategoryPressed;
-
   const CategoriesGrid({
     Key? key,
-    required this.checked,
-    required this.onCategoryPressed,
   }) : super(key: key);
 
   @override
@@ -35,9 +27,7 @@ class CategoriesGrid extends StatelessWidget {
               (e) => [
                 _CategoryCell(
                   category: e,
-                  isChecked: checked.contains(e),
                   width: size,
-                  onPressed: onCategoryPressed,
                 ),
               ],
             )
@@ -68,21 +58,18 @@ class CategoriesGrid extends StatelessWidget {
 /// Виджет для отображения ячейки категории.
 class _CategoryCell extends StatelessWidget {
   final Category category;
-  final bool isChecked;
   final double width;
-  final CategoryPressedCallback onPressed;
 
   const _CategoryCell({
     Key? key,
     required this.category,
-    required this.isChecked,
     required this.width,
-    required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final wm = context.read<IFiltersScreenWidgetModel>();
 
     final size = width * 0.6;
 
@@ -96,9 +83,7 @@ class _CategoryCell extends StatelessWidget {
               Positioned.fill(
                 child: InkWell(
                   borderRadius: BorderRadius.all(Radius.circular(size)),
-                  onTap: () {
-                    onPressed(category, !isChecked);
-                  },
+                  onTap: () => wm.toggleCategory(category),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -114,12 +99,17 @@ class _CategoryCell extends StatelessWidget {
                   ),
                 ),
               ),
-              if (isChecked)
-                Positioned(
-                  bottom: 0.0,
-                  right: 0.0,
-                  child: _Badge(size: size * 0.25),
-                ),
+              StateNotifierBuilder<Set<Category>>(
+                listenableState: wm.categories,
+                builder: (_, categories) =>
+                    categories?.contains(category) ?? false
+                        ? Positioned(
+                            bottom: 0.0,
+                            right: 0.0,
+                            child: _Badge(size: size * 0.25),
+                          )
+                        : const SizedBox.shrink(),
+              ),
             ],
           ),
         ),

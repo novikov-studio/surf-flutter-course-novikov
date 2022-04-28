@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/filter.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/screen/add_sight_screen/add_sight_screen.dart';
-import 'package:places/ui/screen/filters_screen.dart';
+import 'package:places/ui/screen/filters_screen/adaptive_filters_screen.dart';
 import 'package:places/ui/screen/home_screen.dart';
 import 'package:places/ui/screen/list_picker.dart';
 import 'package:places/ui/screen/onboarding_screen.dart';
@@ -45,8 +44,7 @@ abstract class AppRoutes {
         ),
 
     /// Фильтры.
-    AppRoutes.filters: (context) =>
-        FiltersScreen(initialValue: context.routeArgs<Filter>()!),
+    AppRoutes.filters: (_) => const AdaptiveFiltersScreen(),
 
     /// Поиск.
     AppRoutes.search: (_) => const SightSearchScreen(),
