@@ -6,7 +6,7 @@ import 'package:places/ui/screen/add_sight_screen/add_sight_screen.dart';
 import 'package:places/ui/screen/filters_screen/adaptive_filters_screen.dart';
 import 'package:places/ui/screen/home_screen.dart';
 import 'package:places/ui/screen/list_picker.dart';
-import 'package:places/ui/screen/onboarding_screen.dart';
+import 'package:places/ui/screen/onboarding_screen/onboarding_screen.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_details.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
@@ -29,8 +29,7 @@ abstract class AppRoutes {
     AppRoutes.splash: (_) => const SplashScreen(),
 
     /// Туториал.
-    AppRoutes.onboarding: (context) =>
-        OnboardingScreen(nextScreen: context.routeArgs<String>()),
+    AppRoutes.onboarding: (_) => const OnboardingScreen(),
 
     /// Главный экран.
     AppRoutes.home: (_) => const HomeScreen(),
