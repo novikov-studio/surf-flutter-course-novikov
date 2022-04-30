@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
-import 'package:places/ui/screen/settings_screen.dart';
+import 'package:places/ui/screen/settings_screen/settings_screen.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
 import 'package:places/ui/widget/controls/bottom_nav_bar.dart';

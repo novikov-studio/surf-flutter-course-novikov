@@ -62,6 +62,7 @@ class _AppState extends State<App> {
         Provider<IAppScope>(
           create: (context) => AppScope(
             placeInteractor: context.placeInteractor,
+            settingsInteractor: context.read<SettingsInteractor>(),
             errorHandler: const AppErrorHandler(),
           ),
         ),
