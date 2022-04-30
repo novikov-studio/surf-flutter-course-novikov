@@ -31,19 +31,22 @@ class SightCard extends ElementaryWidget<ISightCardWidgetModel> {
     final dismissible = draggable;
     final sight = wm.sightState.value!;
 
-    Widget card = Card(
-      margin: EdgeInsets.zero,
-      child: InkWell(
-        onTap: wm.showDetails,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            SizedBox(
-              height: 96.0,
-              child: SightCardImage(),
-            ),
-            SightCardText(),
-          ],
+    Widget card = Provider<ISightCardWidgetModel>.value(
+      value: wm,
+      child: Card(
+        margin: EdgeInsets.zero,
+        child: InkWell(
+          onTap: wm.showDetails,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              SizedBox(
+                height: 96.0,
+                child: SightCardImage(),
+              ),
+              SightCardText(),
+            ],
+          ),
         ),
       ),
     );
@@ -107,10 +110,7 @@ class SightCard extends ElementaryWidget<ISightCardWidgetModel> {
       );
     }
 
-    return Provider<ISightCardWidgetModel>.value(
-      value: wm,
-      child: card,
-    );
+    return card;
   }
 }
 

@@ -11,11 +11,13 @@ import 'package:places/ui/screen/res/logger.dart';
 import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/loader.dart';
+import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
 import 'package:provider/provider.dart';
 
 /// WM для экрана "Новое место".
-class AddSightScreenWidgetModel
+class AddSightScreenWM
     extends WidgetModel<AddSightScreen, AddSightScreenModel>
+    with CommonWMMixin<AddSightScreen, AddSightScreenModel>
     implements IAddSightScreenWidgetModel {
   final _formKey = GlobalKey<FormState>();
   final _categoryKey = GlobalKey<FormFieldState<Category>>();
@@ -46,20 +48,15 @@ class AddSightScreenWidgetModel
   @override
   ValueNotifier<bool> get dataIsSending => _dataIsSending;
 
-  @override
-  ThemeData get theme => _theme;
-
   late double _loaderSize;
-  ThemeData _theme = ThemeData();
 
-  AddSightScreenWidgetModel(AddSightScreenModel model) : super(model);
+  AddSightScreenWM(AddSightScreenModel model) : super(model);
 
   @override
   void didChangeDependencies() {
     // Чтобы не ограничивать кнопки по высоте, приходится рассчитывать размера лоадера,
     // чтобы высота кнопки не "плясала" при смене текст/лоадер.
     _loaderSize = Loader.calcSizeForButton(context);
-    _theme = Theme.of(context);
     super.didChangeDependencies();
   }
 
@@ -124,7 +121,7 @@ class AddSightScreenWidgetModel
 }
 
 /// Интерфейс WM.
-abstract class IAddSightScreenWidgetModel extends IWidgetModel {
+abstract class IAddSightScreenWidgetModel extends ICommonWidgetModel {
   /// Ключ состояния формы.
   GlobalKey<FormState> get formKey;
 
@@ -145,9 +142,6 @@ abstract class IAddSightScreenWidgetModel extends IWidgetModel {
 
   /// Размер индикатора прогресса.
   double get loaderSize;
-
-  /// Ссылка на текущую тему.
-  ThemeData get theme;
 
   /// Получение элемента фокуса по индксу.
   FocusNode focusNode(int index);
@@ -172,7 +166,7 @@ abstract class IAddSightScreenWidgetModel extends IWidgetModel {
 }
 
 /// Реализация WM по-умолчанию.
-AddSightScreenWidgetModel defaultAddSightScreenWidgetModelFactory(
+AddSightScreenWM defaultAddSightScreenWidgetModelFactory(
   BuildContext context,
 ) {
   final appDependencies = context.read<IAppScope>();
@@ -181,7 +175,7 @@ AddSightScreenWidgetModel defaultAddSightScreenWidgetModelFactory(
     appDependencies.errorHandler,
   );
 
-  return AddSightScreenWidgetModel(model);
+  return AddSightScreenWM(model);
 }
 
 /// Класс для хранения введенных пользователем значений.

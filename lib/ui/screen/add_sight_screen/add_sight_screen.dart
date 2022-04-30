@@ -4,7 +4,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
-import 'package:places/ui/screen/add_sight_screen/add_sight_screen_widget_model.dart';
+import 'package:places/ui/screen/add_sight_screen/add_sight_screen_wm.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/add_sight_photos.dart';
 import 'package:places/ui/widget/controls/loader.dart';

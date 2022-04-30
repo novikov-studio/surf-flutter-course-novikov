@@ -10,11 +10,14 @@ import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card/mixins/sight_wm_mixin.dart';
 import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/screen/sight_card/sight_card_model.dart';
+import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
 import 'package:provider/provider.dart';
 
 /// WM виджета "Карточка места".
 class SightCardWM extends WidgetModel<SightCard, SightCardModel>
-    with SightWMMixin<SightCard, SightCardModel>
+    with
+        SightWMMixin<SightCard, SightCardModel>,
+        CommonWMMixin<SightCard, SightCardModel>
     implements ISightCardWidgetModel {
   final StateNotifier<Sight> _sightState;
   final CardMode _mode;
@@ -26,22 +29,11 @@ class SightCardWM extends WidgetModel<SightCard, SightCardModel>
   CardMode get mode => _mode;
 
   @override
-  ThemeData get theme => _theme;
-
-  @override
   MediaQueryData get mediaQuery => MediaQuery.of(context);
-
-  late ThemeData _theme;
 
   SightCardWM(SightCardModel model, Sight sight, this._mode)
       : _sightState = StateNotifier<Sight>(initValue: sight),
         super(model);
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _theme = Theme.of(context);
-  }
 
   @override
   void onErrorHandle(Object error) {
@@ -81,15 +73,12 @@ class SightCardWM extends WidgetModel<SightCard, SightCardModel>
 }
 
 /// Инфтервейс WM.
-abstract class ISightCardWidgetModel extends IWidgetModel {
+abstract class ISightCardWidgetModel extends ICommonWidgetModel {
   /// Состояние карточки.
   ListenableState<Sight> get sightState;
 
   /// Режим построения карточки.
   CardMode get mode;
-
-  /// Текущая тема.
-  ThemeData get theme;
 
   /// Данные о параметрах экрана.
   MediaQueryData get mediaQuery;

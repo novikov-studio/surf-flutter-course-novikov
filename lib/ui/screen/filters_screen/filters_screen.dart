@@ -2,7 +2,7 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/screen/filters_screen/filters_screen_widget_model.dart';
+import 'package:places/ui/screen/filters_screen/filters_screen_wm.dart';
 import 'package:places/ui/screen/filters_screen/widgets/categories_grid.dart';
 import 'package:places/ui/screen/filters_screen/widgets/slider_bar.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';

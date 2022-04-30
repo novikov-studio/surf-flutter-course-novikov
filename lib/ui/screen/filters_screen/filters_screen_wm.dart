@@ -11,13 +11,15 @@ import 'package:places/ui/screen/res/logger.dart';
 import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/loader.dart';
+import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
 import 'package:places/ui/widget/elementary/types.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// WM для экрана "Фильтры".
-class FiltersScreenWidgetModel
+class FiltersScreenWM
     extends WidgetModel<FiltersScreen, FiltersScreenModel>
+    with CommonWMMixin<FiltersScreen, FiltersScreenModel>
     implements IFiltersScreenWidgetModel {
   /// Фильтр по-умолчанию.
   static final _defaultFilter = Filter(
@@ -53,13 +55,9 @@ class FiltersScreenWidgetModel
   @override
   double get loaderSize => _loaderSize;
 
-  @override
-  ThemeData get theme => _theme;
-
   /// Служебные поля.
   late Filter _result;
   late double _loaderSize;
-  ThemeData _theme = ThemeData();
 
   Filter get _filter => Filter(
         categories: _categories.value,
@@ -68,7 +66,7 @@ class FiltersScreenWidgetModel
       );
 
   /// Конструктор.
-  FiltersScreenWidgetModel(FiltersScreenModel model, Filter initialValue)
+  FiltersScreenWM(FiltersScreenModel model, Filter initialValue)
       : _result = initialValue,
         super(model) {
     _categories.accept(initialValue.categories ?? _defaultFilter.categories);
@@ -94,7 +92,6 @@ class FiltersScreenWidgetModel
     // Чтобы не ограничивать кнопки по высоте, приходится рассчитывать размера лоадера,
     // чтобы высота кнопки не "плясала" при смене текст/лоадер.
     _loaderSize = Loader.calcSizeForButton(context);
-    _theme = Theme.of(context);
     super.didChangeDependencies();
   }
 
@@ -175,7 +172,7 @@ class FiltersScreenWidgetModel
 }
 
 /// Интерфейс WM.
-abstract class IFiltersScreenWidgetModel extends IWidgetModel {
+abstract class IFiltersScreenWidgetModel extends ICommonWidgetModel {
   /// Список выбранных категорий.
   ListenableState<Set<Category>> get categories;
 
@@ -190,9 +187,6 @@ abstract class IFiltersScreenWidgetModel extends IWidgetModel {
 
   /// Размер индикатора прогресса.
   double get loaderSize;
-
-  /// Ссылка на текущую тему.
-  ThemeData get theme;
 
   /// Возврат на предыдущий экран.
   void back();
@@ -214,7 +208,7 @@ abstract class IFiltersScreenWidgetModel extends IWidgetModel {
 }
 
 /// Реализация WM по-умолчанию.
-FiltersScreenWidgetModel defaultFiltersScreenWidgetModelFactory(
+FiltersScreenWM defaultFiltersScreenWidgetModelFactory(
   BuildContext context,
 ) {
   final appDependencies = context.read<IAppScope>();
@@ -225,5 +219,5 @@ FiltersScreenWidgetModel defaultFiltersScreenWidgetModelFactory(
     appDependencies.errorHandler,
   );
 
-  return FiltersScreenWidgetModel(model, initialValue);
+  return FiltersScreenWM(model, initialValue);
 }

@@ -8,12 +8,15 @@ import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card/mixins/sight_wm_mixin.dart';
 import 'package:places/ui/screen/sight_details/sight_details.dart';
 import 'package:places/ui/screen/sight_details/sight_details_model.dart';
+import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
 import 'package:places/ui/widget/elementary/types.dart';
 import 'package:provider/provider.dart';
 
 /// WM для экрана "Детализация".
 class SightDetailsWM extends WidgetModel<SightDetails, SightDetailsModel>
-    with SightWMMixin<SightDetails, SightDetailsModel>
+    with
+        SightWMMixin<SightDetails, SightDetailsModel>,
+        CommonWMMixin<SightDetails, SightDetailsModel>
     implements ISightDetailsWidgetModel {
   final int _sightId;
   final _pageController = PageController();
@@ -32,18 +35,7 @@ class SightDetailsWM extends WidgetModel<SightDetails, SightDetailsModel>
   @override
   ListenableState<Sight> get sightState => _sightState.value!.data!;
 
-  @override
-  ThemeData get theme => _theme;
-
-  late ThemeData _theme;
-
   SightDetailsWM(SightDetailsModel model, this._sightId) : super(model);
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _theme = Theme.of(context);
-  }
 
   @override
   void initWidgetModel() {
@@ -86,15 +78,12 @@ class SightDetailsWM extends WidgetModel<SightDetails, SightDetailsModel>
 }
 
 /// Интерфейс WM.
-abstract class ISightDetailsWidgetModel extends IWidgetModel {
+abstract class ISightDetailsWidgetModel extends ICommonWidgetModel {
   /// Контроллер галереи фото.
   PageController get pageController;
 
   /// Ширина экрана устройства.
   double get screenWidth;
-
-  /// Текущая тема.
-  ThemeData get theme;
 
   /// Состояние загрузки [Sight].
   ListenableEntityState<ListenableState<Sight>> get sightLoadingState;

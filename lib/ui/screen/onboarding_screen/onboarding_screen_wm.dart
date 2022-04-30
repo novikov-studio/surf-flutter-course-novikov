@@ -4,11 +4,13 @@ import 'package:places/ui/screen/onboarding_screen/onboarding_screen.dart';
 import 'package:places/ui/screen/onboarding_screen/onboarding_screen_model.dart';
 import 'package:places/ui/screen/res/app_scope.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
 import 'package:provider/provider.dart';
 
 /// WM для экрана "Онбординг".
 class OnboardingScreenWM
     extends WidgetModel<OnboardingScreen, OnboardingScreenModel>
+    with CommonWMMixin<OnboardingScreen, OnboardingScreenModel>
     implements IOnboardingScreenWidgetModel {
   final String? _nextScreen;
   final _pageController = PageController();
@@ -18,12 +20,7 @@ class OnboardingScreenWM
   PageController get pageController => _pageController;
 
   @override
-  ThemeData get theme => _theme;
-
-  @override
   ListenableState<double> get skipButtonTransparency => _skipButtonTransparency;
-
-  late ThemeData _theme;
 
   OnboardingScreenWM(OnboardingScreenModel model, this._nextScreen)
       : super(model);
@@ -32,12 +29,6 @@ class OnboardingScreenWM
   void initWidgetModel() {
     super.initWidgetModel();
     _pageController.addListener(_pageToTransparency);
-  }
-
-  @override
-  void didChangeDependencies() {
-    _theme = Theme.of(context);
-    super.didChangeDependencies();
   }
 
   @override
@@ -65,10 +56,7 @@ class OnboardingScreenWM
 }
 
 /// Интерфейс WM.
-abstract class IOnboardingScreenWidgetModel extends IWidgetModel {
-  /// Ссылка на текущую тему.
-  ThemeData get theme;
-
+abstract class IOnboardingScreenWidgetModel extends ICommonWidgetModel {
   /// Контроллер страниц.
   PageController get pageController;
 
