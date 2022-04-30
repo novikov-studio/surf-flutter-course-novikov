@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/screen/sight_list_screen.dart';
 import 'package:places/ui/screen/visiting_screen.dart';
 import 'package:places/ui/widget/controls/spacers.dart';

@@ -5,14 +5,15 @@ import 'package:places/ui/screen/res/app_scope.dart';
 import 'package:places/ui/screen/res/logger.dart';
 import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/screen/sight_card/mixins/sight_wm_mixin.dart';
 import 'package:places/ui/screen/sight_details/sight_details.dart';
 import 'package:places/ui/screen/sight_details/sight_details_model.dart';
-import 'package:places/ui/widget/controls/date_time_picker.dart';
 import 'package:places/ui/widget/elementary/types.dart';
 import 'package:provider/provider.dart';
 
 /// WM для экрана "Детализация".
 class SightDetailsWM extends WidgetModel<SightDetails, SightDetailsModel>
+    with SightWMMixin<SightDetails, SightDetailsModel>
     implements ISightDetailsWidgetModel {
   final int _sightId;
   final _pageController = PageController();
@@ -64,37 +65,12 @@ class SightDetailsWM extends WidgetModel<SightDetails, SightDetailsModel>
   }
 
   @override
-  Future<void> toggleInFavorites() async {
-    try {
-      final sight = _sightState.value?.data?.value;
-      if (sight != null) {
-        final newSight = sight.isLiked
-            ? await model.removeFromFavorites(sight)
-            : await model.addToFavorites(sight);
-
-        _sightState.value!.data!.accept(newSight);
-      }
-    } on Object catch (e) {
-      onErrorHandle(e);
-    }
-  }
+  Future<void> toggleInFavorites() async =>
+      internalToggleInFavorites(_sightState.value!.data!, model);
 
   @override
-  Future<void> planVisiting() async {
-    try {
-      final sight = _sightState.value?.data?.value;
-      if (sight != null) {
-        final plannedDate =
-            await DateTimePicker.show(context, initial: sight.plannedDate);
-        if (plannedDate != null) {
-          final newSight = await model.schedule(sight, plannedDate);
-          _sightState.value!.data!.accept(newSight);
-        }
-      }
-    } on Object catch (e) {
-      onErrorHandle(e);
-    }
-  }
+  Future<void> planVisiting() async =>
+      internalPlanVisiting(_sightState.value!.data!, model);
 
   Future<void> _loadSight({bool silent = false}) async {
     if (!silent) {

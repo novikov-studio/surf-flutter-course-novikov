@@ -9,7 +9,7 @@ import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/errors.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/store/sight_list_store.dart';
 import 'package:places/ui/widget/controls/gradient_fab.dart';
 import 'package:places/ui/widget/controls/loader.dart';
