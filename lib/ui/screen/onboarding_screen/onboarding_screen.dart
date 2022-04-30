@@ -7,7 +7,7 @@ import 'package:places/ui/screen/onboarding_screen/widgets/page_indicator.dart';
 import 'package:places/ui/screen/onboarding_screen/widgets/step_page.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/svg_text_button.dart';
-import 'package:places/ui/widget/state_notifier_builder_ex.dart';
+import 'package:places/ui/widget/elementary/state_notifier_builder_ex.dart';
 
 /// Экран "Онбординг".
 ///

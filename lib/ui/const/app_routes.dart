@@ -8,7 +8,7 @@ import 'package:places/ui/screen/home_screen.dart';
 import 'package:places/ui/screen/list_picker.dart';
 import 'package:places/ui/screen/onboarding_screen/onboarding_screen.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/screen/sight_details.dart';
+import 'package:places/ui/screen/sight_details/sight_details.dart';
 import 'package:places/ui/screen/sight_search_screen.dart';
 import 'package:places/ui/screen/splash_screen.dart';
 import 'package:places/ui/widget/bottom_sheet_wrapper.dart';
@@ -37,7 +37,6 @@ abstract class AppRoutes {
     /// Детализация.
     AppRoutes.details: (context) => BottomSheetWrapper(
           builder: (context, scrollController) => SightDetails(
-            id: context.routeArgs<int>()!,
             scrollController: scrollController,
           ),
         ),

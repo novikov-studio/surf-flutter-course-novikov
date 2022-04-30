@@ -11,6 +11,7 @@ import 'package:places/ui/screen/res/logger.dart';
 import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/widget/controls/loader.dart';
+import 'package:places/ui/widget/elementary/types.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -47,7 +48,7 @@ class FiltersScreenWidgetModel
   ListenableState<double> get maxRadius => _maxRadius;
 
   @override
-  ListenableState<EntityState<int>> get foundCount => _foundCount;
+  ListenableEntityState<int> get foundCount => _foundCount;
 
   @override
   double get loaderSize => _loaderSize;
@@ -185,7 +186,7 @@ abstract class IFiltersScreenWidgetModel extends IWidgetModel {
   ListenableState<double> get maxRadius;
 
   /// Состояние поиска.
-  ListenableState<EntityState<int>> get foundCount;
+  ListenableEntityState<int> get foundCount;
 
   /// Размер индикатора прогресса.
   double get loaderSize;
