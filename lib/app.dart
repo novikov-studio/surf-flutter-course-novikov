@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:places/data/interactor/place_interactor.dart';
-import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/interactor/settings_interactor.dart';
-import 'package:places/data/repository/network_media_repository.dart';
-import 'package:places/data/repository_interface/favorites_repository.dart';
-import 'package:places/data/repository_interface/filtered_place_repository.dart';
-import 'package:places/data/repository_interface/location_repository.dart';
-import 'package:places/data/repository_interface/place_repository.dart';
-import 'package:places/data/repository_interface/search_history_repository.dart';
-import 'package:places/data/repository_interface/settings_repository.dart';
-import 'package:places/data/rest/rest_client.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/app_scope.dart';
 import 'package:places/ui/screen/res/responsive.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/res/themes.dart';
 import 'package:provider/provider.dart';
 
@@ -28,61 +17,22 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  static const baseUrl = 'https://test-backend-flutter.surfstudio.ru';
-  final _locationRepository = const LocationRepository.getInstance();
-  final _restClient = RestClient.getInstance(baseUrl: baseUrl);
-  late final FilteredPlaceRepository _filteredPlaceRepository;
-  late final SearchInteractor _searchInteractor;
-
-  @override
-  void initState() {
-    super.initState();
-    _filteredPlaceRepository =
-        FilteredPlaceRepository.network(restClient: _restClient);
-
-    _searchInteractor = _searchInteractorBuilder();
-  }
+  final IAppScope _appScope = AppScope();
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<PlaceInteractor>(create: _placeInteractorBuilder),
-        Provider<SearchInteractor>.value(value: _searchInteractor),
-        ChangeNotifierProvider<SettingsInteractor>(
-          create: _settingsInteractorBuilder,
+        ChangeNotifierProvider<SettingsInteractor>.value(
+          value: _appScope.settingsInteractor,
         ),
-        Provider<IAppScope>(
-          create: (context) => AppScope(
-            placeInteractor: context.placeInteractor,
-            searchInteractor: _searchInteractor,
-            settingsInteractor: context.read<SettingsInteractor>(),
-            errorHandler: const AppErrorHandler(),
-          ),
+        Provider<IAppScope>.value(
+          value: _appScope,
         ),
       ],
       child: const _MaterialApp(),
     );
   }
-
-  PlaceInteractor _placeInteractorBuilder(BuildContext _) => PlaceInteractor(
-        placeRepository: PlaceRepository.network(restClient: _restClient),
-        locationRepository: _locationRepository,
-        favoritesRepository: FavoritesRepository.getInstance(),
-        filteredPlaceRepository: _filteredPlaceRepository,
-        mediaRepository: NetworkMediaRepository(restClient: _restClient),
-      );
-
-  SearchInteractor _searchInteractorBuilder() => SearchInteractor(
-        locationRepository: _locationRepository,
-        filteredPlaceRepository: _filteredPlaceRepository,
-        searchHistoryRepository: SearchHistoryRepository.getInstance(),
-      );
-
-  SettingsInteractor _settingsInteractorBuilder(BuildContext _) =>
-      SettingsInteractor(
-        settingsRepository: SettingsRepository.getInstance(),
-      );
 }
 
 /// Material App.
@@ -92,7 +42,7 @@ class _MaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Selector<SettingsInteractor, bool>(
-      selector: (_, selectInteractor) => selectInteractor.isLightTheme,
+      selector: (_, settings) => settings.isLightTheme,
       builder: (_, isLight, __) => MaterialApp(
         title: AppStrings.appTitle,
         theme: isLight ? Themes.light : Themes.dark,

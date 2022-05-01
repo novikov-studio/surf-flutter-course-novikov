@@ -2,14 +2,27 @@ import 'package:elementary/elementary.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/interactor/settings_interactor.dart';
+import 'package:places/data/repository/network_media_repository.dart';
+import 'package:places/data/repository_interface/favorites_repository.dart';
+import 'package:places/data/repository_interface/filtered_place_repository.dart';
+import 'package:places/data/repository_interface/location_repository.dart';
+import 'package:places/data/repository_interface/place_repository.dart';
+import 'package:places/data/repository_interface/search_history_repository.dart';
+import 'package:places/data/repository_interface/settings_repository.dart';
+import 'package:places/data/rest/rest_client.dart';
 import 'package:places/ui/screen/res/logger.dart';
 
 /// Зависимости приложения.
 class AppScope implements IAppScope {
-  final ErrorHandler _errorHandler;
-  final PlaceInteractor _placeInteractor;
-  final SearchInteractor _searchInteractor;
-  final SettingsInteractor _settingsInteractor;
+  static const baseUrl = 'https://test-backend-flutter.surfstudio.ru';
+
+  late final RestClient _restClient;
+
+  late final PlaceInteractor _placeInteractor;
+  late final SearchInteractor _searchInteractor;
+  late final SettingsInteractor _settingsInteractor;
+
+  late final ErrorHandler _errorHandler;
 
   @override
   PlaceInteractor get placeInteractor => _placeInteractor;
@@ -23,15 +36,40 @@ class AppScope implements IAppScope {
   @override
   ErrorHandler get errorHandler => _errorHandler;
 
-  const AppScope({
-    required PlaceInteractor placeInteractor,
-    required SearchInteractor searchInteractor,
-    required SettingsInteractor settingsInteractor,
-    required ErrorHandler errorHandler,
-  })  : _placeInteractor = placeInteractor,
-        _searchInteractor = searchInteractor,
-        _settingsInteractor = settingsInteractor,
-        _errorHandler = errorHandler;
+  AppScope() {
+    _restClient = RestClient.getInstance(baseUrl: baseUrl);
+    _errorHandler = const AppErrorHandler();
+
+    /// Репозитории.
+    final placeRepository = PlaceRepository.network(restClient: _restClient);
+    final filteredPlaceRepository =
+        FilteredPlaceRepository.network(restClient: _restClient);
+    final networkMediaRepository = NetworkMediaRepository(
+      restClient: _restClient,
+    );
+    final searchHistoryRepository = SearchHistoryRepository.getInstance();
+    final favoritesRepository = FavoritesRepository.getInstance();
+    final settingsRepository = SettingsRepository.getInstance();
+    const locationRepository = LocationRepository.getInstance();
+
+    /// Интеракторы.
+    _placeInteractor = PlaceInteractor(
+      placeRepository: placeRepository,
+      locationRepository: locationRepository,
+      favoritesRepository: favoritesRepository,
+      filteredPlaceRepository: filteredPlaceRepository,
+      mediaRepository: networkMediaRepository,
+    );
+
+    _searchInteractor = SearchInteractor(
+      locationRepository: locationRepository,
+      filteredPlaceRepository: filteredPlaceRepository,
+      searchHistoryRepository: searchHistoryRepository,
+    );
+
+    _settingsInteractor =
+        SettingsInteractor(settingsRepository: settingsRepository);
+  }
 }
 
 /// Интерфейс зависимостей приложения.
