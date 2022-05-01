@@ -10,12 +10,10 @@ import 'package:places/ui/screen/onboarding_screen/onboarding_screen.dart';
 import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_details/sight_details.dart';
 import 'package:places/ui/screen/sight_search_screen/sight_search_screen.dart';
-import 'package:places/ui/screen/splash_screen.dart';
 import 'package:places/ui/widget/bottom_sheet_wrapper.dart';
 
 /// Имена путей.
 abstract class AppRoutes {
-  static const splash = 'splash';
   static const onboarding = 'onboarding';
   static const details = 'details';
   static const search = 'search';
@@ -25,11 +23,8 @@ abstract class AppRoutes {
   static const home = 'home';
 
   static Map<String, WidgetBuilder> routes = {
-    /// Сплэш-скрин.
-    AppRoutes.splash: (_) => const SplashScreen(),
-
     /// Туториал.
-    AppRoutes.onboarding: (_) => const OnboardingScreen(),
+    AppRoutes.onboarding: (_) => OnboardingScreen(nextScreen: AppRoutes.home),
 
     /// Главный экран.
     AppRoutes.home: (_) => const HomeScreen(),

@@ -70,10 +70,9 @@ abstract class IOnboardingScreenWidgetModel extends ICommonWidgetModel {
 /// Реализация WM по-умолчанию.
 OnboardingScreenWM defaultOnboardingScreenWidgetModelFactory(
   BuildContext context,
+  String? nextScreen,
 ) {
   final appDependencies = context.read<IAppScope>();
-
-  final nextScreen = context.routeArgs<String>();
 
   final model = OnboardingScreenModel(
     appDependencies.errorHandler,

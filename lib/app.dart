@@ -5,7 +5,9 @@ import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/screen/res/app_scope.dart';
 import 'package:places/ui/screen/res/responsive.dart';
+import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/res/themes.dart';
+import 'package:places/ui/screen/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 /// Корневой виджет приложения.
@@ -17,20 +19,22 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final IAppScope _appScope = AppScope();
-
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<SettingsInteractor>.value(
-          value: _appScope.settingsInteractor,
-        ),
-        Provider<IAppScope>.value(
-          value: _appScope,
-        ),
-      ],
-      child: const _MaterialApp(),
+    return SplashScreen(
+      builder: (context, appScope) {
+        return MultiProvider(
+          providers: [
+            Provider<IAppScope>.value(
+              value: appScope!,
+            ),
+            ChangeNotifierProvider<SettingsInteractor>.value(
+              value: appScope.settingsInteractor,
+            ),
+          ],
+          child: const _MaterialApp(),
+        );
+      },
     );
   }
 }
@@ -55,7 +59,9 @@ class _MaterialApp extends StatelessWidget {
           Locale('ru'),
         ],
         locale: const Locale('ru'),
-        initialRoute: AppRoutes.splash,
+        initialRoute: context.settings.showTutorialOnStart
+            ? AppRoutes.onboarding
+            : AppRoutes.home,
         routes: AppRoutes.routes,
         builder: (_, child) => Responsive(child: child!),
       ),

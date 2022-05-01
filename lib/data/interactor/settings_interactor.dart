@@ -10,6 +10,8 @@ class SettingsInteractor extends ChangeNotifier {
   bool get isLightTheme =>
       _settingsRepository.load<bool>(key: _lightTheme) ?? true;
 
+  bool get showTutorialOnStart => true;
+
   SettingsInteractor({required SettingsRepository settingsRepository})
       : _settingsRepository = settingsRepository;
 

@@ -16,10 +16,18 @@ import 'package:places/ui/widget/elementary/state_notifier_builder_ex.dart';
 /// Если параметр nextScreen = null, при нажатии вышеуказанных кнопок
 /// произойдет возврат на предыдущий экран.
 class OnboardingScreen extends ElementaryWidget<IOnboardingScreenWidgetModel> {
-  const OnboardingScreen({
+  OnboardingScreen({
     Key? key,
-    WidgetModelFactory wmFactory = defaultOnboardingScreenWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    String? nextScreen,
+    WidgetModelFactory? wmFactory,
+  }) : super(
+          wmFactory ??
+              (context) => defaultOnboardingScreenWidgetModelFactory(
+                    context,
+                    nextScreen,
+                  ),
+          key: key,
+        );
 
   @override
   Widget build(IOnboardingScreenWidgetModel wm) {

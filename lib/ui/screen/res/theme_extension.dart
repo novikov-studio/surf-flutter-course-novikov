@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/data/interactor/place_interactor.dart';
-import 'package:places/data/interactor/search_interactor.dart';
+import 'package:places/data/interactor/settings_interactor.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
@@ -212,7 +211,5 @@ extension ContextExt on BuildContext {
 
   bool get isLandscape => !isPortrait;
 
-  PlaceInteractor get placeInteractor => read<PlaceInteractor>();
-
-  SearchInteractor get searchInteractor => read<SearchInteractor>();
+  SettingsInteractor get settings => read<SettingsInteractor>();
 }
