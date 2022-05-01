@@ -1,7 +1,9 @@
 import 'package:elementary/elementary.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/screen/sight_card/mixins/sight_model_mixin.dart';
+import 'package:places/ui/screen/visiting_screen/visiting_screen_wm.dart';
 import 'package:places/ui/widget/controls/date_time_picker.dart';
+import 'package:provider/provider.dart';
 
 /// Примесь для виджет-моделей с методами для работы с [Sight].
 mixin SightWMMixin<W extends ElementaryWidget, M extends ElementaryModel>
@@ -12,13 +14,18 @@ mixin SightWMMixin<W extends ElementaryWidget, M extends ElementaryModel>
     SightModelMixin model,
   ) async {
     try {
+      final visitingWM = context.read<IVisitingScreenWidgetModel?>();
+
       final sight = sightState.value;
       if (sight != null) {
         final newSight = sight.isLiked
             ? await model.removeFromFavorites(sight)
             : await model.addToFavorites(sight);
 
-        sightState.accept(newSight);
+        // Обновляем текущий экран, если требуется
+        visitingWM != null && !newSight.isLiked
+            ? visitingWM.load()
+            : sightState.accept(newSight);
       }
     } on Object catch (e) {
       onErrorHandle(e);

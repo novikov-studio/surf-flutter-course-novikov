@@ -1,7 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
-import 'package:places/ui/bloc/visiting_bloc.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/screen/res/app_scope.dart';
 import 'package:places/ui/screen/res/logger.dart';
@@ -10,6 +9,7 @@ import 'package:places/ui/screen/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card/mixins/sight_wm_mixin.dart';
 import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/screen/sight_card/sight_card_model.dart';
+import 'package:places/ui/screen/visiting_screen/visiting_screen_wm.dart';
 import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +51,7 @@ class SightCardWM extends WidgetModel<SightCard, SightCardModel>
 
   @override
   Future<void> showDetails() async {
-    final visitingBloc = context.read<VisitingBloc?>();
+    final visitingWM = context.read<IVisitingScreenWidgetModel?>();
 
     final sight = _sightState.value!;
 
@@ -62,8 +62,8 @@ class SightCardWM extends WidgetModel<SightCard, SightCardModel>
     try {
       final newSight = await model.load(sight.id);
       if (newSight != sight) {
-        visitingBloc != null && !newSight.isLiked
-            ? visitingBloc.add(const VisitingBlocEvent.load())
+        visitingWM != null && !newSight.isLiked
+            ? visitingWM.load()
             : _sightState.accept(newSight);
       }
     } on Object catch (e) {
