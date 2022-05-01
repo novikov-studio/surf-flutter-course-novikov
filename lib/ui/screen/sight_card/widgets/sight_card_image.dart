@@ -23,7 +23,7 @@ class SightCardImage extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        DarkenImage(url: sight.urls.first),
+        DarkenImage(url: sight.urls.isNotEmpty ? sight.urls.first : ''),
         Positioned(
           top: 16.0,
           left: 16.0,
