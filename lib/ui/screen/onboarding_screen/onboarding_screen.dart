@@ -4,8 +4,8 @@ import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/onboarding_screen/onboarding_screen_wm.dart';
-import 'package:places/ui/screen/onboarding_screen/widgets/page_indicator.dart';
-import 'package:places/ui/screen/onboarding_screen/widgets/step_page.dart';
+import 'package:places/ui/screen/onboarding_screen/widget/page_indicator.dart';
+import 'package:places/ui/screen/onboarding_screen/widget/step_page.dart';
 import 'package:places/ui/widget/elementary/state_notifier_builder_ex.dart';
 import 'package:places/ui/widget/svg_text_button.dart';
 

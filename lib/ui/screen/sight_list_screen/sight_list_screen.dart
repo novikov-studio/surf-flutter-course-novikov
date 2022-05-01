@@ -6,7 +6,7 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/errors.dart';
 import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/screen/sight_list_screen/sight_list_screen_wm.dart';
-import 'package:places/ui/screen/sight_list_screen/widgets/inactive_search_bar.dart';
+import 'package:places/ui/screen/sight_list_screen/widget/inactive_search_bar.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/gradient_fab.dart';
 import 'package:places/ui/widget/loader.dart';

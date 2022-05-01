@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/theme_extension.dart';
-import 'package:places/ui/screen/sight_details/widgets/page_indicator.dart';
+import 'package:places/ui/screen/sight_details/widget/page_indicator.dart';
 import 'package:places/ui/widget/darken_image.dart';
 
 /// Схлопывающаяся галерея фото.

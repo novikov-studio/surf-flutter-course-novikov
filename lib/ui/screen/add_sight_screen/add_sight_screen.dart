@@ -6,7 +6,7 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/add_sight_screen/add_sight_screen_wm.dart';
-import 'package:places/ui/screen/add_sight_screen/widgets/add_sight_photos.dart';
+import 'package:places/ui/screen/add_sight_screen/widget/add_sight_photos.dart';
 import 'package:places/ui/widget/loader.dart';
 import 'package:places/ui/widget/simple_app_bar.dart';
 import 'package:places/ui/widget/spacers.dart';

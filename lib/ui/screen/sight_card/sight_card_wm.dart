@@ -6,7 +6,7 @@ import 'package:places/ui/res/app_scope.dart';
 import 'package:places/ui/res/logger.dart';
 import 'package:places/ui/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/res/theme_extension.dart';
-import 'package:places/ui/screen/sight_card/mixins/sight_wm_mixin.dart';
+import 'package:places/ui/screen/sight_card/mixin/sight_wm_mixin.dart';
 import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/screen/sight_card/sight_card_model.dart';
 import 'package:places/ui/screen/visiting_screen/visiting_screen_wm.dart';
