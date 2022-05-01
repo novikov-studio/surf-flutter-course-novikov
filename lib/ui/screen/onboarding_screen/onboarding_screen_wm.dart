@@ -1,5 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/res/app_scope.dart';
 import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/onboarding_screen/onboarding_screen.dart';
@@ -12,7 +13,6 @@ class OnboardingScreenWM
     extends WidgetModel<OnboardingScreen, OnboardingScreenModel>
     with CommonWMMixin<OnboardingScreen, OnboardingScreenModel>
     implements IOnboardingScreenWidgetModel {
-  final String? _nextScreen;
   final _pageController = PageController();
   final _skipButtonTransparency = StateNotifier<double>(initValue: 1.0);
 
@@ -22,8 +22,7 @@ class OnboardingScreenWM
   @override
   ListenableState<double> get skipButtonTransparency => _skipButtonTransparency;
 
-  OnboardingScreenWM(OnboardingScreenModel model, this._nextScreen)
-      : super(model);
+  OnboardingScreenWM(OnboardingScreenModel model) : super(model);
 
   @override
   void initWidgetModel() {
@@ -39,9 +38,9 @@ class OnboardingScreenWM
 
   @override
   void start() {
-    _nextScreen != null
-        ? context.replaceScreen(_nextScreen!)
-        : Navigator.of(context).pop();
+    Navigator.of(context).canPop()
+        ? Navigator.of(context).pop()
+        : context.replaceScreen(AppRoutes.home);
   }
 
   void _pageToTransparency() {
@@ -70,7 +69,6 @@ abstract class IOnboardingScreenWidgetModel extends ICommonWidgetModel {
 /// Реализация WM по-умолчанию.
 OnboardingScreenWM defaultOnboardingScreenWidgetModelFactory(
   BuildContext context,
-  String? nextScreen,
 ) {
   final appDependencies = context.read<IAppScope>();
 
@@ -78,5 +76,5 @@ OnboardingScreenWM defaultOnboardingScreenWidgetModelFactory(
     appDependencies.errorHandler,
   );
 
-  return OnboardingScreenWM(model, nextScreen);
+  return OnboardingScreenWM(model);
 }

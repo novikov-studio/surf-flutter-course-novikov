@@ -16,18 +16,10 @@ import 'package:places/ui/widget/svg_text_button.dart';
 /// Если параметр nextScreen = null, при нажатии вышеуказанных кнопок
 /// произойдет возврат на предыдущий экран.
 class OnboardingScreen extends ElementaryWidget<IOnboardingScreenWidgetModel> {
-  OnboardingScreen({
+  const OnboardingScreen({
     Key? key,
-    String? nextScreen,
-    WidgetModelFactory? wmFactory,
-  }) : super(
-          wmFactory ??
-              (context) => defaultOnboardingScreenWidgetModelFactory(
-                    context,
-                    nextScreen,
-                  ),
-          key: key,
-        );
+      WidgetModelFactory wmFactory = defaultOnboardingScreenWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(IOnboardingScreenWidgetModel wm) {

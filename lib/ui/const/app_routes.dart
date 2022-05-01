@@ -24,7 +24,7 @@ abstract class AppRoutes {
 
   static Map<String, WidgetBuilder> routes = {
     /// Туториал.
-    AppRoutes.onboarding: (_) => OnboardingScreen(nextScreen: AppRoutes.home),
+    AppRoutes.onboarding: (_) => const OnboardingScreen(),
 
     /// Главный экран.
     AppRoutes.home: (_) => const HomeScreen(),
