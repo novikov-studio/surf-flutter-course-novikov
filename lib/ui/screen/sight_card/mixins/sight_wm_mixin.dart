@@ -1,8 +1,8 @@
 import 'package:elementary/elementary.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/screen/sight_card/mixins/sight_model_mixin.dart';
 import 'package:places/ui/screen/visiting_screen/visiting_screen_wm.dart';
-import 'package:places/ui/widget/controls/date_time_picker.dart';
+import 'package:places/ui/widget/date_time_picker.dart';
 import 'package:provider/provider.dart';
 
 /// Примесь для виджет-моделей с методами для работы с [Sight].

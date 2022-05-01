@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/domain/entity/sight.dart';
+import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card/sight_card.dart';
-import 'package:places/ui/widget/controls/spacers.dart';
+import 'package:places/ui/widget/spacers.dart';
 
 /// Виджет для отображения списка карточек мест.
 ///

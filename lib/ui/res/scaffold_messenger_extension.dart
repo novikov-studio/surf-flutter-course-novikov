@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/errors.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/res/theme_extension.dart';
 
 extension ScaffoldMessengerExtension on ScaffoldMessengerState {
   void showError(String message, {bool critical = true}) {

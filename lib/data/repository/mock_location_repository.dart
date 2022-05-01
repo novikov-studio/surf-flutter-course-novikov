@@ -1,5 +1,5 @@
-import 'package:places/data/repository_interface/location_repository.dart';
-import 'package:places/domain/location.dart';
+import 'package:places/domain/entity/location.dart';
+import 'package:places/domain/repository/location_repository.dart';
 
 class MockLocationRepository implements LocationRepository {
   const MockLocationRepository();

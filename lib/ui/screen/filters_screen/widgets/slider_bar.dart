@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/filter.dart';
+import 'package:places/domain/entity/filter.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/res/theme_extension.dart';
 
 /// Виджет выбора диапазона расстояния.
 class SliderBar extends StatelessWidget {

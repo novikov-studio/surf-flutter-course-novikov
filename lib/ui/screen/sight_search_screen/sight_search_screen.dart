@@ -1,17 +1,17 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/errors.dart';
 import 'package:places/ui/screen/sight_search_screen/sight_search_screen_wm.dart';
 import 'package:places/ui/screen/sight_search_screen/widgets/search_history.dart';
 import 'package:places/ui/screen/sight_search_screen/widgets/sight_list_tile.dart';
-import 'package:places/ui/widget/controls/loader.dart';
-import 'package:places/ui/widget/controls/search_bar.dart';
-import 'package:places/ui/widget/controls/simple_app_bar.dart';
 import 'package:places/ui/widget/elementary/state_notifier_builder_ex.dart';
 import 'package:places/ui/widget/empty_list.dart';
+import 'package:places/ui/widget/loader.dart';
+import 'package:places/ui/widget/search_bar.dart';
+import 'package:places/ui/widget/simple_app_bar.dart';
 
 /// Экран "Поиск мест" по названию.
 ///

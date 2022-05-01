@@ -1,6 +1,6 @@
 import 'package:elementary/elementary.dart';
-import 'package:places/data/interactor/search_interactor.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
+import 'package:places/domain/interactor/search_interactor.dart';
 
 /// Модель экрана "Поиск мест".
 class SightSearchScreenModel extends ElementaryModel {

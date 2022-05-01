@@ -1,9 +1,9 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/controls/search_bar.dart';
-import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:places/ui/res/theme_extension.dart';
+import 'package:places/ui/widget/search_bar.dart';
+import 'package:places/ui/widget/svg_icon.dart';
 
 /// Виджет для вызова диалогов фильтров и поиска.
 class InactiveSearchBar extends StatelessWidget

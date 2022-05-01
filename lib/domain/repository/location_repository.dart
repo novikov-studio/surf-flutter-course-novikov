@@ -1,5 +1,5 @@
 import 'package:places/data/repository/mock_location_repository.dart';
-import 'package:places/domain/location.dart';
+import 'package:places/domain/entity/location.dart';
 
 /// Интерфейс для получения текущих координат.
 abstract class LocationRepository {

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:places/data/repository_interface/settings_repository.dart';
+import 'package:places/domain/repository/settings_repository.dart';
 
 /// Интерактор для управления настройками приложения.
 class SettingsInteractor extends ChangeNotifier {

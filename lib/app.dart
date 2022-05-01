@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:places/data/interactor/settings_interactor.dart';
+import 'package:places/domain/interactor/settings_interactor.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/screen/res/app_scope.dart';
-import 'package:places/ui/screen/res/responsive.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/screen/res/themes.dart';
+import 'package:places/ui/res/app_scope.dart';
+import 'package:places/ui/res/responsive.dart';
+import 'package:places/ui/res/theme_extension.dart';
+import 'package:places/ui/res/themes.dart';
 import 'package:places/ui/screen/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 

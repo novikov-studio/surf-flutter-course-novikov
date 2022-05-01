@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:places/domain/filter.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/filter.dart';
+import 'package:places/domain/entity/sight.dart';
+import 'package:places/ui/res/app_scope.dart';
+import 'package:places/ui/res/logger.dart';
+import 'package:places/ui/res/scaffold_messenger_extension.dart';
+import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/filters_screen/filters_screen.dart';
 import 'package:places/ui/screen/filters_screen/filters_screen_model.dart';
-import 'package:places/ui/screen/res/app_scope.dart';
-import 'package:places/ui/screen/res/logger.dart';
-import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
 import 'package:places/ui/widget/elementary/types.dart';
+import 'package:places/ui/widget/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 

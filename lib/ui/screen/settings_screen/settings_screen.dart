@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/settings_screen/settings_screen_wm.dart';
-import 'package:places/ui/widget/controls/simple_app_bar.dart';
-import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:places/ui/widget/simple_app_bar.dart';
+import 'package:places/ui/widget/svg_icon.dart';
 
 /// Экран "Настройки".
 class SettingsScreen extends ElementaryWidget<ISettingsScreenWidgetModel> {

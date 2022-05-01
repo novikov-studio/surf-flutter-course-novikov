@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:places/ui/widget/svg_icon.dart';
 
 /// Кнопка в виде svg-иконки.
 class SvgButton extends IconButton {

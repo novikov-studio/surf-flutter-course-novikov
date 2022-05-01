@@ -1,17 +1,17 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:places/domain/location.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/location.dart';
+import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/res/app_scope.dart';
+import 'package:places/ui/res/logger.dart';
+import 'package:places/ui/res/scaffold_messenger_extension.dart';
+import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/add_sight_screen/add_sight_screen.dart';
 import 'package:places/ui/screen/add_sight_screen/add_sight_screen_model.dart';
-import 'package:places/ui/screen/res/app_scope.dart';
-import 'package:places/ui/screen/res/logger.dart';
-import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/controls/loader.dart';
 import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
+import 'package:places/ui/widget/loader.dart';
 import 'package:provider/provider.dart';
 
 /// WM для экрана "Новое место".

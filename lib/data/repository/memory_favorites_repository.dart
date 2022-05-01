@@ -1,7 +1,7 @@
 import 'dart:collection';
 
-import 'package:places/data/repository_interface/favorites_repository.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
+import 'package:places/domain/repository/favorites_repository.dart';
 
 /// Менеджер списка Избранное на моковых данных.
 class MemoryFavoritesRepository implements FavoritesRepository {

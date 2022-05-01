@@ -1,5 +1,5 @@
 import 'package:places/data/repository/memory_favorites_repository.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
 
 /// Интерфейс для управления списком Избранное.
 abstract class FavoritesRepository {

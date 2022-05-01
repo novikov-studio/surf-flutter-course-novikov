@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/categories.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/controls/darken_image.dart';
+import 'package:places/ui/res/theme_extension.dart';
+import 'package:places/ui/widget/darken_image.dart';
 
 /// Виджет места в результатах поиска.
 class SightListTile extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:places/domain/location.dart';
+import 'package:places/domain/entity/location.dart';
 
-part '../gen/domain/sight.freezed.dart';
+part '../../gen/domain/entity/sight.freezed.dart';
 
 typedef SightList = Iterable<Sight>;
 

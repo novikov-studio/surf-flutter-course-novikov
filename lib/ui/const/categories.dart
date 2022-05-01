@@ -1,4 +1,4 @@
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 

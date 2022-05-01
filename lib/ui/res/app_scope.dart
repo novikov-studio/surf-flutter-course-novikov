@@ -1,16 +1,16 @@
 import 'package:elementary/elementary.dart';
-import 'package:places/data/interactor/place_interactor.dart';
-import 'package:places/data/interactor/search_interactor.dart';
-import 'package:places/data/interactor/settings_interactor.dart';
 import 'package:places/data/repository/network_media_repository.dart';
-import 'package:places/data/repository_interface/favorites_repository.dart';
-import 'package:places/data/repository_interface/filtered_place_repository.dart';
-import 'package:places/data/repository_interface/location_repository.dart';
-import 'package:places/data/repository_interface/place_repository.dart';
-import 'package:places/data/repository_interface/search_history_repository.dart';
-import 'package:places/data/repository_interface/settings_repository.dart';
 import 'package:places/data/rest/rest_client.dart';
-import 'package:places/ui/screen/res/logger.dart';
+import 'package:places/domain/interactor/place_interactor.dart';
+import 'package:places/domain/interactor/search_interactor.dart';
+import 'package:places/domain/interactor/settings_interactor.dart';
+import 'package:places/domain/repository/favorites_repository.dart';
+import 'package:places/domain/repository/filtered_place_repository.dart';
+import 'package:places/domain/repository/location_repository.dart';
+import 'package:places/domain/repository/place_repository.dart';
+import 'package:places/domain/repository/search_history_repository.dart';
+import 'package:places/domain/repository/settings_repository.dart';
+import 'package:places/ui/res/logger.dart';
 
 /// Зависимости приложения.
 class AppScope implements IAppScope {

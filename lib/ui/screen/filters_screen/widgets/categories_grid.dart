@@ -1,13 +1,13 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/categories.dart';
+import 'package:places/ui/res/responsive.dart';
+import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/filters_screen/filters_screen_wm.dart';
-import 'package:places/ui/screen/res/responsive.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/controls/spacers.dart';
-import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:places/ui/widget/spacers.dart';
+import 'package:places/ui/widget/svg_icon.dart';
 import 'package:provider/provider.dart';
 
 /// Виджет для отображения таблицы категорий на экране "Фильтры".

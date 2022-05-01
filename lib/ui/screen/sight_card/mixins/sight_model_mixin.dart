@@ -1,5 +1,5 @@
-import 'package:places/data/interactor/place_interactor.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
+import 'package:places/domain/interactor/place_interactor.dart';
 
 /// Примесь для моделей, работающих с [Sight].
 mixin SightModelMixin {

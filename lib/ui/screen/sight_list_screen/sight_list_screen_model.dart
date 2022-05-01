@@ -1,8 +1,8 @@
 import 'package:elementary/elementary.dart';
-import 'package:places/data/interactor/place_interactor.dart';
-import 'package:places/data/interactor/search_interactor.dart';
-import 'package:places/domain/filter.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/filter.dart';
+import 'package:places/domain/entity/sight.dart';
+import 'package:places/domain/interactor/place_interactor.dart';
+import 'package:places/domain/interactor/search_interactor.dart';
 
 /// Модель экрана "Список мест".
 class SightListScreenModel extends ElementaryModel {

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/res/theme_extension.dart';
 
 /// Диалог выбора даты и времени, адаптированный к платформе.
 abstract class DateTimePicker {

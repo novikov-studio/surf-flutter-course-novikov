@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:places/ui/res/responsive.dart';
 import 'package:places/ui/screen/filters_screen/filters_screen.dart';
-import 'package:places/ui/screen/res/responsive.dart';
 
 /// Экран "Фильтры" с адаптацией к маленьким экранам.
 class AdaptiveFiltersScreen extends StatelessWidget {

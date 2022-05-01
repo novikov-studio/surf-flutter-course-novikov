@@ -2,11 +2,11 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
-import 'package:places/ui/screen/res/app_scope.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/res/app_scope.dart';
+import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/splash_screen/splash_screen_wm.dart';
-import 'package:places/ui/widget/controls/svg_icon.dart';
 import 'package:places/ui/widget/empty_list.dart';
+import 'package:places/ui/widget/svg_icon.dart';
 
 /// Сплэш-скрин.
 class SplashScreen extends ElementaryWidget<ISplashScreenWidgetModel> {

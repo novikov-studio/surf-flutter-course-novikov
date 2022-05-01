@@ -1,6 +1,6 @@
 import 'package:elementary/elementary.dart';
-import 'package:places/data/interactor/place_interactor.dart';
-import 'package:places/domain/filter.dart';
+import 'package:places/domain/entity/filter.dart';
+import 'package:places/domain/interactor/place_interactor.dart';
 
 /// Модель экрана "Фильтры".
 class FiltersScreenModel extends ElementaryModel {

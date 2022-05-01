@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
+import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/add_sight_screen/add_sight_screen.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/controls/spacers.dart';
-import 'package:places/ui/widget/controls/svg_icon.dart';
+import 'package:places/ui/widget/spacers.dart';
+import 'package:places/ui/widget/svg_icon.dart';
 
 /// Виджет для управления фото на экране [AddSightScreen].
 class AddSightPhotos extends StatefulWidget {

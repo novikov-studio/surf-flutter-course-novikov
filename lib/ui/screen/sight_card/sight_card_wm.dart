@@ -1,11 +1,11 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_routes.dart';
-import 'package:places/ui/screen/res/app_scope.dart';
-import 'package:places/ui/screen/res/logger.dart';
-import 'package:places/ui/screen/res/scaffold_messenger_extension.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/res/app_scope.dart';
+import 'package:places/ui/res/logger.dart';
+import 'package:places/ui/res/scaffold_messenger_extension.dart';
+import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card/mixins/sight_wm_mixin.dart';
 import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/screen/sight_card/sight_card_model.dart';

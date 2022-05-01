@@ -1,18 +1,18 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
 import 'package:places/ui/const/errors.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_details/sight_details_wm.dart';
 import 'package:places/ui/screen/sight_details/widgets/card_menu.dart';
 import 'package:places/ui/screen/sight_details/widgets/gallery_delegate.dart';
 import 'package:places/ui/screen/sight_details/widgets/go_route_button.dart';
-import 'package:places/ui/widget/controls/loader.dart';
-import 'package:places/ui/widget/controls/spacers.dart';
 import 'package:places/ui/widget/empty_list.dart';
+import 'package:places/ui/widget/loader.dart';
+import 'package:places/ui/widget/spacers.dart';
 import 'package:provider/provider.dart';
 
 /// Экран "Детализация".

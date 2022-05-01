@@ -1,5 +1,5 @@
 import 'package:elementary/elementary.dart';
-import 'package:places/data/interactor/settings_interactor.dart';
+import 'package:places/domain/interactor/settings_interactor.dart';
 
 /// Модель экрана "Настройки".
 class SettingsScreenModel extends ElementaryModel {

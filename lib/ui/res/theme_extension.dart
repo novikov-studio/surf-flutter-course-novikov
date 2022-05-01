@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:places/data/interactor/settings_interactor.dart';
+import 'package:places/domain/interactor/settings_interactor.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
-import 'package:places/ui/screen/res/themes.dart';
+import 'package:places/ui/res/themes.dart';
 import 'package:provider/provider.dart';
 
 /// Доступ к текстовым стилям и цветам по названиям из дизайн-макета

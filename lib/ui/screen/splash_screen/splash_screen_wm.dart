@@ -1,6 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:places/ui/screen/res/app_scope.dart';
+import 'package:places/ui/res/app_scope.dart';
 import 'package:places/ui/screen/splash_screen/splash_screen.dart';
 import 'package:places/ui/screen/splash_screen/splash_screen_model.dart';
 import 'package:places/ui/widget/elementary/common_wm_mixin.dart';

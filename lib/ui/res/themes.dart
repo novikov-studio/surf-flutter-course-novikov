@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/ui/const/app_styles.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
+import 'package:places/ui/res/theme_extension.dart';
 
 abstract class Themes {
   /// Светлая тема.

@@ -5,12 +5,12 @@ import 'package:places/data/mapper/category_mapper.dart';
 import 'package:places/data/mapper/sight_mapper.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/model/place_filter_request.dart';
-import 'package:places/data/repository_interface/favorites_repository.dart';
-import 'package:places/data/repository_interface/filtered_place_repository.dart';
-import 'package:places/data/repository_interface/location_repository.dart';
-import 'package:places/data/repository_interface/media_repository.dart';
-import 'package:places/data/repository_interface/place_repository.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
+import 'package:places/domain/repository/favorites_repository.dart';
+import 'package:places/domain/repository/filtered_place_repository.dart';
+import 'package:places/domain/repository/location_repository.dart';
+import 'package:places/domain/repository/media_repository.dart';
+import 'package:places/domain/repository/place_repository.dart';
 
 /// Интерактор для управления списком интересных мест.
 class PlaceInteractor {

@@ -1,8 +1,8 @@
 import 'package:places/data/model/place.dart';
 import 'package:places/data/model/place_filter_request.dart';
 import 'package:places/data/model/rest_deserializer.dart';
-import 'package:places/data/repository_interface/filtered_place_repository.dart';
 import 'package:places/data/rest/rest_client.dart';
+import 'package:places/domain/repository/filtered_place_repository.dart';
 
 /// Сетевая реализаия интерфейса [FilteredPlaceRepository].
 class NetworkFilteredPlaceRepository implements FilteredPlaceRepository {
