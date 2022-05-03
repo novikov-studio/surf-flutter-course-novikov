@@ -15,9 +15,8 @@ import 'package:places/ui/widget/loader.dart';
 import 'package:provider/provider.dart';
 
 /// WM для экрана "Новое место".
-class AddSightScreenWM
-    extends WidgetModel<AddSightScreen, AddSightScreenModel>
-    with CommonWMMixin<AddSightScreen, AddSightScreenModel>
+class AddSightScreenWM extends WidgetModel<AddSightScreen, AddSightScreenModel>
+    with CommonWMMixin
     implements IAddSightScreenWidgetModel {
   final _formKey = GlobalKey<FormState>();
   final _categoryKey = GlobalKey<FormFieldState<Category>>();

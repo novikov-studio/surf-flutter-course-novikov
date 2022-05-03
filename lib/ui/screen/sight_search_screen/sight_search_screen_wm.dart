@@ -17,7 +17,7 @@ import 'package:rxdart/rxdart.dart';
 /// WM для экрана "Поиск мест".
 class SightSearchScreenWM
     extends WidgetModel<SightSearchScreen, SightSearchScreenModel>
-    with CommonWMMixin<SightSearchScreen, SightSearchScreenModel>
+    with CommonWMMixin
     implements ISightSearchScreenWidgetModel {
   final _searchState = EntityStateNotifier<List<Sight>>();
   final _historyState = EntityStateNotifier<List<String>>();

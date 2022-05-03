@@ -14,9 +14,7 @@ import 'package:provider/provider.dart';
 
 /// WM для экрана "Детализация".
 class SightDetailsWM extends WidgetModel<SightDetails, SightDetailsModel>
-    with
-        SightWMMixin<SightDetails, SightDetailsModel>,
-        CommonWMMixin<SightDetails, SightDetailsModel>
+    with SightWMMixin, CommonWMMixin
     implements ISightDetailsWidgetModel {
   final int _sightId;
   final _pageController = PageController();

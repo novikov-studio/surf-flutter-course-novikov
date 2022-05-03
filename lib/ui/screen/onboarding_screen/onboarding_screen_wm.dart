@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 /// WM для экрана "Онбординг".
 class OnboardingScreenWM
     extends WidgetModel<OnboardingScreen, OnboardingScreenModel>
-    with CommonWMMixin<OnboardingScreen, OnboardingScreenModel>
+    with CommonWMMixin
     implements IOnboardingScreenWidgetModel {
   final _pageController = PageController();
   final _skipButtonTransparency = StateNotifier<double>(initValue: 1.0);

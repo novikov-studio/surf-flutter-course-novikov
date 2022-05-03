@@ -17,9 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// WM для экрана "Фильтры".
-class FiltersScreenWM
-    extends WidgetModel<FiltersScreen, FiltersScreenModel>
-    with CommonWMMixin<FiltersScreen, FiltersScreenModel>
+class FiltersScreenWM extends WidgetModel<FiltersScreen, FiltersScreenModel>
+    with CommonWMMixin
     implements IFiltersScreenWidgetModel {
   /// Фильтр по-умолчанию.
   static final _defaultFilter = Filter(

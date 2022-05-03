@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 /// WM для экрана "Список мест".
 class SightListScreenWM
     extends WidgetModel<SightListScreen, SightListScreenModel>
-    with CommonWMMixin<SightListScreen, SightListScreenModel>
+    with CommonWMMixin
     implements ISightListScreenWidgetModel {
   final _state = EntityStateNotifier<List<Sight>>();
   final _filterIsEmpty = StateNotifier<bool>();

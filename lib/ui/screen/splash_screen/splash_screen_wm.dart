@@ -8,7 +8,7 @@ import 'package:places/ui/widget/elementary/types.dart';
 
 /// WM для Сплэш-скрина.
 class SplashScreenWM extends WidgetModel<SplashScreen, SplashScreenModel>
-    with CommonWMMixin<SplashScreen, SplashScreenModel>
+    with CommonWMMixin
     implements ISplashScreenWidgetModel {
   late final Future<void> animation;
   final _state = EntityStateNotifier<IAppScope>();

@@ -15,9 +15,7 @@ import 'package:provider/provider.dart';
 
 /// WM виджета "Карточка места".
 class SightCardWM extends WidgetModel<SightCard, SightCardModel>
-    with
-        SightWMMixin<SightCard, SightCardModel>,
-        CommonWMMixin<SightCard, SightCardModel>
+    with SightWMMixin, CommonWMMixin
     implements ISightCardWidgetModel {
   final StateNotifier<Sight> _sightState;
   final CardMode _mode;

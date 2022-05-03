@@ -10,9 +10,8 @@ import 'package:provider/provider.dart';
 
 /// WM для экрана "Настройки".
 class SettingsScreenWM extends WidgetModel<SettingsScreen, SettingsScreenModel>
-    with CommonWMMixin<SettingsScreen, SettingsScreenModel>
+    with CommonWMMixin
     implements ISettingsScreenWidgetModel {
-
   @override
   bool get isDark => theme.colorScheme.brightness == Brightness.dark;
 
