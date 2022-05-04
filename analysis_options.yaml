@@ -37,6 +37,7 @@ dart_code_metrics:
         exceptions:
           - id
           - qa
+          - wm
         exclude:
           - test/**
     - prefer-correct-type-name

@@ -1,5 +1,5 @@
-import 'package:places/data/repository_interface/media_repository.dart';
 import 'package:places/data/rest/rest_client.dart';
+import 'package:places/domain/repository/media_repository.dart';
 
 /// Сетевая реализаия интерфейса [MediaRepository].
 class NetworkMediaRepository implements MediaRepository {

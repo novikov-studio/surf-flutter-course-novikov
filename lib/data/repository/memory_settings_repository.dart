@@ -1,4 +1,4 @@
-import 'package:places/data/repository_interface/settings_repository.dart';
+import 'package:places/domain/repository/settings_repository.dart';
 
 /// Хранение настроек в памяти.
 class MemorySettingsRepository implements SettingsRepository {

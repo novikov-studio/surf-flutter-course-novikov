@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/widget/controls/spacers.dart';
+import 'package:places/ui/res/theme_extension.dart';
+import 'package:places/ui/widget/spacers.dart';
 
 /// Виджет для полноэкранного отображения ошибок и сообщений.
 // Возможно, стоит переименовать.

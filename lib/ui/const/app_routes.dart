@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/filter.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
+import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/add_sight_screen/add_sight_screen.dart';
-import 'package:places/ui/screen/filters_screen.dart';
+import 'package:places/ui/screen/filters_screen/adaptive_filters_screen.dart';
 import 'package:places/ui/screen/home_screen.dart';
-import 'package:places/ui/screen/list_picker.dart';
-import 'package:places/ui/screen/onboarding_screen.dart';
-import 'package:places/ui/screen/res/theme_extension.dart';
-import 'package:places/ui/screen/sight_details.dart';
-import 'package:places/ui/screen/sight_search_screen.dart';
-import 'package:places/ui/screen/splash_screen.dart';
+import 'package:places/ui/screen/onboarding_screen/onboarding_screen.dart';
+import 'package:places/ui/screen/sight_details/sight_details.dart';
+import 'package:places/ui/screen/sight_search_screen/sight_search_screen.dart';
 import 'package:places/ui/widget/bottom_sheet_wrapper.dart';
+import 'package:places/ui/widget/list_picker.dart';
 
 /// Имена путей.
 abstract class AppRoutes {
-  static const splash = 'splash';
   static const onboarding = 'onboarding';
   static const details = 'details';
   static const search = 'search';
@@ -26,12 +23,8 @@ abstract class AppRoutes {
   static const home = 'home';
 
   static Map<String, WidgetBuilder> routes = {
-    /// Сплэш-скрин.
-    AppRoutes.splash: (_) => const SplashScreen(),
-
     /// Туториал.
-    AppRoutes.onboarding: (context) =>
-        OnboardingScreen(nextScreen: context.routeArgs<String>()),
+    AppRoutes.onboarding: (_) => const OnboardingScreen(),
 
     /// Главный экран.
     AppRoutes.home: (_) => const HomeScreen(),
@@ -39,14 +32,12 @@ abstract class AppRoutes {
     /// Детализация.
     AppRoutes.details: (context) => BottomSheetWrapper(
           builder: (context, scrollController) => SightDetails(
-            id: context.routeArgs<int>()!,
             scrollController: scrollController,
           ),
         ),
 
     /// Фильтры.
-    AppRoutes.filters: (context) =>
-        FiltersScreen(initialValue: context.routeArgs<Filter>()!),
+    AppRoutes.filters: (_) => const AdaptiveFiltersScreen(),
 
     /// Поиск.
     AppRoutes.search: (_) => const SightSearchScreen(),

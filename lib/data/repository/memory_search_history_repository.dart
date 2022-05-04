@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:places/data/repository_interface/search_history_repository.dart';
+import 'package:places/domain/repository/search_history_repository.dart';
 
 /// Хранилище истории поиска в памяти.
 ///

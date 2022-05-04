@@ -1,7 +1,7 @@
 import 'package:places/data/mapper/category_mapper.dart';
 import 'package:places/data/model/place.dart';
-import 'package:places/domain/location.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/location.dart';
+import 'package:places/domain/entity/sight.dart';
 
 /// Вспомогательный класс для преобразования [Sight] в [Place] и наоборот.
 abstract class SightMapper {

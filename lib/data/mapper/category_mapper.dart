@@ -1,5 +1,5 @@
 import 'package:places/data/model/place.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/entity/sight.dart';
 
 /// Вспомогательный класс для преобразования категории в [PlaceType] и наоборот.
 abstract class CategoryMapper {
