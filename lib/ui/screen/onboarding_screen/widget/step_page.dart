@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/res/theme_extension.dart';
+import 'package:places/ui/screen/onboarding_screen/widget/animated_svg_icon.dart';
 import 'package:places/ui/widget/spacers.dart';
 
 /// Виджет для отображения шагов онбординга.
@@ -9,6 +9,7 @@ class StepPage extends StatelessWidget {
   final String icon;
   final String title;
   final String details;
+  final int index;
   final bool isLast;
   final VoidCallback onStart;
 
@@ -18,6 +19,7 @@ class StepPage extends StatelessWidget {
     required this.title,
     required this.details,
     required this.onStart,
+    required this.index,
     this.isLast = false,
   }) : super(key: key);
 
@@ -32,11 +34,11 @@ class StepPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                icon,
-                width: 104.0,
-                height: 104.0,
+              AnimatedSvgIcon(
+                icon: icon,
+                size: 104.0,
                 color: theme.colorScheme.onBackground,
+                index: index,
               ),
               spacerH48,
               Text(
@@ -56,13 +58,13 @@ class StepPage extends StatelessWidget {
       ),
       bottomNavigationBar: isLast
           ? Padding(
-        padding:
-        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: ElevatedButton(
-          child: const Text(AppStrings.start),
-          onPressed: onStart,
-        ),
-      )
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: ElevatedButton(
+                child: const Text(AppStrings.start),
+                onPressed: onStart,
+              ),
+            )
           : null,
     );
   }

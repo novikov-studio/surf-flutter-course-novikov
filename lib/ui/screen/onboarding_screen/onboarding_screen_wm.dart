@@ -11,13 +11,38 @@ import 'package:provider/provider.dart';
 /// WM для экрана "Онбординг".
 class OnboardingScreenWM
     extends WidgetModel<OnboardingScreen, OnboardingScreenModel>
-    with CommonWMMixin
+    with CommonWMMixin, SingleTickerProviderWidgetModelMixin
     implements IOnboardingScreenWidgetModel {
+  /// Анимация иконок.
+  ///
+  /// При входе на экран установлен автоматический режим:
+  /// [IconAnimationMode.auto] - иконка анимируется в течение заданного времени
+  /// на основе данных от [_animationController] и [_iconAnimation].
+  ///
+  /// После завершения анимации происходит смена режима:
+  /// [IconAnimationMode.slide] - иконки анимируются при листании страниц
+  /// на основе данных от [_pageController].
+  /// При входе на страницу ионка увеличивается, при уходе - уменьшается.
+  final _iconAnimationMode =
+      StateNotifier<IconAnimationMode>(initValue: IconAnimationMode.auto);
+  late final AnimationController _animationController;
+  late final Animation<double> _iconAnimation;
+
   final _pageController = PageController();
   final _skipButtonTransparency = StateNotifier<double>(initValue: 1.0);
 
   @override
   PageController get pageController => _pageController;
+
+  @override
+  ListenableState<IconAnimationMode> get iconAnimationMode =>
+      _iconAnimationMode;
+
+  @override
+  Listenable get iconSizeInterpolator =>
+      _iconAnimationMode.equals(IconAnimationMode.auto)
+          ? _animationController
+          : _pageController;
 
   @override
   ListenableState<double> get skipButtonTransparency => _skipButtonTransparency;
@@ -28,11 +53,33 @@ class OnboardingScreenWM
   void initWidgetModel() {
     super.initWidgetModel();
     _pageController.addListener(_pageToTransparency);
+
+    // Контроллер анимации
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    )..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _iconAnimationMode.accept(IconAnimationMode.slide);
+        }
+      });
+
+    // Анимация иконки
+    _iconAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOut,
+      ),
+    );
+
+    // Запуск анимации
+    _animationController.forward();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -41,6 +88,13 @@ class OnboardingScreenWM
     Navigator.of(context).canPop()
         ? Navigator.of(context).pop()
         : context.replaceScreen(AppRoutes.home);
+  }
+
+  @override
+  double iconSizeInterpolate(int index) {
+    return _iconAnimationMode.equals(IconAnimationMode.auto)
+        ? _iconAnimation.value
+        : _pageController.fraction(index);
   }
 
   void _pageToTransparency() {
@@ -59,8 +113,17 @@ abstract class IOnboardingScreenWidgetModel extends ICommonWidgetModel {
   /// Контроллер страниц.
   PageController get pageController;
 
+  /// Состояние режима анимации иконок.
+  ListenableState<IconAnimationMode> get iconAnimationMode;
+
+  /// Источник анимации иконок.
+  Listenable get iconSizeInterpolator;
+
   /// Состояние прозрачности кнопки "Пропустить".
   ListenableState<double> get skipButtonTransparency;
+
+  /// Интерполятор значений размера иконки.
+  double iconSizeInterpolate(int index);
 
   /// Обработчик нажатия кнопки "Старт".
   void start();
@@ -77,4 +140,33 @@ OnboardingScreenWM defaultOnboardingScreenWidgetModelFactory(
   );
 
   return OnboardingScreenWM(model);
+}
+
+/// Расширение для [PageController].
+extension PageControllerExt on PageController {
+  /// Доступность page.
+  bool get available => !position.hasPixels || position.hasContentDimensions;
+
+  /// Текущая страница.
+  double get effectivePage =>
+      available ? page ?? initialPage * 1.0 : initialPage * 1.0;
+
+  /// Индекс текущей страницы (по нижней границе).
+  int get pageIndex => effectivePage.floor();
+
+  /// Коэффициент сдвига двух видимых страниц.
+  double fraction(int index, [double? hiddenValue]) {
+    final offset = effectivePage;
+    final currentIndex = pageIndex;
+
+    return index == currentIndex || index == currentIndex + 1
+        ? 1 - (index < offset ? offset - index : index - offset)
+        : hiddenValue ?? 1.0;
+  }
+}
+
+enum IconAnimationMode { auto, slide }
+
+extension StateNotifierExt<T> on StateNotifier<T> {
+  bool equals(T other) => value == other;
 }
