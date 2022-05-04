@@ -18,17 +18,18 @@ class PageIndicator extends StatelessWidget {
     return AnimatedBuilder(
       animation: pageController,
       builder: (_, child) {
-        // TODO(novikov): Добавить анимацию
-        final pageIndex = pageController.page?.floor() ?? 0;
+        final pageIndex = pageController.page?.floor() ?? 0.0;
 
         return Row(
           children: List.generate(
             pageCount,
-                (index) => Padding(
+            (index) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: ConstrainedBox(
                 constraints: BoxConstraints.tightFor(
-                  width: index == pageIndex ? 24 : 8.0,
+                  width: index == pageIndex || index == pageIndex + 1
+                      ? _calcWidth(index, 24, pageController.page ?? 0.0)
+                      : 8.0,
                   height: 8.0,
                 ),
                 child: child,
@@ -44,5 +45,12 @@ class PageIndicator extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double _calcWidth(int page, double maxWidth, double offset) {
+    final fraction = 1 - (page < offset ? offset - page : page - offset);
+    final width = 8 + (maxWidth - 8) * fraction;
+
+    return width;
   }
 }
