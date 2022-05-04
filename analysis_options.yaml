@@ -38,6 +38,7 @@ dart_code_metrics:
           - id
           - qa
           - wm
+          - i
         exclude:
           - test/**
     - prefer-correct-type-name

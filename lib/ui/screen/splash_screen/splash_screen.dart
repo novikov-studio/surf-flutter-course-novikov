@@ -53,10 +53,19 @@ class SplashScreen extends ElementaryWidget<ISplashScreenWidgetModel> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
-                child: SvgIcon(
-                  AppIcons.mapFilled,
-                  size: 100.0,
-                  color: colorScheme.green,
+                child: AnimatedBuilder(
+                  animation: wm.rotateAnimation,
+                  builder: (context, child) {
+                    return Transform.rotate(
+                      angle: wm.rotateAnimation.value,
+                      child: child,
+                    );
+                  },
+                  child: SvgIcon(
+                    AppIcons.mapFilled,
+                    size: 100.0,
+                    color: colorScheme.green,
+                  ),
                 ),
               ),
             ),
