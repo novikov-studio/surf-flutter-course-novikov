@@ -9,6 +9,7 @@ class GalleryDelegate extends SliverPersistentHeaderDelegate {
   final PageController controller;
   final double maxHeight;
   final bool backButton;
+  final Object heroTag;
 
   @override
   double get maxExtent => maxHeight;
@@ -21,31 +22,34 @@ class GalleryDelegate extends SliverPersistentHeaderDelegate {
     required this.controller,
     required this.maxHeight,
     required this.backButton,
+    required this.heroTag,
   });
 
   @override
   Widget build(
-      BuildContext context,
-      double shrinkOffset,
-      bool overlapsContent,
-      ) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final theme = Theme.of(context);
     final statusHeight = MediaQuery.of(context).padding.top;
 
     return Stack(
       children: [
-        if (photos.length > 1)
-          PageView(
-            controller: controller,
-            children: photos
-                .map((element) => DarkenImage(url: element))
-                .toList(growable: false),
-          )
-        else
-          DarkenImage(
-            url: photos.first,
-            size: Size(maxHeight, maxHeight),
-          ),
+        Hero(
+          tag: heroTag,
+          child: photos.length > 1
+              ? PageView(
+                  controller: controller,
+                  children: photos
+                      .map((element) => DarkenImage(url: element))
+                      .toList(growable: false),
+                )
+              : DarkenImage(
+                  url: photos.first,
+                  size: Size(maxHeight, maxHeight),
+                ),
+        ),
         if (photos.length > 1)
           Positioned(
             left: 0.0,

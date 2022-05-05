@@ -29,81 +29,84 @@ class SightDetails extends ElementaryWidget<ISightDetailsWidgetModel> {
   Widget build(ISightDetailsWidgetModel wm) {
     final theme = wm.theme;
 
-    return EntityStateNotifierBuilder<ListenableState<Sight>>(
-      listenableEntityState: wm.sightLoadingState,
+    return Scaffold(
+      body: EntityStateNotifierBuilder<ListenableState<Sight>>(
+        listenableEntityState: wm.sightLoadingState,
 
-      /// Загрузка.
-      loadingBuilder: (_, __) => const Center(
-        child: Loader(large: true),
-      ),
+        /// Загрузка.
+        loadingBuilder: (_, __) => const Center(
+          child: Loader(large: true),
+        ),
 
-      /// Ошибка.
-      errorBuilder: (_, e, __) => EmptyList(
-        icon: AppIcons.error,
-        title: AppStrings.error,
-        details: e?.humanReadableText ?? AppStrings.unknownError,
-      ),
+        /// Ошибка.
+        errorBuilder: (_, e, __) => EmptyList(
+          icon: AppIcons.error,
+          title: AppStrings.error,
+          details: e?.humanReadableText ?? AppStrings.unknownError,
+        ),
 
-      /// Данные.
-      builder: (_, sightState) {
-        final sight = sightState!.value!;
+        /// Данные.
+        builder: (_, sightState) {
+          final sight = sightState!.value!;
 
-        return Provider<ISightDetailsWidgetModel>.value(
-          value: wm,
-          child: CustomScrollView(
-            controller: scrollController,
-            slivers: [
-              SliverPersistentHeader(
-                delegate: GalleryDelegate(
-                  photos: sight.urls,
-                  controller: wm.pageController,
-                  maxHeight: wm.screenWidth,
-                  backButton: scrollController == null,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      spacerH24,
-                      Text(
-                        sight.name,
-                        style: theme.titleOnSurface,
-                      ),
-                      Wrap(
-                        children: [
-                          Text(
-                            sight.type.title,
-                            style: theme.smallBoldForDetailsType,
-                          ),
-                          if (sight.info != null)
-                            Text(sight.info!, style: theme.smallForDetailsInfo),
-                        ],
-                        spacing: 16.0,
-                      ),
-                      if (sight.details != null) ...[
-                        spacerH24,
-                        Text(
-                          sight.details!.trimRight(),
-                          style: theme.smallOnSurface,
-                        ),
-                      ],
-                      spacerH24,
-                      GoRouteButton(sight: sight),
-                      spacerH24,
-                      const Divider(),
-                      spacerH8,
-                      const CardMenu(),
-                    ],
+          return Provider<ISightDetailsWidgetModel>.value(
+            value: wm,
+            child: CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                SliverPersistentHeader(
+                  delegate: GalleryDelegate(
+                    photos: sight.urls,
+                    controller: wm.pageController,
+                    maxHeight: wm.screenWidth,
+                    backButton: scrollController == null,
+                    heroTag: sight.id,
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
-      },
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        spacerH24,
+                        Text(
+                          sight.name,
+                          style: theme.titleOnSurface,
+                        ),
+                        Wrap(
+                          children: [
+                            Text(
+                              sight.type.title,
+                              style: theme.smallBoldForDetailsType,
+                            ),
+                            if (sight.info != null)
+                              Text(sight.info!, style: theme.smallForDetailsInfo),
+                          ],
+                          spacing: 16.0,
+                        ),
+                        if (sight.details != null) ...[
+                          spacerH24,
+                          Text(
+                            sight.details!.trimRight(),
+                            style: theme.smallOnSurface,
+                          ),
+                        ],
+                        spacerH24,
+                        GoRouteButton(sight: sight),
+                        spacerH24,
+                        const Divider(),
+                        spacerH8,
+                        const CardMenu(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

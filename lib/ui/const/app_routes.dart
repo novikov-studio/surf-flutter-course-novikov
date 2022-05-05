@@ -9,7 +9,6 @@ import 'package:places/ui/screen/home_screen.dart';
 import 'package:places/ui/screen/onboarding_screen/onboarding_screen.dart';
 import 'package:places/ui/screen/sight_details/sight_details.dart';
 import 'package:places/ui/screen/sight_search_screen/sight_search_screen.dart';
-import 'package:places/ui/widget/bottom_sheet_wrapper.dart';
 import 'package:places/ui/widget/list_picker.dart';
 
 /// Имена путей.
@@ -30,11 +29,7 @@ abstract class AppRoutes {
     AppRoutes.home: (_) => const HomeScreen(),
 
     /// Детализация.
-    AppRoutes.details: (context) => BottomSheetWrapper(
-          builder: (context, scrollController) => SightDetails(
-            scrollController: scrollController,
-          ),
-        ),
+    AppRoutes.details: (_) =>  const SightDetails(),
 
     /// Фильтры.
     AppRoutes.filters: (_) => const AdaptiveFiltersScreen(),
