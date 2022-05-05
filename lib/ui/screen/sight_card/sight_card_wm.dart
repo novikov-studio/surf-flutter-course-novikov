@@ -54,7 +54,7 @@ class SightCardWM extends WidgetModel<SightCard, SightCardModel>
     final sight = _sightState.value!;
 
     // Показываем экран детализации
-    await context.pushBottomSheet(AppRoutes.details, args: sight.id);
+    await context.pushScreen(AppRoutes.details, args: sight.id);
 
     // Обновляем текуший экран, если требуется.
     try {

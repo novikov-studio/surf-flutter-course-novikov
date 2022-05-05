@@ -48,11 +48,14 @@ class DarkenImage extends StatelessWidget {
                 ),
               ),
             )
-          : Ink.image(
-              image: provider,
-              fit: BoxFit.cover,
-              child: const DecoratedBox(
-                decoration: _gradientDecoration,
+          : Material(
+              type: MaterialType.transparency,
+              child: Ink.image(
+                image: provider,
+                fit: BoxFit.cover,
+                child: const DecoratedBox(
+                  decoration: _gradientDecoration,
+                ),
               ),
             ),
       progressIndicatorBuilder: (context, _, progress) => const Loader(),

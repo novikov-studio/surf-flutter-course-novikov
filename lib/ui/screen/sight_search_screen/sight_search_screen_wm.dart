@@ -76,7 +76,7 @@ class SightSearchScreenWM
 
   @override
   void showDetails(int sightId) {
-    context.pushBottomSheet(AppRoutes.details, args: sightId);
+    context.pushScreen(AppRoutes.details, args: sightId);
   }
 
   @override
