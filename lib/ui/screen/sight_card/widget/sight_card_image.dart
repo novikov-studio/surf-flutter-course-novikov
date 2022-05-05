@@ -19,6 +19,7 @@ class SightCardImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final wm = context.read<ISightCardWidgetModel>();
     final sight = wm.sightState.value!;
+    const animDuration = Duration(milliseconds: 250);
 
     return Stack(
       fit: StackFit.expand,
@@ -42,13 +43,20 @@ class SightCardImage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   /// Кнопка "Запланировать"
-                  if (sight!.isLiked && !sight.isVisited)
-                    SvgButton(
-                      path: AppIcons.calendar,
-                      onPressed: wm.planVisiting,
+                  AnimatedOpacity(
+                    opacity: sight!.isLiked && !sight.isVisited ? 1.0 : 0.0,
+                    duration: animDuration,
+                    child: IgnorePointer(
+                      ignoring: !(sight.isLiked && !sight.isVisited),
+                      child: SvgButton(
+                        path: AppIcons.calendar,
+                        onPressed: wm.planVisiting,
+                      ),
                     ),
+                  ),
 
                   /// Кнопка "Поделиться"
+                  // TODO(novikov): Добавить анимацию появления/скрытия
                   if (sight.isVisited)
                     SvgButton(
                       path: AppIcons.share,
@@ -60,13 +68,21 @@ class SightCardImage extends StatelessWidget {
                   spacerW8,
 
                   /// Кнопка "Избранное" - добавить/удалить
-                  SvgButton(
-                    path: sight.isLiked
-                        ? (wm.mode == CardMode.favorites
-                            ? AppIcons.close
-                            : AppIcons.heartFilled)
-                        : AppIcons.heart,
-                    onPressed: wm.toggleInFavorites,
+                  AnimatedCrossFade(
+                    firstChild: SvgButton(
+                      path: AppIcons.heart,
+                      onPressed: wm.toggleInFavorites,
+                    ),
+                    secondChild: SvgButton(
+                      path: wm.mode == CardMode.favorites
+                          ? AppIcons.close
+                          : AppIcons.heartFilled,
+                      onPressed: wm.toggleInFavorites,
+                    ),
+                    crossFadeState: sight.isLiked
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                    duration: animDuration,
                   ),
                 ],
               );
