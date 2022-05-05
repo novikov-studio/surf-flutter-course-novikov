@@ -114,6 +114,7 @@ SightListScreenWM defaultSightListScreenWidgetModelFactory(
     appDependencies.errorHandler,
     appDependencies.placeInteractor,
     appDependencies.searchInteractor,
+    appDependencies.settingsInteractor,
   );
 
   return SightListScreenWM(model);

@@ -68,11 +68,13 @@ class AppScope implements IAppScope {
       locationRepository: locationRepository,
       filteredPlaceRepository: filteredPlaceRepository,
       searchHistoryRepository: searchHistoryRepository,
-      settingsRepository: settingsRepository,
     );
 
     _settingsInteractor =
         SettingsInteractor(settingsRepository: settingsRepository);
+
+    /// Инициализация интеракторов.
+    searchInteractor.filter = settingsInteractor.filter;
   }
 }
 
