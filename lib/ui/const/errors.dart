@@ -20,7 +20,7 @@ abstract class Errors {
 
   static bool isKnown(Object error) => error is Exception && error.isKnown;
 
-  static bool isUnknown(Object error) => !isUnknown(error);
+  static bool isUnknown(Object error) => !isKnown(error);
 }
 
 extension ExceptionExt on Exception {

@@ -30,6 +30,7 @@ class SightListScreenWM
   @override
   void initWidgetModel() {
     super.initWidgetModel();
+    _filterIsEmpty.accept(model.filter.isEmpty);
     loadSights(hidden: false);
   }
 

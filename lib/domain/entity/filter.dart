@@ -3,6 +3,8 @@ import 'package:places/domain/entity/sight.dart';
 
 part '../../gen/domain/entity/filter.freezed.dart';
 
+part '../../gen/domain/entity/filter.g.dart';
+
 /// Класс для хранения настроек фильтра.
 @freezed
 class Filter with _$Filter {
@@ -23,6 +25,8 @@ class Filter with _$Filter {
   }) = _Filter;
 
   const Filter._();
+
+  factory Filter.fromJson(Map<String, dynamic> json) => _$FilterFromJson(json);
 
   @override
   String toString() => 'Filter('
