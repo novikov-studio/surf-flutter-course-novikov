@@ -70,16 +70,13 @@ class PlaceInteractor {
 
   /// Запрос детализации.
   Future<Sight> getOne({required int id}) async {
-    final place = await _placeRepository.getOne(id: id);
-
-    try {
-      // TODO(novikov): Добавить метод getById в репозиторий
-      final favorites = await _favoritesRepository.items();
-
-      return favorites.firstWhere((element) => element.id == id);
-    } on Object {
-      return SightMapper.fromModel(place);
+    var res = await _favoritesRepository.getOne(id);
+    if (res == null) {
+      final place = await _placeRepository.getOne(id: id);
+      res = SightMapper.fromModel(place);
     }
+
+    return res;
   }
 
   /// Запрос списка Избранное.
