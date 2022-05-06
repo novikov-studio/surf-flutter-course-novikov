@@ -149,9 +149,6 @@ class $HistoryTable extends History
   $HistoryTable createAlias(String alias) {
     return $HistoryTable(attachedDatabase, alias);
   }
-
-  @override
-  bool get withoutRowId => true;
 }
 
 class Favorite extends DataClass implements Insertable<Favorite> {
