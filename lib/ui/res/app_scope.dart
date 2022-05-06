@@ -36,7 +36,7 @@ class AppScope implements IAppScope {
   @override
   ErrorHandler get errorHandler => _errorHandler;
 
-  AppScope() {
+  Future<void> init() async {
     _restClient = RestClient.getInstance(baseUrl: baseUrl);
     _errorHandler = const AppErrorHandler();
 
@@ -51,6 +51,9 @@ class AppScope implements IAppScope {
     final favoritesRepository = FavoritesRepository.getInstance();
     final settingsRepository = SettingsRepository.getInstance();
     const locationRepository = LocationRepository.getInstance();
+
+    /// Инициализация репозиториев.
+    await settingsRepository.init();
 
     /// Интеракторы.
     _placeInteractor = PlaceInteractor(
@@ -69,6 +72,9 @@ class AppScope implements IAppScope {
 
     _settingsInteractor =
         SettingsInteractor(settingsRepository: settingsRepository);
+
+    /// Инициализация интеракторов.
+    searchInteractor.filter = settingsInteractor.filter;
   }
 }
 

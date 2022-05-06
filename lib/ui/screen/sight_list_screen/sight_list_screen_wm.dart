@@ -30,6 +30,7 @@ class SightListScreenWM
   @override
   void initWidgetModel() {
     super.initWidgetModel();
+    _filterIsEmpty.accept(model.filter.isEmpty);
     loadSights(hidden: false);
   }
 
@@ -113,6 +114,7 @@ SightListScreenWM defaultSightListScreenWidgetModelFactory(
     appDependencies.errorHandler,
     appDependencies.placeInteractor,
     appDependencies.searchInteractor,
+    appDependencies.settingsInteractor,
   );
 
   return SightListScreenWM(model);

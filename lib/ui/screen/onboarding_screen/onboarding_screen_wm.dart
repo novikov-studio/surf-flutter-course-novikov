@@ -85,6 +85,7 @@ class OnboardingScreenWM
 
   @override
   void start() {
+    model.skipOnStart();
     Navigator.of(context).canPop()
         ? Navigator.of(context).pop()
         : context.replaceScreen(AppRoutes.home);
@@ -137,6 +138,7 @@ OnboardingScreenWM defaultOnboardingScreenWidgetModelFactory(
 
   final model = OnboardingScreenModel(
     appDependencies.errorHandler,
+    appDependencies.settingsInteractor,
   );
 
   return OnboardingScreenWM(model);

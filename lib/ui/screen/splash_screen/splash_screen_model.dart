@@ -6,6 +6,9 @@ class SplashScreenModel extends ElementaryModel {
   SplashScreenModel() : super();
 
   Future<IAppScope> initApp() async {
-    return AppScope();
+    final appScope = AppScope();
+    await appScope.init();
+
+    return appScope;
   }
 }

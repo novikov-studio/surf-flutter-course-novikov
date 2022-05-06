@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Filter _$FilterFromJson(Map<String, dynamic> json) {
+  return _Filter.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Filter {
 // Список категорий
@@ -23,6 +27,7 @@ mixin _$Filter {
       throw _privateConstructorUsedError; // Максимальный радиус поиска
   double? get maxRadius => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $FilterCopyWith<Filter> get copyWith => throw _privateConstructorUsedError;
 }
@@ -106,13 +111,16 @@ class __$FilterCopyWithImpl<$Res> extends _$FilterCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Filter extends _Filter {
   const _$_Filter(
       {final Set<Category>? categories, this.minRadius, this.maxRadius})
       : assert(minRadius == null || maxRadius != null),
         _categories = categories,
         super._();
+
+  factory _$_Filter.fromJson(Map<String, dynamic> json) =>
+      _$$_FilterFromJson(json);
 
 // Список категорий
   final Set<Category>? _categories;
@@ -143,6 +151,7 @@ class _$_Filter extends _Filter {
             const DeepCollectionEquality().equals(other.maxRadius, maxRadius));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -154,6 +163,11 @@ class _$_Filter extends _Filter {
   @override
   _$FilterCopyWith<_Filter> get copyWith =>
       __$FilterCopyWithImpl<_Filter>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_FilterToJson(this);
+  }
 }
 
 abstract class _Filter extends Filter {
@@ -162,6 +176,8 @@ abstract class _Filter extends Filter {
       final double? minRadius,
       final double? maxRadius}) = _$_Filter;
   const _Filter._() : super._();
+
+  factory _Filter.fromJson(Map<String, dynamic> json) = _$_Filter.fromJson;
 
   @override // Список категорий
   Set<Category>? get categories => throw _privateConstructorUsedError;

@@ -10,7 +10,7 @@ import 'package:places/domain/repository/filtered_place_repository.dart';
 import 'package:places/domain/repository/location_repository.dart';
 import 'package:places/domain/repository/search_history_repository.dart';
 
-/// Интарктор для запроса мест с фильтром.
+/// Интерактор для запроса мест с фильтром.
 class SearchInteractor {
   final LocationRepository _locationRepository;
   final FilteredPlaceRepository _filteredPlaceRepository;
