@@ -1,11 +1,10 @@
-import 'package:places/data/repository/memory_favorites_repository.dart';
 import 'package:places/domain/entity/sight.dart';
 
 /// Интерфейс для управления списком Избранное.
 abstract class FavoritesRepository {
-  factory FavoritesRepository.getInstance() = MemoryFavoritesRepository;
-
   Future<Iterable<Sight>> items();
+
+  Future<Sight?> getOne(int id);
 
   Future<void> add(Sight value);
 

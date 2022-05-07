@@ -120,6 +120,7 @@ class SightSearchScreenWM
   Future<void> _search(String text) async {
     if (text.isEmpty) {
       _searchState.initial();
+      await _loadHistory();
 
       return;
     }

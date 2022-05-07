@@ -38,6 +38,7 @@ dart_code_metrics:
           - id
           - qa
           - wm
+          - db
           - i
         exclude:
           - test/**

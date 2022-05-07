@@ -12,6 +12,8 @@ import 'package:places/domain/repository/search_history_repository.dart';
 
 /// Интерактор для запроса мест с фильтром.
 class SearchInteractor {
+  static const _historyViewSize = 20;
+
   final LocationRepository _locationRepository;
   final FilteredPlaceRepository _filteredPlaceRepository;
   final SearchHistoryRepository _searchHistoryRepository;
@@ -40,7 +42,8 @@ class SearchInteractor {
   }
 
   /// Возвращает историю поисковых запросов.
-  Future<List<String>> getHistory() async => _searchHistoryRepository.items();
+  Future<List<String>> getHistory() async =>
+      _searchHistoryRepository.items(lastCount: _historyViewSize);
 
   /// Добавление в историю.
   Future<void> addToHistory(String value) async =>
