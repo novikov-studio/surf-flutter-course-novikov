@@ -10,10 +10,11 @@ import 'package:places/data/database/table/history.dart';
 part '../../gen/data/database/database.g.dart';
 
 @DriftDatabase(tables: [History, Favorites])
-class Database extends _$Database with HistoryMixin {
+class Database extends _$Database with HistoryMixin, FavoritesMixin {
   @override
   int get schemaVersion => 1;
 
+  @override
   Database get db => this;
 
   Database() : super(_openConnection());

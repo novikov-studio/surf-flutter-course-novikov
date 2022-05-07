@@ -49,4 +49,11 @@ abstract class CategoryMapper {
         return PlaceType.other;
     }
   }
+
+  static String toStr(Category category) => category.name;
+
+  static Category fromStr(String value) => Category.values.firstWhere(
+        (element) => element.name == value,
+        orElse: () => Category.particularPlace,
+      );
 }
