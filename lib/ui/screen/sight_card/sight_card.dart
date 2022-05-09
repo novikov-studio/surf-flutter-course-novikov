@@ -35,6 +35,9 @@ class SightCard extends ElementaryWidget<ISightCardWidgetModel> {
       value: wm,
       child: Card(
         margin: EdgeInsets.zero,
+        color: wm.mode == CardMode.map
+            ? wm.theme.colorScheme.whiteSecondary
+            : null,
         child: InkWell(
           onTap: wm.showDetails,
           child: Column(

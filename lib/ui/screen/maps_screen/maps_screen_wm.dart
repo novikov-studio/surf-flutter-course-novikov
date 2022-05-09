@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:places/domain/entity/location.dart';
+import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/res/app_scope.dart';
 import 'package:places/ui/res/logger.dart';
 import 'package:places/ui/res/theme_extension.dart';
@@ -32,7 +33,7 @@ class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
 
   final _mapController = MapController();
   final _searchLocationState = EntityStateNotifier<Location>();
-
+  final _selectedSight = StateNotifier<Sight>();
   final _mapRebuilder = StreamController<void>.broadcast();
 
   @override
@@ -55,9 +56,7 @@ class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
   bool get autoLoadSight => false;
 
   @override
-  int? get selectedSightId => _selectedSightId;
-
-  int? _selectedSightId;
+  ListenableState<Sight> get selectedSight => _selectedSight;
 
   MapsScreenWM(MapsScreenModel model) : super(model);
 
@@ -99,9 +98,9 @@ class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
   }
 
   @override
-  void selectSight(int? id) {
-    if (_selectedSightId != id) {
-      _selectedSightId = id;
+  void selectSight(Sight? sight) {
+    if (!_selectedSight.equalsById(sight)) {
+      _selectedSight.accept(sight);
       _rebuildMap();
     }
   }
@@ -187,13 +186,13 @@ abstract class IMapsScreenWidgetModel extends ICommonWidgetModel
   ListenableEntityState<Location> get searchLocationState;
 
   /// Идентификтор выделенного места.
-  int? get selectedSightId;
+  ListenableState<Sight> get selectedSight;
 
   /// Показать текущее воложение на карте.
   Future<void> showCurrentLocation();
 
   /// Выделение мест на карте.
-  void selectSight(int? id);
+  void selectSight(Sight? sight);
 }
 
 /// Реализация WM по-умолчанию.
@@ -231,3 +230,7 @@ extension LatLngExt on LatLng {
 }
 
 typedef NullStream = Stream<void>;
+
+extension ListenableStateExtension on ListenableState<Sight> {
+  bool equalsById(Sight? other) => value?.id == other?.id;
+}

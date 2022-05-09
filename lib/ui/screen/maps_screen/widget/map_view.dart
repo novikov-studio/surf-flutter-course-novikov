@@ -24,6 +24,9 @@ class MapView extends StatelessWidget {
             minZoom: 4,
             maxZoom: 18,
             interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
+            onTap: (_, __) {
+              wm.selectSight(null);
+            },
           ),
           children: [
             TileLayerWidget(
@@ -45,26 +48,29 @@ class MapView extends StatelessWidget {
               options: MarkerLayerOptions(
                 markers: [
                   ...?wm.sightsState.value?.data?.map(
-                    (sight) => sight.id == wm.selectedSightId
+                        (sight) =>
+                    wm.selectedSight.equalsById(sight)
                         ? Marker(
-                            width: 24.0,
-                            height: 24.0,
-                            point: sight.location.asLatLng,
-                            builder: (ctx) => CircleAvatar(
-                              backgroundColor: wm.theme.colorScheme.green,
-                            ),
-                          )
+                      width: 24.0,
+                      height: 24.0,
+                      point: sight.location.asLatLng,
+                      builder: (ctx) =>
+                          CircleAvatar(
+                            backgroundColor: wm.theme.colorScheme.green,
+                          ),
+                    )
                         : Marker(
-                            width: 8.0,
-                            height: 8.0,
-                            point: sight.location.asLatLng,
-                            builder: (_) => GestureDetector(
-                              onTap: () => wm.selectSight(sight.id),
-                              child: CircleAvatar(
-                                backgroundColor: wm.theme.colorScheme.onSurface,
-                              ),
+                      width: 8.0,
+                      height: 8.0,
+                      point: sight.location.asLatLng,
+                      builder: (_) =>
+                          GestureDetector(
+                            onTap: () => wm.selectSight(sight),
+                            child: CircleAvatar(
+                              backgroundColor: wm.theme.colorScheme.onSurface,
                             ),
                           ),
+                    ),
                   ),
                   if (wm.searchLocationState.value?.data != null)
                     Marker(
