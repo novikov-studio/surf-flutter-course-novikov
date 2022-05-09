@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/maps_screen/maps_screen_wm.dart';
+import 'package:places/ui/screen/maps_screen/widget/circle_widget.dart';
 import 'package:places/ui/screen/maps_screen/widget/location_marker.dart';
 
 /// Виджет карты.
@@ -48,28 +49,22 @@ class MapView extends StatelessWidget {
               options: MarkerLayerOptions(
                 markers: [
                   ...?wm.sightsState.value?.data?.map(
-                        (sight) =>
-                    wm.selectedSight.equalsById(sight)
-                        ? Marker(
+                    (sight) => Marker(
                       width: 24.0,
                       height: 24.0,
                       point: sight.location.asLatLng,
-                      builder: (ctx) =>
-                          CircleAvatar(
-                            backgroundColor: wm.theme.colorScheme.green,
-                          ),
-                    )
-                        : Marker(
-                      width: 8.0,
-                      height: 8.0,
-                      point: sight.location.asLatLng,
-                      builder: (_) =>
-                          GestureDetector(
-                            onTap: () => wm.selectSight(sight),
-                            child: CircleAvatar(
-                              backgroundColor: wm.theme.colorScheme.onSurface,
+                      builder: (ctx) => wm.selectedSight.equalsById(sight)
+                          ? CircleWidget(
+                              size: 24.0,
+                              color: wm.theme.colorScheme.green,
+                            )
+                          : IconButton(
+                              onPressed: () => wm.selectSight(sight),
+                              icon: CircleWidget(
+                                size: 8.0,
+                                color: wm.theme.colorScheme.onSurface,
+                              ),
                             ),
-                          ),
                     ),
                   ),
                   if (wm.searchLocationState.value?.data != null)
