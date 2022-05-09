@@ -10,6 +10,7 @@ import 'package:places/ui/res/logger.dart';
 import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/maps_screen/maps_screen.dart';
 import 'package:places/ui/screen/maps_screen/maps_screen_model.dart';
+import 'package:places/ui/screen/sight_list_screen/mixin/geo_permissions_wm_mixin.dart';
 import 'package:places/ui/screen/sight_list_screen/mixin/sight_list_wm_mixin.dart';
 import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
 import 'package:places/ui/widget/elementary/state_notifier_builder_ex.dart';
@@ -18,7 +19,11 @@ import 'package:provider/provider.dart';
 
 /// WM для экрана "Карта".
 class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
-    with CommonWMMixin, SightListWMMixin, TickerProviderWidgetModelMixin
+    with
+        CommonWMMixin,
+        SightListWMMixin,
+        GeoPermissionsWMMixin,
+        TickerProviderWidgetModelMixin
     implements IMapsScreenWidgetModel {
   static const _lightModeUrl =
       'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png';
@@ -29,6 +34,9 @@ class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
   final _searchLocationState = EntityStateNotifier<Location>();
 
   final _mapRebuilder = StreamController<void>.broadcast();
+
+  @override
+  Location? get lastLocation => model.lastLocation;
 
   @override
   String get mapUrl => theme.colorScheme.isLight ? _lightModeUrl : _darkModeUrl;
@@ -69,16 +77,19 @@ class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
 
   @override
   Future<void> showCurrentLocation() async {
+    await checkGeoPermissions();
+
     _searchLocationState.loading();
     try {
       final location = await model.getCurrentLocation();
       if (location != null) {
         _searchLocationState.content(location);
         _animatedMove(
-          LatLng(location.latitude, location.longitude),
+          location.asLatLng,
           _mapController.zoom > 13 ? _mapController.zoom : 14,
         );
       } else {
+        await loadSights();
         _searchLocationState.initial();
       }
     } on Object catch (e) {
@@ -89,7 +100,7 @@ class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
 
   @override
   void selectSight(int? id) {
-    if (_selectedSightId !=  id) {
+    if (_selectedSightId != id) {
       _selectedSightId = id;
       _rebuildMap();
     }
@@ -140,9 +151,7 @@ class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
         // Обновляем карту в конце анимации
         if (isMounted) {
           _rebuildMap();
-          if (!model.filter.isEmpty) {
-            loadSights();
-          }
+          loadSights();
         }
       }
     });
@@ -162,6 +171,9 @@ class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
 /// Интерфейс WM.
 abstract class IMapsScreenWidgetModel extends ICommonWidgetModel
     with ISightListWidgetModel {
+  /// Последнее известное местоположение.
+  Location? get lastLocation;
+
   /// URL для получения тайлов.
   String get mapUrl;
 
@@ -200,7 +212,14 @@ MapsScreenWM defaultMapsScreenWidgetModelFactory(BuildContext context) {
 
 /// Расширение для Location.
 extension LocationExt on Location {
-  LatLng get asLatLng => LatLng(latitude, longitude);
+  LatLng get asLatLng {
+    // Workaround: на сервере есть места с некорректными координатами
+    final lat = latitude < -90.0 ? -90.0 : (latitude > 90.0 ? 90.0 : latitude);
+    final lng =
+        longitude < -180.0 ? -180.0 : (longitude > 180.0 ? 180.0 : longitude);
+
+    return LatLng(lat, lng);
+  }
 }
 
 /// Расширение для LatLng.

@@ -2,13 +2,13 @@ import 'package:elementary/elementary.dart';
 import 'package:places/data/database/database.dart';
 import 'package:places/data/repository/db_favorites_repository.dart';
 import 'package:places/data/repository/db_search_history_repository.dart';
+import 'package:places/data/repository/geo_location_repository.dart';
 import 'package:places/data/repository/network_media_repository.dart';
 import 'package:places/data/rest/rest_client.dart';
 import 'package:places/domain/interactor/place_interactor.dart';
 import 'package:places/domain/interactor/search_interactor.dart';
 import 'package:places/domain/interactor/settings_interactor.dart';
 import 'package:places/domain/repository/filtered_place_repository.dart';
-import 'package:places/domain/repository/location_repository.dart';
 import 'package:places/domain/repository/place_repository.dart';
 import 'package:places/domain/repository/settings_repository.dart';
 import 'package:places/ui/res/logger.dart';
@@ -54,7 +54,7 @@ class AppScope implements IAppScope {
     final searchHistoryRepository = DbSearchHistoryRepository(database);
     final favoritesRepository = DbFavoritesRepository(database);
     final settingsRepository = SettingsRepository.getInstance();
-    const locationRepository = LocationRepository.getInstance();
+    final locationRepository = GeoLocationRepository();
 
     /// Инициализация репозиториев.
     await settingsRepository.init();

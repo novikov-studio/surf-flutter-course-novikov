@@ -3,12 +3,13 @@ import 'package:places/domain/entity/filter.dart';
 import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/res/theme_extension.dart';
+import 'package:places/ui/screen/sight_list_screen/mixin/geo_permissions_wm_mixin.dart';
 import 'package:places/ui/screen/sight_list_screen/mixin/sight_list_model_mixin.dart';
 import 'package:places/ui/widget/elementary/types.dart';
 
 /// Примесь для WM экранов "Список мест" и "Карта".
 mixin SightListWMMixin<W extends ElementaryWidget, M extends SightListModel>
-    on WidgetModel<W, M> implements ISightListWidgetModel {
+    on WidgetModel<W, M> implements ISightListWidgetModel, IGeoPermissionsWidgetModel  {
   final _state = EntityStateNotifier<List<Sight>>();
   final _filterIsEmpty = StateNotifier<bool>();
 
@@ -31,6 +32,10 @@ mixin SightListWMMixin<W extends ElementaryWidget, M extends SightListModel>
 
   @override
   Future<void> loadSights({bool hidden = true}) async {
+    if (model.filter.hasDistance) {
+      await checkGeoPermissions();
+    }
+
     if (!hidden) {
       _state.loading(_state.value?.data);
     }

@@ -40,6 +40,9 @@ abstract class AppStrings {
   static const camera = 'Камера';
   static const photo = 'Фото';
   static const file = 'Файл';
+  static const yes = 'Да';
+  // ignore: prefer-correct-identifier-length
+  static const no = 'Нет';
 
   // Категории
   static const hotel = 'Отель';
@@ -64,6 +67,13 @@ abstract class AppStrings {
   static const errorOnInitDesc  = 'Попробуйте очистить кэш и перезапустить приложение';
   static const scheduleDate = 'Запланировать посещение';
   static const rescheduleDate = 'Перепланировать посещение';
+
+  // Диалоги
+  static const geoServiceOff = 'Служба геолокации отключена';
+  static const showGeoSettings = 'Хотите открыть настройки геолокации?';
+  static const geoDenied = 'Доступ к метоположению запрещен';
+  static const showAppSettings = 'Открыть настройки приложения?';
+  static const geoDeniedForever = 'Доступ к местоположению запрещен';
 
   // Ошибки
   static const error = 'Ошибка';

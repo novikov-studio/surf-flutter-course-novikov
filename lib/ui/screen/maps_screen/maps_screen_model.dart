@@ -7,6 +7,12 @@ import 'package:places/ui/screen/sight_list_screen/mixin/sight_list_model_mixin.
 
 /// Модель экрана "Карта".
 class MapsScreenModel extends SightListModel {
+  // Храним последнее местоположение на время сессии
+  // для инициализации карты при возврате с другого экрана
+  static Location? _lastLocation;
+
+  Location? get lastLocation => _lastLocation;
+
   MapsScreenModel(
       ErrorHandler errorHandler,
       PlaceInteractor placeInteractor,
@@ -18,6 +24,9 @@ class MapsScreenModel extends SightListModel {
     this.settingsInteractor = settingsInteractor;
   }
 
-  Future<Location?> getCurrentLocation() async =>
-      placeInteractor.getCurrentLocation();
+  Future<Location?> getCurrentLocation() async {
+    _lastLocation = await placeInteractor.getCurrentLocation();
+
+    return _lastLocation;
+  }
 }

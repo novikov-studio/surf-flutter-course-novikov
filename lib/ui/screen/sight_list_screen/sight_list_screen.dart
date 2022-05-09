@@ -6,6 +6,7 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/errors.dart';
 import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/screen/sight_list_screen/sight_list_screen_wm.dart';
+import 'package:places/ui/widget/elementary/state_notifier_builder_ex.dart';
 import 'package:places/ui/widget/empty_list.dart';
 import 'package:places/ui/widget/gradient_fab.dart';
 import 'package:places/ui/widget/inactive_search_bar.dart';
@@ -51,8 +52,16 @@ class SightListScreen extends ElementaryWidget<ISightListScreenWidgetModel> {
             ),
           ),
 
-          EntityStateNotifierBuilder<List<Sight>>(
+          EntityStateNotifierBuilderEx<List<Sight>>(
             listenableEntityState: wm.sightsState,
+
+            /// Инициализация = Прогресс.
+            initialBuilder: (_) => const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(48.0),
+                child: Loader(),
+              ),
+            ),
 
             /// Список.
             builder: (_, data) => SliverSightList(
