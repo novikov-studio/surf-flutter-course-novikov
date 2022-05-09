@@ -1,14 +1,16 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 
-/// [StateNotifierBuilder] analog with [child] property.
+/// [StateNotifierBuilder] analog with some additions:
+///  ADDED: [child] property cab be used in builder.
+///  ADDED: previous value is available in builder.
 class StateNotifierBuilderEx<T> extends StatefulWidget {
   /// State that used to detect change and rebuild.
   final ListenableState<T> listenableState;
 
   /// Function that used to describe the part of the user interface
   /// represented by this widget.
-  final Widget Function(BuildContext context, T? value, Widget? child) builder;
+  final Widget Function(BuildContext context, T? prev, T? value, Widget? child) builder;
 
   final Widget? child;
 
@@ -26,6 +28,7 @@ class StateNotifierBuilderEx<T> extends StatefulWidget {
 }
 
 class _StateNotifierBuilderStateEx<T> extends State<StateNotifierBuilderEx<T>> {
+  T? prev;
   T? value;
 
   @override
@@ -53,11 +56,12 @@ class _StateNotifierBuilderStateEx<T> extends State<StateNotifierBuilderEx<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, value, widget.child);
+    return widget.builder(context, prev, value, widget.child);
   }
 
   void _valueChanged() {
     setState(() {
+      prev = value;
       value = widget.listenableState.value;
     });
   }

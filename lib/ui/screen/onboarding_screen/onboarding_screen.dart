@@ -74,7 +74,7 @@ class OnboardingScreen extends ElementaryWidget<IOnboardingScreenWidgetModel> {
               top: 32.0,
               child: StateNotifierBuilderEx<double>(
                 listenableState: wm.skipButtonTransparency,
-                builder: (_, value, child) {
+                builder: (_, __, value, child) {
                   return Opacity(
                     opacity: value ?? 1.0,
                     child: child,
