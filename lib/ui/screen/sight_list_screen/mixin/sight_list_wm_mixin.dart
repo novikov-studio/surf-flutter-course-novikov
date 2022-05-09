@@ -2,7 +2,7 @@ import 'package:elementary/elementary.dart';
 import 'package:places/domain/entity/filter.dart';
 import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_routes.dart';
-import 'package:places/ui/res/theme_extension.dart';
+import 'package:places/ui/res/context_extension.dart';
 import 'package:places/ui/screen/sight_list_screen/mixin/geo_permissions_wm_mixin.dart';
 import 'package:places/ui/screen/sight_list_screen/mixin/sight_list_model_mixin.dart';
 import 'package:places/ui/widget/elementary/types.dart';
