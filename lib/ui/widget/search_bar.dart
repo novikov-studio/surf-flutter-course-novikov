@@ -10,7 +10,7 @@ class SearchBar extends StatelessWidget implements PreferredSizeWidget {
   final bool autofocus;
 
   @override
-  Size get preferredSize => const Size(double.infinity, 40.0 + 6.0 * 2);
+  Size get preferredSize => const Size(double.infinity, 40.0 + 8.0 * 2);
 
   const SearchBar({
     Key? key,
@@ -24,7 +24,7 @@ class SearchBar extends StatelessWidget implements PreferredSizeWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Theme(
         data: theme.searchBarTheme,
         child: TextField(

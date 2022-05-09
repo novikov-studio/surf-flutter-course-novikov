@@ -154,6 +154,8 @@ extension ColorSchemeExt on ColorScheme {
       isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
 
   Color get onDialog => isLight ? LightColors.secondary2 : DarkColors.white;
+
+  Color get whiteSecondary => isLight ? LightColors.white : DarkColors.secondary;
 }
 
 extension TextThemeExt on TextTheme {

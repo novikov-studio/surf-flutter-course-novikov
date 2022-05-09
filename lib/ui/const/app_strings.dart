@@ -7,6 +7,7 @@ abstract class AppStrings {
   static const settingsTitle = 'Настройки';
   static const newSightTitle = 'Новое место';
   static const categoryTitle = 'Категория';
+  static const mapTitle = 'Карта';
 
   // Названия полей
   static const categories = 'КАТЕГОРИИ';

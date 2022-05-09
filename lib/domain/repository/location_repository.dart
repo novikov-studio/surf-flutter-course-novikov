@@ -5,5 +5,5 @@ import 'package:places/domain/entity/location.dart';
 abstract class LocationRepository {
   const factory LocationRepository.getInstance() = MockLocationRepository;
 
-  Future<Location> current();
+  Future<Location?> current();
 }

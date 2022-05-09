@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/const/app_icons.dart';
+import 'package:places/ui/screen/maps_screen/maps_screen.dart';
 import 'package:places/ui/screen/settings_screen/settings_screen.dart';
 import 'package:places/ui/screen/sight_list_screen/sight_list_screen.dart';
 import 'package:places/ui/screen/visiting_screen/visiting_screen.dart';
 import 'package:places/ui/widget/bottom_nav_bar.dart';
-import 'package:places/ui/widget/empty_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -33,11 +32,7 @@ class _HomeScreenState extends State<HomeScreen>
         physics: const NeverScrollableScrollPhysics(),
         children: const [
           SightListScreen(),
-          EmptyList(
-            icon: AppIcons.error,
-            title: 'Карта',
-            details: 'Не реализовано',
-          ),
+          MapsScreen(),
           VisitingScreen(),
           SettingsScreen(),
         ],
