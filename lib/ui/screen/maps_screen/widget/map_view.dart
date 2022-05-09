@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/maps_screen/maps_screen_wm.dart';
+import 'package:places/ui/screen/maps_screen/widget/cached_tile_provider.dart';
 import 'package:places/ui/screen/maps_screen/widget/circle_widget.dart';
 import 'package:places/ui/screen/maps_screen/widget/location_marker.dart';
 
@@ -34,6 +35,8 @@ class MapView extends StatelessWidget {
               options: TileLayerOptions(
                 urlTemplate: wm.mapUrl,
                 subdomains: ['a', 'b', 'c'],
+                tileProvider: const CachedTileProvider(),
+                fastReplace: true,
                 attributionBuilder: (_) {
                   return const Padding(
                     padding: EdgeInsets.all(8.0),
