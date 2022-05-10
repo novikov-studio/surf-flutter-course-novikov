@@ -6,6 +6,7 @@ import 'package:places/ui/screen/maps_screen/maps_screen_wm.dart';
 import 'package:places/ui/screen/maps_screen/widget/cached_tile_provider.dart';
 import 'package:places/ui/screen/maps_screen/widget/circle_widget.dart';
 import 'package:places/ui/screen/maps_screen/widget/location_marker.dart';
+import 'package:places/ui/screen/maps_screen/widget/map_helpers.dart';
 
 /// Виджет карты.
 class MapView extends StatelessWidget {

@@ -53,8 +53,7 @@ class AddSightScreen extends ElementaryWidget<IAddSightScreenWidgetModel> {
                         ),
                         initialValue: wm.data.urls,
                         validator: Validators.checkListNotEmpty,
-                        onSaved: (value) =>
-                            wm.data.urls = value ?? <String>[],
+                        onSaved: (value) => wm.data.urls = value ?? <String>[],
                       ),
                       spacerH24,
                       _LabeledField(
@@ -97,10 +96,11 @@ class AddSightScreen extends ElementaryWidget<IAddSightScreenWidgetModel> {
                             child: _LabeledField(
                               label: AppStrings.latitude,
                               child: TextFormFieldEx(
+                                controller: wm.latitudeController,
                                 hintText: AppStrings.enterNumber,
                                 validator: Validators.checkLatitude,
-                                onSaved: (value) => wm.data.latitude =
-                                    double.parse(value!),
+                                onSaved: (value) =>
+                                    wm.data.latitude = double.parse(value!),
                                 focusNode: wm.focusNode(1),
                                 nextFocusNode: wm.focusNode(2),
                                 keyboardType:
@@ -116,10 +116,11 @@ class AddSightScreen extends ElementaryWidget<IAddSightScreenWidgetModel> {
                             child: _LabeledField(
                               label: AppStrings.longitude,
                               child: TextFormFieldEx(
+                                controller: wm.longitudeController,
                                 hintText: AppStrings.enterNumber,
                                 validator: Validators.checkLongitude,
-                                onSaved: (value) => wm.data.longitude =
-                                    double.parse(value!),
+                                onSaved: (value) =>
+                                    wm.data.longitude = double.parse(value!),
                                 focusNode: wm.focusNode(2),
                                 nextFocusNode: wm.focusNode(3),
                                 keyboardType:

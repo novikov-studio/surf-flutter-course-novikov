@@ -10,6 +10,7 @@ import 'package:places/ui/res/logger.dart';
 import 'package:places/ui/res/scaffold_messenger_extension.dart';
 import 'package:places/ui/screen/add_sight_screen/add_sight_screen.dart';
 import 'package:places/ui/screen/add_sight_screen/add_sight_screen_model.dart';
+import 'package:places/ui/screen/add_sight_screen/widget/map_picker.dart';
 import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
 import 'package:places/ui/widget/loader.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,8 @@ class AddSightScreenWM extends WidgetModel<AddSightScreen, AddSightScreenModel>
   final _data = NewSight();
   final _dataIsValid = ValueNotifier(false);
   final _dataIsSending = ValueNotifier(false);
+  final _latitudeController = TextEditingController();
+  final _longitudeController = TextEditingController();
 
   @override
   GlobalKey<FormState> get formKey => _formKey;
@@ -47,6 +50,12 @@ class AddSightScreenWM extends WidgetModel<AddSightScreen, AddSightScreenModel>
   @override
   ValueNotifier<bool> get dataIsSending => _dataIsSending;
 
+  @override
+  TextEditingController get latitudeController => _latitudeController;
+
+  @override
+  TextEditingController get longitudeController => _longitudeController;
+
   late double _loaderSize;
 
   AddSightScreenWM(AddSightScreenModel model) : super(model);
@@ -57,6 +66,13 @@ class AddSightScreenWM extends WidgetModel<AddSightScreen, AddSightScreenModel>
     // чтобы высота кнопки не "плясала" при смене текст/лоадер.
     _loaderSize = Loader.calcSizeForButton(context);
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _latitudeController.dispose();
+    _longitudeController.dispose();
+    super.dispose();
   }
 
   @override
@@ -97,8 +113,31 @@ class AddSightScreenWM extends WidgetModel<AddSightScreen, AddSightScreenModel>
   }
 
   @override
-  void pointOnMap() {
-    debugPrint('addSight.pointOnMap');
+  Future<void> pointOnMap() async {
+    final location = await showModalBottomSheet<Location?>(
+      context: context,
+      isDismissible: true,
+      isScrollControlled: true,
+      clipBehavior: Clip.antiAlias,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.0),
+          topRight: Radius.circular(16.0),
+        ),
+      ),
+      builder: (context) => SizedBox(
+        height: MediaQuery.of(context).size.height * 0.8,
+        child: MapPicker(
+          onCancel: Navigator.of(context).pop,
+          onDone: Navigator.of(context).pop,
+        ),
+      ),
+    );
+
+    if (location != null) {
+      _latitudeController.text = '${location.latitude}';
+      _longitudeController.text = '${location.longitude}';
+    }
   }
 
   @override
@@ -141,6 +180,12 @@ abstract class IAddSightScreenWidgetModel extends ICommonWidgetModel {
 
   /// Размер индикатора прогресса.
   double get loaderSize;
+
+  /// Контроллер текстового поля "Широта".
+  TextEditingController get latitudeController;
+
+  /// Контроллер текстового поля "Долгота".
+  TextEditingController get longitudeController;
 
   /// Получение элемента фокуса по индксу.
   FocusNode focusNode(int index);
@@ -244,3 +289,5 @@ abstract class Validators {
     return null;
   }
 }
+
+enum TextFieldType { name, lat, lng, desc }

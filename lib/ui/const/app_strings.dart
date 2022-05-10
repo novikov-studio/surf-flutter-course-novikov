@@ -43,6 +43,7 @@ abstract class AppStrings {
   static const yes = 'Да';
   // ignore: prefer-correct-identifier-length
   static const no = 'Нет';
+  static const choose = 'Выбрать';
 
   // Категории
   static const hotel = 'Отель';

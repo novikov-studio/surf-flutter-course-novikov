@@ -14,6 +14,7 @@ class TextFormFieldEx extends StatefulWidget {
   final int? minLines;
   final String? hintText;
   final FormFieldValidator<String>? validator;
+  final TextEditingController? controller;
   final FormFieldSetter<String> onSaved;
 
   const TextFormFieldEx({
@@ -24,6 +25,7 @@ class TextFormFieldEx extends StatefulWidget {
     this.minLines,
     this.hintText,
     this.validator,
+    this.controller,
     required this.onSaved,
   }) : super(key: key);
 
@@ -32,13 +34,15 @@ class TextFormFieldEx extends StatefulWidget {
 }
 
 class TextFormFieldExState extends State<TextFormFieldEx> {
-  final _controller = TextEditingController();
+  late final TextEditingController _controller;
   late InputBorder? _filledUnselectedBorder;
   late Widget? _clearButton;
 
   @override
   void initState() {
     super.initState();
+
+    _controller = widget.controller ?? TextEditingController();
 
     // Кнопка "Очистить"
     _clearButton = IconButton(
@@ -108,7 +112,9 @@ class TextFormFieldExState extends State<TextFormFieldEx> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 }

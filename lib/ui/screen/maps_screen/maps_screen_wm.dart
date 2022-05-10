@@ -11,6 +11,7 @@ import 'package:places/ui/res/logger.dart';
 import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/maps_screen/maps_screen.dart';
 import 'package:places/ui/screen/maps_screen/maps_screen_model.dart';
+import 'package:places/ui/screen/maps_screen/widget/map_helpers.dart';
 import 'package:places/ui/screen/sight_list_screen/mixin/geo_permissions_wm_mixin.dart';
 import 'package:places/ui/screen/sight_list_screen/mixin/sight_list_wm_mixin.dart';
 import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
@@ -26,11 +27,6 @@ class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
         GeoPermissionsWMMixin,
         TickerProviderWidgetModelMixin
     implements IMapsScreenWidgetModel {
-  static const _lightModeUrl =
-      'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png';
-  static const _darkModeUrl =
-      'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png';
-
   final _mapController = MapController();
   final _searchLocationState = EntityStateNotifier<Location>();
   final _selectedSight = StateNotifier<Sight>();
@@ -40,7 +36,9 @@ class MapsScreenWM extends WidgetModel<MapsScreen, MapsScreenModel>
   Location? get lastLocation => model.lastLocation;
 
   @override
-  String get mapUrl => theme.colorScheme.isLight ? _lightModeUrl : _darkModeUrl;
+  String get mapUrl => theme.colorScheme.isLight
+      ? MapHelpers.lightModeUrl
+      : MapHelpers.darkModeUrl;
 
   @override
   MapController get mapController => _mapController;
@@ -207,26 +205,6 @@ MapsScreenWM defaultMapsScreenWidgetModelFactory(BuildContext context) {
   );
 
   return MapsScreenWM(model);
-}
-
-/// Расширение для Location.
-extension LocationExt on Location {
-  LatLng get asLatLng {
-    // Workaround: на сервере есть места с некорректными координатами
-    final lat = latitude < -90.0 ? -90.0 : (latitude > 90.0 ? 90.0 : latitude);
-    final lng =
-        longitude < -180.0 ? -180.0 : (longitude > 180.0 ? 180.0 : longitude);
-
-    return LatLng(lat, lng);
-  }
-}
-
-/// Расширение для LatLng.
-extension LatLngExt on LatLng {
-  Location get asLocation => Location(
-        latitude: latitude,
-        longitude: longitude,
-      );
 }
 
 typedef NullStream = Stream<void>;
