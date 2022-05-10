@@ -68,6 +68,13 @@ class SightCardWM extends WidgetModel<SightCard, SightCardModel>
       onErrorHandle(e);
     }
   }
+
+  @override
+  Future<void> goRoute() async {
+    final sight = _sightState.value!;
+    await internalGoRoute(toPoint: sight.location, toTitle: sight.name);
+    await internalVisited(_sightState, model);
+  }
 }
 
 /// Инфтервейс WM.
@@ -89,6 +96,9 @@ abstract class ISightCardWidgetModel extends ICommonWidgetModel {
 
   /// Показать экран "Детализация".
   Future<void> showDetails();
+
+  /// Построить маршрут.
+  Future<void> goRoute();
 }
 
 /// Фабрика WM по-умолчанию.

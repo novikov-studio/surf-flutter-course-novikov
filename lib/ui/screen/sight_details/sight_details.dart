@@ -81,7 +81,10 @@ class SightDetails extends ElementaryWidget<ISightDetailsWidgetModel> {
                               style: theme.smallBoldForDetailsType,
                             ),
                             if (sight.info != null)
-                              Text(sight.info!, style: theme.smallForDetailsInfo),
+                              Text(
+                                sight.info!,
+                                style: theme.smallForDetailsInfo,
+                              ),
                           ],
                           spacing: 16.0,
                         ),
@@ -93,7 +96,17 @@ class SightDetails extends ElementaryWidget<ISightDetailsWidgetModel> {
                           ),
                         ],
                         spacerH24,
-                        GoRouteButton(sight: sight),
+                        StateNotifierBuilder<Sight>(
+                          listenableState: wm.sightState,
+                          builder: (context, sight) {
+                            return sight != null
+                                ? GoRouteButton(
+                                    sight: sight,
+                                    onPressed: wm.goRoute,
+                                  )
+                                : const SizedBox.shrink();
+                          },
+                        ),
                         spacerH24,
                         const Divider(),
                         spacerH8,

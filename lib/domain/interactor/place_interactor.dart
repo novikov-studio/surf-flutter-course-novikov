@@ -136,8 +136,10 @@ class PlaceInteractor {
 
   /// Добавление в список посещенных.
   Future<Sight> addToVisited({required Sight sight}) async {
-    final newSight = sight.copyWith(visitedDate: DateTime.now());
-    await _favoritesRepository.update(newSight);
+    final newSight = sight.copyWith(visitedDate: DateTime.now(), isLiked: true);
+    sight.isLiked
+        ? await _favoritesRepository.update(newSight)
+        : await _favoritesRepository.add(newSight);
 
     return newSight;
   }
