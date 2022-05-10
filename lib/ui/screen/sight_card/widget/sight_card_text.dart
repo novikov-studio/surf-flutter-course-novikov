@@ -6,6 +6,7 @@ import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/screen/sight_card/sight_card_wm.dart';
+import 'package:places/ui/widget/svg_icon.dart';
 import 'package:provider/provider.dart';
 
 /// Нижняя часть карточки места.
@@ -73,7 +74,10 @@ class SightCardText extends StatelessWidget {
                   onPressed: () {
                     debugPrint('card.goRoute');
                   },
-                  child: const Text(AppIcons.goRoute),
+                  child: const SvgIcon(AppIcons.goRoute),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
                 ),
               ),
             ),
