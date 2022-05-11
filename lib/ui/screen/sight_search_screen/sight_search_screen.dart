@@ -1,6 +1,7 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/entity/sight.dart';
+import 'package:places/env/env.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/errors.dart';
@@ -28,7 +29,7 @@ class SightSearchScreen
   @override
   Widget build(ISightSearchScreenWidgetModel wm) {
     final appBar = SimpleAppBar(
-      title: AppStrings.listTitle,
+      title: Env.strings.mainScreenTitle,
       bottom: SearchBar(
         controller: wm.textController,
       ),
