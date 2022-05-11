@@ -11,8 +11,9 @@ class Filter with _$Filter {
   static const double minDistance = 0.1; // км
   static const double maxDistance = 10.0; // км
 
-  bool get isEmpty =>
-      categories == null && maxRadius == null;
+  bool get isEmpty => categories == null && maxRadius == null;
+
+  bool get hasDistance => minRadius != null || maxRadius != null;
 
   @Assert('minRadius == null || maxRadius != null')
   const factory Filter({

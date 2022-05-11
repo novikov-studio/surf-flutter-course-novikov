@@ -7,6 +7,7 @@ abstract class AppStrings {
   static const settingsTitle = 'Настройки';
   static const newSightTitle = 'Новое место';
   static const categoryTitle = 'Категория';
+  static const mapTitle = 'Карта';
 
   // Названия полей
   static const categories = 'КАТЕГОРИИ';
@@ -39,6 +40,10 @@ abstract class AppStrings {
   static const camera = 'Камера';
   static const photo = 'Фото';
   static const file = 'Файл';
+  static const yes = 'Да';
+  // ignore: prefer-correct-identifier-length
+  static const no = 'Нет';
+  static const choose = 'Выбрать';
 
   // Категории
   static const hotel = 'Отель';
@@ -63,6 +68,14 @@ abstract class AppStrings {
   static const errorOnInitDesc  = 'Попробуйте очистить кэш и перезапустить приложение';
   static const scheduleDate = 'Запланировать посещение';
   static const rescheduleDate = 'Перепланировать посещение';
+  static const navigationAppNotFound = 'Приложение-навигатор не найдено';
+
+  // Диалоги
+  static const geoServiceOff = 'Служба геолокации отключена';
+  static const showGeoSettings = 'Хотите открыть настройки геолокации?';
+  static const geoDenied = 'Доступ к метоположению запрещен';
+  static const showAppSettings = 'Открыть настройки приложения?';
+  static const geoDeniedForever = 'Доступ к местоположению запрещен';
 
   // Ошибки
   static const error = 'Ошибка';

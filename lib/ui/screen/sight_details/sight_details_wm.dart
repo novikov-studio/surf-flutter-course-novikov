@@ -2,9 +2,9 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/res/app_scope.dart';
+import 'package:places/ui/res/context_extension.dart';
 import 'package:places/ui/res/logger.dart';
 import 'package:places/ui/res/scaffold_messenger_extension.dart';
-import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card/mixin/sight_wm_mixin.dart';
 import 'package:places/ui/screen/sight_details/sight_details.dart';
 import 'package:places/ui/screen/sight_details/sight_details_model.dart';
@@ -62,6 +62,13 @@ class SightDetailsWM extends WidgetModel<SightDetails, SightDetailsModel>
   Future<void> planVisiting() async =>
       internalPlanVisiting(_sightState.value!.data!, model);
 
+  @override
+  Future<void> goRoute() async {
+    final sight = _sightState.value!.data!.value!;
+    await internalGoRoute(toPoint: sight.location, toTitle: sight.name);
+    await internalVisited(_sightState.value!.data!, model);
+  }
+
   Future<void> _loadSight({bool silent = false}) async {
     if (!silent) {
       _sightState.loading();
@@ -94,6 +101,9 @@ abstract class ISightDetailsWidgetModel extends ICommonWidgetModel {
 
   /// Запланировать посещение.
   Future<void> planVisiting();
+
+  /// Построить маршрут.
+  Future<void> goRoute();
 }
 
 /// Реализация WM по-умолчанию.

@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/entity/filter.dart';
 import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/res/app_scope.dart';
+import 'package:places/ui/res/context_extension.dart';
 import 'package:places/ui/res/logger.dart';
 import 'package:places/ui/res/scaffold_messenger_extension.dart';
-import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/filters_screen/filters_screen.dart';
 import 'package:places/ui/screen/filters_screen/filters_screen_model.dart';
+import 'package:places/ui/screen/sight_list_screen/mixin/geo_permissions_wm_mixin.dart';
 import 'package:places/ui/widget/elementary/common_wm_mixin.dart';
 import 'package:places/ui/widget/elementary/types.dart';
 import 'package:places/ui/widget/loader.dart';
@@ -18,7 +19,7 @@ import 'package:rxdart/rxdart.dart';
 
 /// WM для экрана "Фильтры".
 class FiltersScreenWM extends WidgetModel<FiltersScreen, FiltersScreenModel>
-    with CommonWMMixin
+    with CommonWMMixin, GeoPermissionsWMMixin
     implements IFiltersScreenWidgetModel {
   /// Фильтр по-умолчанию.
   static final _defaultFilter = Filter(
@@ -159,6 +160,10 @@ class FiltersScreenWM extends WidgetModel<FiltersScreen, FiltersScreenModel>
 
   /// Выполнение поиска с отображением в UI.
   Future<void> _instantSearch(Filter filter) async {
+    if (filter.hasDistance) {
+      await checkGeoPermissions();
+    }
+
     _foundCount.loading();
     try {
       final count = await model.findCountByFilter(filter);

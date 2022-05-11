@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/entity/sight.dart';
+import 'package:places/ui/res/context_extension.dart';
 import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/widget/spacers.dart';

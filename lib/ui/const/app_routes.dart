@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/categories.dart';
-import 'package:places/ui/res/theme_extension.dart';
+import 'package:places/ui/res/context_extension.dart';
 import 'package:places/ui/screen/add_sight_screen/add_sight_screen.dart';
 import 'package:places/ui/screen/filters_screen/adaptive_filters_screen.dart';
 import 'package:places/ui/screen/home_screen.dart';

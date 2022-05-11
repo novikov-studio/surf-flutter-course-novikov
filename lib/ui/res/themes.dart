@@ -46,6 +46,7 @@ abstract class Themes {
       dividerTheme: _buildDividerThemeData(
         color: LightColors.inactiveBlack.withOpacity(0.24),
       ),
+      floatingActionButtonTheme: _buildFloatingActionButtonTheme(theme),
       bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
         background: LightColors.background,
         foreground: DarkColors.secondary,
@@ -91,6 +92,7 @@ abstract class Themes {
       dividerTheme: _buildDividerThemeData(
         color: DarkColors.inactiveBlack.withOpacity(0.24),
       ),
+      floatingActionButtonTheme: _buildFloatingActionButtonTheme(theme),
       bottomNavigationBarTheme: _buildBottomNavigationBarTheme(
         background: DarkColors.background,
         foreground: DarkColors.white,
@@ -350,6 +352,14 @@ abstract class Themes {
       DividerThemeData(
         color: color,
         thickness: 0.8,
+      );
+
+  static FloatingActionButtonThemeData _buildFloatingActionButtonTheme(
+    ThemeData theme,
+  ) =>
+      FloatingActionButtonThemeData(
+        backgroundColor: theme.colorScheme.whiteSecondary,
+        foregroundColor: theme.colorScheme.onBackground,
       );
 
   /// BottomNavigationBar.

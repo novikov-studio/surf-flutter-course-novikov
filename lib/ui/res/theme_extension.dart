@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/interactor/settings_interactor.dart';
-import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/const/dark_colors.dart';
 import 'package:places/ui/const/light_colors.dart';
 import 'package:places/ui/res/themes.dart';
-import 'package:provider/provider.dart';
 
 /// Доступ к текстовым стилям и цветам по названиям из дизайн-макета
 extension ThemeExtension on ThemeData {
@@ -154,6 +151,8 @@ extension ColorSchemeExt on ColorScheme {
       isLight ? LightColors.inactiveBlack : DarkColors.inactiveBlack;
 
   Color get onDialog => isLight ? LightColors.secondary2 : DarkColors.white;
+
+  Color get whiteSecondary => isLight ? LightColors.white : DarkColors.secondary;
 }
 
 extension TextThemeExt on TextTheme {
@@ -172,44 +171,4 @@ extension TextThemeExt on TextTheme {
   TextStyle get superSmall => overline!;
 
   TextStyle get text400 => text.copyWith(fontWeight: FontWeight.w400);
-}
-
-extension ContextExt on BuildContext {
-  Future<T?> pushScreen<T extends Object?>(String name, {Object? args}) async {
-    // workaround: https://github.com/flutter/flutter/issues/57186
-    return await Navigator.of(this).pushNamed(name, arguments: args) as T?;
-  }
-
-  void replaceScreen(String name, {Object? args}) {
-    Navigator.of(this).pushReplacementNamed(name, arguments: args);
-  }
-
-  Future<T?> pushBottomSheet<T extends Object?>(
-    String name, {
-    Object? args,
-  }) async {
-    return showModalBottomSheet<T>(
-      context: this,
-      builder: AppRoutes.routes[name]!,
-      routeSettings: RouteSettings(
-        name: name,
-        arguments: args,
-      ),
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
-      ),
-      clipBehavior: Clip.antiAlias,
-    );
-  }
-
-  T? routeArgs<T>() => ModalRoute.of(this)?.settings.arguments as T?;
-
-  bool get isPortrait =>
-      MediaQuery.of(this).orientation == Orientation.portrait;
-
-  bool get isLandscape => !isPortrait;
-
-  SettingsInteractor get settings => read<SettingsInteractor>();
 }

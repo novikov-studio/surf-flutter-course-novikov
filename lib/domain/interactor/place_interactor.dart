@@ -5,6 +5,7 @@ import 'package:places/data/mapper/category_mapper.dart';
 import 'package:places/data/mapper/sight_mapper.dart';
 import 'package:places/data/model/place.dart';
 import 'package:places/data/model/place_filter_request.dart';
+import 'package:places/domain/entity/location.dart';
 import 'package:places/domain/entity/sight.dart';
 import 'package:places/domain/repository/favorites_repository.dart';
 import 'package:places/domain/repository/filtered_place_repository.dart';
@@ -135,8 +136,10 @@ class PlaceInteractor {
 
   /// Добавление в список посещенных.
   Future<Sight> addToVisited({required Sight sight}) async {
-    final newSight = sight.copyWith(visitedDate: DateTime.now());
-    await _favoritesRepository.update(newSight);
+    final newSight = sight.copyWith(visitedDate: DateTime.now(), isLiked: true);
+    sight.isLiked
+        ? await _favoritesRepository.update(newSight)
+        : await _favoritesRepository.add(newSight);
 
     return newSight;
   }
@@ -164,6 +167,9 @@ class PlaceInteractor {
 
     return SightMapper.fromModel(place);
   }
+
+  /// Текущие координаты.
+  Future<Location?> getCurrentLocation() async => _locationRepository.current();
 
   /// Имя файла по пути (чтобы не подключать библиотеку path).
   static String _basename(String path) {

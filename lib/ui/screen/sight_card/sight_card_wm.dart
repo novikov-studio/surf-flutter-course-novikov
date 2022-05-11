@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:places/domain/entity/sight.dart';
 import 'package:places/ui/const/app_routes.dart';
 import 'package:places/ui/res/app_scope.dart';
+import 'package:places/ui/res/context_extension.dart';
 import 'package:places/ui/res/logger.dart';
 import 'package:places/ui/res/scaffold_messenger_extension.dart';
-import 'package:places/ui/res/theme_extension.dart';
 import 'package:places/ui/screen/sight_card/mixin/sight_wm_mixin.dart';
 import 'package:places/ui/screen/sight_card/sight_card.dart';
 import 'package:places/ui/screen/sight_card/sight_card_model.dart';
@@ -68,6 +68,13 @@ class SightCardWM extends WidgetModel<SightCard, SightCardModel>
       onErrorHandle(e);
     }
   }
+
+  @override
+  Future<void> goRoute() async {
+    final sight = _sightState.value!;
+    await internalGoRoute(toPoint: sight.location, toTitle: sight.name);
+    await internalVisited(_sightState, model);
+  }
 }
 
 /// Инфтервейс WM.
@@ -89,6 +96,9 @@ abstract class ISightCardWidgetModel extends ICommonWidgetModel {
 
   /// Показать экран "Детализация".
   Future<void> showDetails();
+
+  /// Построить маршрут.
+  Future<void> goRoute();
 }
 
 /// Фабрика WM по-умолчанию.

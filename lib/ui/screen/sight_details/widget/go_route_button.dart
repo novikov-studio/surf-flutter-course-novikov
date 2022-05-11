@@ -9,8 +9,9 @@ import 'package:places/ui/widget/svg_icon.dart';
 /// Кнопка "Построить маршрут".
 class GoRouteButton extends StatelessWidget {
   final Sight sight;
+  final VoidCallback? onPressed;
 
-  const GoRouteButton({Key? key, required this.sight}) : super(key: key);
+  const GoRouteButton({Key? key, required this.sight, this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,17 +30,13 @@ class GoRouteButton extends StatelessWidget {
         ),
         spacerW16,
         ElevatedButton(
-          onPressed: () {
-            debugPrint('details.goRoute.small');
-          },
+          onPressed: onPressed,
           child: const SvgIcon(AppIcons.goRoute),
         ),
       ],
     )
         : ElevatedButton.icon(
-      onPressed: () {
-        debugPrint('details.goRoute.big');
-      },
+      onPressed: onPressed,
       icon: const SvgIcon(AppIcons.goRoute),
       label: const Text(AppStrings.buildRoute),
     );
