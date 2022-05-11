@@ -20,6 +20,10 @@ mixin SightModelMixin {
     return placeInteractor.schedule(sight: sight, planned: planned);
   }
 
+  /// Посетить.
+  Future<Sight> visit(Sight sight) async =>
+      placeInteractor.addToVisited(sight: sight);
+
   /// Загрузка информации о достопримечательности.
   Future<Sight> load(int id) async {
     return placeInteractor.getOne(id: id);

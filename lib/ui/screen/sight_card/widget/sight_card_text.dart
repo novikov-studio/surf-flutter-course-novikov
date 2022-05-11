@@ -71,9 +71,7 @@ class SightCardText extends StatelessWidget {
                 width: 40.0,
                 height: 40.0,
                 child: ElevatedButton(
-                  onPressed: () {
-                    debugPrint('card.goRoute');
-                  },
+                  onPressed: wm.goRoute,
                   child: const SvgIcon(AppIcons.goRoute),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,

@@ -68,6 +68,7 @@ abstract class AppStrings {
   static const errorOnInitDesc  = 'Попробуйте очистить кэш и перезапустить приложение';
   static const scheduleDate = 'Запланировать посещение';
   static const rescheduleDate = 'Перепланировать посещение';
+  static const navigationAppNotFound = 'Приложение-навигатор не найдено';
 
   // Диалоги
   static const geoServiceOff = 'Служба геолокации отключена';
