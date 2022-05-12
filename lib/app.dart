@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:places/domain/interactor/settings_interactor.dart';
+import 'package:places/env/env.dart';
 import 'package:places/ui/const/app_routes.dart';
-import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/res/app_scope.dart';
 import 'package:places/ui/res/context_extension.dart';
 import 'package:places/ui/res/responsive.dart';
@@ -48,7 +48,7 @@ class _MaterialApp extends StatelessWidget {
     return Selector<SettingsInteractor, bool>(
       selector: (_, settings) => settings.isLightTheme,
       builder: (_, isLight, __) => MaterialApp(
-        title: AppStrings.appTitle,
+        title: Env.strings.appTitle,
         theme: isLight ? Themes.light : Themes.dark,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
@@ -63,7 +63,20 @@ class _MaterialApp extends StatelessWidget {
             ? AppRoutes.onboarding
             : AppRoutes.home,
         routes: AppRoutes.routes,
-        builder: (_, child) => Responsive(child: child!),
+        builder: (_, child) {
+          Widget widget = Responsive(child: child!);
+
+          /// Добавляем Banner в Profile-сборке.
+          if (Env.buildType.isProfile) {
+            widget = Banner(
+              message: 'Profile',
+              location: BannerLocation.topStart,
+              child: widget,
+            );
+          }
+
+          return widget;
+        },
       ),
     );
   }

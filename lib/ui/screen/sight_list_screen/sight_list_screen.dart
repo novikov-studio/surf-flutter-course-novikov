@@ -1,6 +1,7 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/entity/sight.dart';
+import 'package:places/env/env.dart';
 import 'package:places/ui/const/app_icons.dart';
 import 'package:places/ui/const/app_strings.dart';
 import 'package:places/ui/const/errors.dart';
@@ -36,7 +37,7 @@ class SightListScreen extends ElementaryWidget<ISightListScreenWidgetModel> {
               titlePadding: const EdgeInsets.all(16.0),
               centerTitle: true,
               title: Text(
-                AppStrings.listTitle,
+                Env.strings.mainScreenTitle,
                 style: wm.theme.appBarTheme.titleTextStyle,
               ),
             ),

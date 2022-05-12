@@ -1,13 +1,15 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:places/app.dart';
+import 'package:places/env/env.dart';
+import 'package:places/runner.dart';
 
+/// Точка входа для DEBUG-сборки.
 void main() {
-  LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('res/fonts/OFL.txt');
-    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
-  });
+  Env.init(
+    buildType: BuildType.dev,
+    strings: EnvStrings(
+      appTitle: 'Интересные места - DEV',
+      mainScreenTitle: 'Список интересных мест. Debug-сборка',
+    ),
+  );
 
-  runApp(const App());
+  runner();
 }
