@@ -105,5 +105,5 @@ flutter_icons:
   image_path: res/app_icon/dev/static.png
   adaptive_icon_background: res/app_icon/dev/adaptive_background.png
   adaptive_icon_foreground: res/app_icon/dev/adaptive_foreground.png
-  ios: false
+  ios: true
   remove_alpha_ios: true
